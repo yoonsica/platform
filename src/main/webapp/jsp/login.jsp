@@ -10,8 +10,8 @@ request.setAttribute("basePath", basePath);
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<base href="<%=basePath%>">
 	<title>平台登陆</title>
-	<script type="text/javascript" src="static/easyui/jquery-1.7.2.min.js"></script>
-	<script type="text/javascript" src="static/js/md5.js"></script>
+	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
+	<script type="text/javascript" src="${basePath }static/js/md5.js"></script>
 	<style type="text/css">
 	<!--
 	html,body {
@@ -30,10 +30,10 @@ request.setAttribute("basePath", basePath);
 		}
 		$(function(){
 			$("#submitBtn").click(function(){
-				alert(document.getElementById("form1:password").value);
+				//alert(document.getElementById("form1:password").value);
 				var hash=hex_md5(document.getElementById("form1:password").value);  
 				document.getElementById("form1:password").value=hash;
-				alert(document.getElementById("form1:password").value);
+				//alert(document.getElementById("form1:password").value);
 				$("#form1").submit();
 			});
 		})
@@ -41,7 +41,7 @@ request.setAttribute("basePath", basePath);
 </head>
 <body onLoad="init()" bgcolor="#9bd6d4">
 			<table width="100%" border="0" height="100%" cellspacing="0"
-				cellpadding="0" style="background: url('static/images/loginbg.jpg') top center no-repeat;">
+				cellpadding="0" style="background: url('${basePath}static/images/loginbg.jpg') top center no-repeat;">
 				<tr>
 					<td height="538" align="left" valign="top">
 						<div style="height: 350px; width: 100%;">
@@ -59,7 +59,7 @@ request.setAttribute("basePath", basePath);
 									<td width="50%" align="left" valign="top"
 										style="padding-left: 150px;">
 										
-	<form id="form1" name="form1" method="post" action="${basePath }login.do">
+	<form id="form1" name="form1" method="post" action="${basePath }login">
 
 											<table width="200" border="0" cellspacing="0" cellpadding="0"
 												style="font-size: 15px; font-weight: bold;">

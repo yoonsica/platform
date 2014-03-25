@@ -16,7 +16,7 @@ request.setAttribute("basePath", basePath);
 	<script type="text/javascript" src="static/easyui/jquery.easyui.min.js"></script>
 </head>
 <body style="margin: 0;padding: 0;border:none;overflow:hidden;">
-	<iframe name="top"  width="100%" height="59" frameborder="0" border=0 scrolling="no" style="margin: 0;padding: 0;border:none;overflow:hidden;" src="jsp/index.jsp"></iframe>
+	<iframe name="top"  width="100%" height="89" frameborder="0" border=0 scrolling="no" style="margin: 0;padding: 0;border:none;overflow:hidden;" src="jsp/logo.jsp"></iframe>
 	<iframe name="center"  width="100%" height="614" frameborder="0" border=0 scrolling="no" style="margin: 0;padding: 0;border:none;overflow:hidden;" src="jsp/south.jsp"></iframe>
 	
 </body>

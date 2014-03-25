@@ -1,12 +1,13 @@
 package com.ceit.vic.platform.interceptor;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.ceit.vic.platform.exception.SessionTimeoutException;
 import com.ceit.vic.platform.models.User;
 
 public class SessionTimeoutInterceptor extends HandlerInterceptorAdapter {
@@ -22,8 +23,8 @@ public class SessionTimeoutInterceptor extends HandlerInterceptorAdapter {
         System.out.println(requestUrl);  
         if(null != allowUrls && allowUrls.length>=1){  
             for(String url : allowUrls) {    
-                if(requestUrl.contains(url)) {    
-                    return true;    
+                if(requestUrl.contains(url)) {
+                	return true;
                 }    
             }
         }
@@ -31,9 +32,20 @@ public class SessionTimeoutInterceptor extends HandlerInterceptorAdapter {
         if(user != null) {    
             return true;  //返回true，则这个方面调用后会接着调用postHandle(),  afterCompletion()  
         }else{  
-            // 未登录  跳转到登录页面  
-            throw new SessionTimeoutException();//返回到配置文件中定义的路径  
+        	 // 未登录   
+        	response.setCharacterEncoding("utf8");
+            PrintWriter out = response.getWriter();
+            StringBuilder builder = new StringBuilder();  
+            builder.append("<script type=\"text/javascript\" charset=\"UTF-8\">");  
+            builder.append("alert(\"页面过期，请重新登录\");");  
+            builder.append("window.top.location.href=\"");  
+            builder.append("http://localhost:8080/platform");  
+            builder.append("/jsp/login.jsp\";</script>");  
+            out.print(builder.toString());  
+            out.close();   
+            //throw new SessionTimeoutException();//返回到配置文件中定义的路径  
         }
+		return true;
 	}
 
 	@Override
@@ -48,15 +60,11 @@ public class SessionTimeoutInterceptor extends HandlerInterceptorAdapter {
 	public void afterCompletion(HttpServletRequest request,
 			HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		// TODO Auto-generated method stub
-		super.afterCompletion(request, response, handler, ex);
 	}
 
 	@Override
 	public void afterConcurrentHandlingStarted(HttpServletRequest request,
 			HttpServletResponse response, Object handler) throws Exception {
-		// TODO Auto-generated method stub
-		super.afterConcurrentHandlingStarted(request, response, handler);
 	}
 
 }

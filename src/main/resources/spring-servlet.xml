@@ -16,7 +16,7 @@
         http://www.springframework.org/schema/aop 
         http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/mvc
-        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
 	<!-- 启用spring mvc 注解 -->
 	<context:annotation-config >
 		<mvc:message-converters register-defaults="true">  
@@ -26,8 +26,9 @@
 	        </mvc:message-converters>
 	</context:annotation-config>
 	<context:component-scan base-package="com.ceit.vic.platform"/>
-	<mvc:annotation-driven/>
+	<mvc:annotation-driven />
 	
+	<mvc:resources mapping="/static/**" location="/static/" />
 	<!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
@@ -41,12 +42,12 @@
 	        <bean class="com.ceit.vic.platform.interceptor.SessionTimeoutInterceptor" >  
 	            <property name="allowUrls">    
 	               <list>
-	                  <value>/login.do</value>    
+	                  <value>/login</value>    
 	                </list> 
 	            </property>    
 	        </bean>  
 	    </mvc:interceptor>  
-	</mvc:interceptors> 
+	</mvc:interceptors>
 	
 	
 	<!-- 异常处理 -->
@@ -66,7 +67,7 @@
 	</bean>
 
 
-	<!-- <bean
+	<bean
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
@@ -76,7 +77,7 @@
 	</bean>
 	
 	
-	druid 配置开始
+	<!-- druid 配置开始 -->
 	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
 	    <property name="slowSqlMillis" value="5000" />
 	    <property name="logSlowSql" value="true" />
@@ -104,23 +105,23 @@
 
 	<bean id="myDataSource" class="com.alibaba.druid.pool.DruidDataSource"
 		init-method="init" destroy-method="close">
-		基本属性 url、user、password
+		<!-- 基本属性 url、user、password -->
 		<property name="url" value="${jdbc_url}" />
 		<property name="username" value="${jdbc_username}" />
 		<property name="password" value="${jdbc_password}" />
 
-		配置初始化大小、最小、最大
+		<!-- 配置初始化大小、最小、最大 -->
 		<property name="initialSize" value="1" />
 		<property name="minIdle" value="1" />
 		<property name="maxActive" value="20" />
 
-		配置获取连接等待超时的时间
+		<!-- 配置获取连接等待超时的时间 -->
 		<property name="maxWait" value="60000" />
 
-		配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
 		<property name="timeBetweenEvictionRunsMillis" value="60000" />
 
-		配置一个连接在池中最小生存的时间，单位是毫秒
+		<!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
 		<property name="minEvictableIdleTimeMillis" value="300000" />
 
 		<property name="validationQuery" value="SELECT 'x'" />
@@ -128,7 +129,7 @@
 		<property name="testOnBorrow" value="false" />
 		<property name="testOnReturn" value="false" />
 
-		打开PSCache，并且指定每个连接上PSCache的大小
+		<!-- 打开PSCache，并且指定每个连接上PSCache的大小 -->
 		<property name="poolPreparedStatements" value="true" />
 		<property name="maxPoolPreparedStatementPerConnectionSize"
 			value="20" />
@@ -139,24 +140,20 @@
 	        </list>
     	</property>
 	</bean>
-	druid 配置结束
+	<!-- druid 配置结束 -->
 	
 	
 	<bean id="mySessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource" ref="myDataSource" />
-		<property name="annotatedClasses">
-			<list>
-				<value>com.ceit.vic.platform.models.User</value>
-			</list>
-		</property>
+		<property name="packagesToScan"><value>com.ceit.vic.platform.models</value></property>
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.hbm2ddl.auto">update</prop>
-				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>
-				<prop key="current_session_context_class">thread</prop>
+				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
 			</props>
 		</property>
 	</bean>
@@ -164,5 +161,5 @@
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
 		<property name="sessionFactory" ref="mySessionFactory" />
 	</bean>
-	<tx:annotation-driven transaction-manager="transactionManager" /> -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
 </beans>

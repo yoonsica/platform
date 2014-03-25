@@ -5,74 +5,112 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 request.setAttribute("basePath", basePath);
 %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<base href="<%=basePath%>">
-	<title>Tabs - jQuery EasyUI Demo</title>
+	<title>south</title>
 	<link rel="stylesheet" type="text/css" href="static/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="static/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="static/nav/style.css">
 	<script type="text/javascript" src="static/easyui/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="static/easyui/jquery.easyui.min.js"></script>
-	<link rel="stylesheet" href="static/nav/style.css" type="text/css" media="screen" charset="utf-8"/>
-    <SCRIPT language="JavaScript" SRC="static/nav/IE-fix.js"></SCRIPT>
+	<script type="text/javascript" src="static/nav/IE-fix.js"></script>
+
 	<script type="text/javascript">
-	function addTab(){
-		
-		$('#tt').tabs('add',{
-			title:'New Tab ' ,
-			content:'Tab Body ',
-			closable:true
+	function addTab(title,href){
+		var tt = $('#tt');  
+	    if (tt.tabs('exists', title)){//如果tab已经存在,则选中并刷新该tab          
+	        tt.tabs('select', title);  
+	        refreshTab({tabTitle:title,url:href});  
+	    } else { 
+			var content = '<iframe scrolling="no" frameborder="0"  src="'+href+'" style="width:100%;height:100%;"></iframe>'; 
+			tt.tabs('add',{
+				title:title ,
+				content:content,
+				closable:true
+			});
+		}
+	}
+	function getSelectedTitle(){
+		var tab = $('#tt').tabs('getSelected');
+		return tab.panel('options').title;
+	}
+	
+	function update(title,href){
+		var tab = $('#tt').tabs('getSelected');
+		var content = '<iframe scrolling="no" frameborder="0"  src="'+href+'" style="width:100%;height:100%;"></iframe>'; 
+		$('#tt').tabs('update', {
+			tab: tab,
+			options:{
+				title:title,
+				content:content,
+				closable:true
+			}
 		});
+	}
+
+	/**     
+	 * 刷新tab 
+	 * @cfg  
+	 *example: {tabTitle:'tabTitle',url:'refreshUrl'} 
+	 *如果tabTitle为空，则默认刷新当前选中的tab 
+	 *如果url为空，则默认以原来的url进行reload 
+	 */  
+	function refreshTab(cfg){  
+	    var refresh_tab = cfg.tabTitle?$('#tt').tabs('getTab',cfg.tabTitle):$('#tt').tabs('getSelected');  
+	    if(refresh_tab && refresh_tab.find('iframe').length > 0){  
+	    var _refresh_ifram = refresh_tab.find('iframe')[0];  
+	    var refresh_url = cfg.url?cfg.url:_refresh_ifram.src;  
+	    _refresh_ifram.src = refresh_url;
+	    //_refresh_ifram.contentWindow.location.href=refresh_url;  
+	    }  
+	}  
+	 
+	function refreshWestDiv(url){
+		//$("#westDiv").load(url);
+		$("#westFrame").attr("src",url);
 	}
 	$(function() {
 		var myDate = new Date();
 		$("#southDiv").html("${user.userName }&nbsp;"+myDate.toLocaleDateString());
+		$("#nav_slim a").click(function(){
+			addTab("欢迎使用","jsp/welcome.jsp");
+			//addTab($(this).text(),$(this).attr("href"));//调用south.jsp页面的addTab()方法，直接在这里添加tab会报错“option对象为空”
+		//refreshWestDiv("${basePath}moduleChild/"+$(this).attr("id"));
+			refreshWestDiv("${basePath}/moduleIdPass/"+$(this).attr("id"));
+			return false;
+		});
 	})
 	</script>
 
 </head>
 <body class="easyui-layout">
-	<div id="container" region="north" style="overflow: hidden;">
-		<div id="nav_slim">
-		<ul>
-			<li><a href="#">Home</a></li>
-			
-			<li><a href="#" id="active">Services</a>
+	<div region="north"  style="height:91px;overflow: hidden;">
+		<div style="height:59px;width:100%;background:url('static/images/banner3.jpg') no-repeat;"><a style="position:absolute ;left:1280px ;top:35px; color: white;font-weight:800 ;font-size:18px ; text-decoration: none;" href="?">注销</a></div>
+		<div id="container">
+			<div id="nav_slim">
 				<ul>
-					<li><a href="#">Service 1</a></li>
-					<li><a href="#">Service 2</a></li>
-					<li><a href="#">Service 3</a></li>
-			   </ul>
-		 	</li>
-		 	<li><a href="#">About Us</a></li>
-			<li><a href="#">Our Work</a>
-		        <ul>
-			        <li><a href="#">Web</a></li>
-			        <li><a href="#">Print</a></li>
-			        <li><a href="#">Logo</a></li>
-			        <li><a href="#">Other</a></li>
-		        </ul>
-		  </li>
-			<li><a href="#">Contact</a></li>
-		</ul>
+				<c:forEach var="menu" items="${menuList }" >
+					<li><a href="${menu.href }" id="${menu.id }">${menu.text }</a></li>
+				</c:forEach>
+				</ul>
+			</div>
+		</div>
 	</div>
-		<div class="clearFix"></div>
-	</div>
-	<div id="westDiv" region="west" split="true" title="功能列表" style="width:150px;padding:10px;">
-		<ul class="easyui-tree" url="${basePath }static/tree_data.json"></ul>
+	<div id="westDiv" region="west" split="true" title="功能列表" style="width:160px;padding:0;margin: 0;">
+		<%--<jsp:include page="westDiv.jsp"></jsp:include>
+		--%>
+		<iframe id="westFrame" src="" frameborder="0" width="100%" style="padding: 0;margin: 0;"></iframe>
 	</div>
 	
-	<div id="southDiv" region="south" border="false" style="height:20px;background:url('static/images/linebg.jpg');padding:1px 25px;text-align: right;font-weight:bold;color: #000000;">
-		
+	<div id="southDiv" region="south" border="false" style="height:20px;background: url('static/easyui/themes/default/images/panel_title.png') repeat-x;padding:1px 25px;text-align: right;font-weight:bold;color: #000000;">
 	</div>
 	
 	<div region="center" style="overflow: hidden;">
-		<div id="tt" class="easyui-tabs" style="width:1335;height:566px;background:url(static/images/bg.jpg) no-repeat top center;">
-			<div title="这是一个标签页" closable="true" style="padding:20px;" cache="false" href="jsp/MyJsp.jsp">
-				This is Tab2 with close button.
-			</div>
+		<div id="tt" class="easyui-tabs" fit="true" border="false" style="width:1335;height:566px;">
+			
 		</div>
 	</div>
 </body>
