@@ -10,7 +10,7 @@ request.setAttribute("basePath", basePath);
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<base href="<%=basePath%>">
-	<title>south</title>
+	<title>欢迎使用</title>
 	<link rel="stylesheet" type="text/css" href="static/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="static/easyui/themes/icon.css">
 	<link rel="stylesheet" type="text/css" href="static/nav/style.css">

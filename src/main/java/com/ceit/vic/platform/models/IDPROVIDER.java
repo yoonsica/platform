@@ -1,0 +1,26 @@
+package com.ceit.vic.platform.models;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table
+public class IDPROVIDER {
+	@Id
+	private String name;//表名
+	private int id;//当前id
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+}

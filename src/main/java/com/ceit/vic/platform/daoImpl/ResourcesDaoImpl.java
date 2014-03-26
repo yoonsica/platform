@@ -24,7 +24,7 @@ public class ResourcesDaoImpl implements ResourcesDao {
 			query = sf
 					.getCurrentSession()
 					.createQuery(
-							"from Resources t where t.id!=0 and t.parentId=0 and t.state=1 and t.type=0 and t.mType=0 order by t.dispIndex");
+							"from Resources t where t.parentId=1 and t.state=1 order by t.dispIndex");
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}

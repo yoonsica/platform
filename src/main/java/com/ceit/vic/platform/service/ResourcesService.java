@@ -2,7 +2,10 @@ package com.ceit.vic.platform.service;
 
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
+
+import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
+import com.ceit.vic.platform.models.Resources;
 import com.ceit.vic.platform.models.ZTreeNode;
 
 public interface ResourcesService {
@@ -19,4 +22,6 @@ public interface ResourcesService {
 	 */
 	@Transactional(readOnly=true)
 	public List<ZTreeNode> getResourcesTreeById(int id) throws Exception;
+	@Transactional(readOnly=true)
+	public ModuleInfoDTO getModuleInfoById(int moduleId);
 }

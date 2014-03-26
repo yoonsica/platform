@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ceit.vic.platform.dao.ResourcesDao;
+import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
 import com.ceit.vic.platform.models.Resources;
 import com.ceit.vic.platform.models.ZTreeNode;
@@ -33,7 +34,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 			if (objects[10].toString().equals("1")) {
 				ZTreeNode node = new ZTreeNode();
 				node.setId(Integer.parseInt(objects[0].toString()));
-				node.setName(objects[8].toString());
+				node.setName("("+node.getId()+")"+objects[8].toString());
 				node.setpId(Integer.parseInt(objects[9].toString()));
 				if (null!=objects[3]) {
 					node.setIcon(objects[3].toString());
@@ -49,6 +50,25 @@ public class ResourcesServiceImpl implements ResourcesService {
 			}
 		}
 		return nodeList;
+	}
+
+	@Override
+	public ModuleInfoDTO getModuleInfoById(int moduleId) {
+		Resources resources = resourcesDao.getResourceById(moduleId);
+		//组织dto
+		ModuleInfoDTO dto = new ModuleInfoDTO();
+		dto.setId(resources.getId());
+		dto.setName(resources.getName());
+		dto.setLink(resources.getLink()==null?"":resources.getLink());
+		if (resources.getId()==1) {
+			dto.setParent("");
+		}else {
+			/*Resources parentResources = resourcesDao.getResourceById(resources.getParentId());
+			dto.setParent(parentResources.getName());*/
+			dto.setParent(String.valueOf(resources.getParentId()));
+		}
+		dto.setState(resources.getState().equals("1")?"启用":"停用");
+		return dto;
 	}
 
 	
