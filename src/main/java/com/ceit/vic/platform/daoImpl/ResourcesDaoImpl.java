@@ -51,4 +51,9 @@ public class ResourcesDaoImpl implements ResourcesDao {
 		return (Resources) query.uniqueResult();
 	}
 
+	@Override
+	public void update(Resources resources) {
+		sf.getCurrentSession().update(resources);
+	}
+
 }

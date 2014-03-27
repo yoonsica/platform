@@ -6,6 +6,21 @@ int id;
 String parent;
 String link;
 String state;
+String icon;
+String expand;
+
+public String getIcon() {
+	return icon;
+}
+public void setIcon(String icon) {
+	this.icon = icon;
+}
+public String getExpand() {
+	return expand;
+}
+public void setExpand(String expand) {
+	this.expand = expand;
+}
 public String getName() {
 	return name;
 }

@@ -39,8 +39,6 @@ request.setAttribute("basePath", basePath);
 	   			}
 			};
 	
-	  	
-	
 		function beforeClick(treeId, treeNode, clickFlag) {
 		}
 		function onClick(event, treeId, treeNode, clickFlag) {
@@ -70,6 +68,12 @@ request.setAttribute("basePath", basePath);
 			//$("#moduleInfoDiv").load(url);
 			$("#moduleInfoFrame").attr("src",url);
 		}
+		
+		var infoTable,moduleEditDiv;
+		function test_onload(){
+			infoTable = window.frames['moduleInfoFrame'].document.getElementById("infoTable");
+			moduleEditDiv = window.frames['moduleInfoFrame'].document.getElementById("moduleEditDiv");
+		}
 
 		$(document).ready(function(){
 			$.ajax({  
@@ -84,7 +88,9 @@ request.setAttribute("basePath", basePath);
                 }  
          	});
 			$("#editBtn").click(function(){
-				alert("editBtn");
+				$("#menuDiv").hide();
+				$(infoTable).hide();
+				$(moduleEditDiv).show();
 			});
 		});
     </script>
@@ -104,7 +110,7 @@ request.setAttribute("basePath", basePath);
 		<a href="javascript:void(0)" id="downBtn" plain="true" class="easyui-linkbutton" iconCls="icon-down" style="display: none;">下调</a>
 	</div>
   	<div id="moduleInfoDiv" style="height: 500px;margin-left:250px;">
-  		<iframe id="moduleInfoFrame" src="" frameborder="0" height="500px" scrolling="no" width="600px"></iframe>
+  		<iframe onload="test_onload()" id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" height="500px" scrolling="no" width="600px"></iframe>
   	</div>
   </body>
 </html>

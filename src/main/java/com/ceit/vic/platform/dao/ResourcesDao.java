@@ -22,4 +22,5 @@ public interface ResourcesDao {
 	 * @return
 	 */
 	public Resources getResourceById(int id);
+	public void update(Resources resources);
 }

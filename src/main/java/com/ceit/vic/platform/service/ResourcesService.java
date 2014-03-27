@@ -18,10 +18,14 @@ public interface ResourcesService {
 	/**
 	 * 根据id获得其子节点构成的树
 	 * @param parentId
+	 * @param containId 节点名称中是否包含节点Id
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public List<ZTreeNode> getResourcesTreeById(int id) throws Exception;
+	public List<ZTreeNode> getResourcesTreeById(int id,boolean containId) throws Exception;
 	@Transactional(readOnly=true)
 	public ModuleInfoDTO getModuleInfoById(int moduleId);
+	
+	@Transactional
+	public void updateResources(ModuleInfoDTO moduleInfo);
 }

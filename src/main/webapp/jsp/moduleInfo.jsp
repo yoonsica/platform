@@ -3,7 +3,7 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -24,10 +24,40 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	table{border-collapse:collapse;border-spacing:0;border-left:1px solid #888;border-top:1px solid #888;background:#efefef;}
 th,td{border-right:1px solid #888;border-bottom:1px solid #888;padding:5px 15px;}
 th{font-weight:bold;background:#ccc;}
+label{
+			width:120px;
+			display:block;
+		}
+		input{
+			padding:0;margin:0;
+		}
+		image{
+			padding:0;
+			margin:0;
+		}
 	</style>
+	<script type="text/javascript">
+		$(function(){
+			$("#submitBtn").click(function(){
+				alert("submit"+$("#moduleInfoForm").serialize());
+				$.ajax({  
+	                type: "POST",  
+	                url: "moduleUpdate",
+	                data:$("#moduleInfoForm").serialize(),
+	                async : false,  
+	                cache:false,  
+	                dataType: "json",
+	                success:function(data){
+	                	alert(data);
+	                	$(window.parent.document.getElementById("menuDiv")).show();
+	                }  
+	         	});
+			});
+		})
+	</script>
   </head>
   <body style="margin: 0;padding: 0;">
-    <table border="1" width="600px">
+    <table border="1" width="600px" id="infoTable">
     	<thead>
     		<tr><td colspan="2">当前选中模块信息</td></tr>
     	</thead>
@@ -50,26 +80,47 @@ th{font-weight:bold;background:#ccc;}
     	</tbody>
     </table>
     
-      <div id="moduleEditDiv" style="height: 500px;margin-left:250px;">
-  		<form id="moduleInfoForm" method="post" novalidate>
+      <div id="moduleEditDiv" style="display:none;height: 500px;background:#fafafa;padding:10px;">
+  		<form id="moduleInfoForm" method="post"  novalidate>
+            <input class="easyui-validatebox" type="hidden" name="id" required="true" value="${moduleInfo.id }" ></input>
 	        <div>
-	            <label for="name">Id:</label>
-	            <input class="easyui-validatebox" type="text" name="name" required="true" value="${moduleInfo.id }" disabled="disabled"></input>
+	            <label for="name">名称:</label>
+	            <input class="easyui-validatebox" type="text" name="name" required="true" value="${moduleInfo.name }"></input>
 	        </div>
 	        <div>
-	            <label for="email">Email:</label>
-	            <input class="easyui-validatebox" type="text" name="email" validType="email"></input>
+	            <label for="parent">类别</label>
+	            <input class="easyui-validatebox" type="text" name="parent" required="true" value="${moduleInfo.parent }"></input>
 	        </div>
 	        <div>
-	            <label for="subject">Subject:</label>
-	            <input class="easyui-validatebox" type="text" name="subject"></input>
+	            <label for="link">链接</label>
+	            <textarea name="link" style="height:60px;">${moduleInfo.link }</textarea>
 	        </div>
 	        <div>
-	            <label for="message">Message:</label>
-	            <textarea name="message" style="height:60px;"></textarea>
+	            <label for="state">状态</label>
+	            <input type="radio" name="state"  value="1" <c:if test="${moduleInfo.state=='1' }">checked="checked"</c:if>>启用
+	            <input type="radio" name="state"  value="0" <c:if test="${moduleInfo.state=='0' }">checked="checked"</c:if>>停用
+	        </div>
+	        <div style="float: left;">
+	            <label for="icon">功能图标</label>
+	            <c:forEach items="${iconList }" var="icon">
+	            	<c:choose>
+	            		<c:when test="${moduleInfo.icon == icon}">
+	            			<div style="margin-right: 115px;float:left;">
+		            		<input name="icon" type="radio" value="${icon}" checked="checked"/>
+							<img src="static/images/icons/${icon}" width="18" height="18" />
+							</div>
+						</c:when>
+						<c:otherwise>
+						<div style="margin-right: 15px;float:left;line-height: 18;">
+							<input name="icon" type="radio" value="${icon}" />
+							<img src="static/images/icons/${icon}" width="18" height="18" />
+						</div>
+						</c:otherwise>
+					</c:choose>
+	            </c:forEach>
 	        </div>
 	        <div>
-	            <input type="submit" value="确认">
+	            <input type="button" value="确认" id="submitBtn">
 	        </div>
 	    </form>
   		
