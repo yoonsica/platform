@@ -19,13 +19,22 @@ public interface ResourcesService {
 	 * 根据id获得其子节点构成的树
 	 * @param parentId
 	 * @param containId 节点名称中是否包含节点Id
+	 * @param containDisable 是否包含未启用的模块
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public List<ZTreeNode> getResourcesTreeById(int id,boolean containId) throws Exception;
+	public List<ZTreeNode> getResourcesTreeById(int id,boolean containId,boolean containDisable) throws Exception;
 	@Transactional(readOnly=true)
 	public ModuleInfoDTO getModuleInfoById(int moduleId);
 	
 	@Transactional
 	public void updateResources(ModuleInfoDTO moduleInfo);
+	/**
+	 * 调整节点显示顺序
+	 * @param moduleId 要调整的节点id
+	 */
+	@Transactional
+	public void up(int moduleId);
+	@Transactional
+	public void down(int moduleId);
 }

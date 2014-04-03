@@ -27,31 +27,30 @@ public class ResourcesServiceImpl implements ResourcesService {
 	}
 
 	@Override
-	public List<ZTreeNode> getResourcesTreeById(int id,boolean containId) throws Exception{
+	public List<ZTreeNode> getResourcesTreeById(int id,boolean containId,boolean containDisable) throws Exception{
 		List<ZTreeNode> nodeList = new ArrayList<ZTreeNode>();
-		List<Object[]> rList = resourcesDao.getResourcesTreeById(id);
+		List<Object[]> rList=resourcesDao.getResourcesTreeById(id,containDisable);
 		for (Object[] objects : rList) {
-			if (objects[10].toString().equals("1")) {
-				ZTreeNode node = new ZTreeNode();
-				node.setId(Integer.parseInt(objects[0].toString()));
-				if (containId) {
-					node.setName("("+node.getId()+")"+objects[8].toString());
-				}else {
-					node.setName(objects[8].toString());
-				}
-				node.setpId(Integer.parseInt(objects[9].toString()));
-				if (null!=objects[3]) {
-					node.setIcon(objects[3].toString());
-				}
-				if (objects[6].toString().equals("1")||objects[6].toString().equals("0")) {//1-目录
-					node.setParent(true);
-				}else if(objects[6].toString().equals("2")) {
-					node.setHref(objects[4].toString());//链接
-				}
-				
-				//node.setIcon(objects[3].toString());
-				nodeList.add(node);
+			ZTreeNode node = new ZTreeNode();
+			node.setId(Integer.parseInt(objects[0].toString()));
+			if (containId) {
+				node.setName("("+node.getId()+")"+objects[8].toString());
+			}else {
+				node.setName(objects[8].toString());
 			}
+			node.setpId(Integer.parseInt(objects[9].toString()));
+			if (null!=objects[3]) {
+				node.setIcon("static/easyui/themes/icons/"+objects[3].toString());
+				node.setIconCls(objects[3].toString().split("\\.")[0]);
+			}
+			if (objects[6].toString().equals("1")||objects[6].toString().equals("0")) {//1-目录
+				node.setParent(true);
+			}else if(objects[6].toString().equals("2")) {
+				node.setHref(objects[4].toString());//链接
+			}
+			
+			//node.setIcon(objects[3].toString());
+			nodeList.add(node);
 		}
 		return nodeList;
 	}
@@ -84,11 +83,33 @@ public class ResourcesServiceImpl implements ResourcesService {
 		resources.setLink(moduleInfo.getLink());
 		resources.setIcon(moduleInfo.getIcon());
 		resources.setState(moduleInfo.getState());
-		resources.setParentId(Integer.valueOf(moduleInfo.getParent()));
+		if(!moduleInfo.getParent().equals("")){
+			resources.setParentId(Integer.valueOf(moduleInfo.getParent()));
+		}
 		//dao中更新
 		resourcesDao.update(resources);
 	}
 
-	
+	@Override
+	public void up(int moduleId) {
+			Resources module1 = resourcesDao.getResourceById(Integer.valueOf(moduleId));
+			Resources module2 = resourcesDao.getResourceToDown(module1.getParentId(),module1.getDispIndex());
+			int tmp = module2.getDispIndex();
+			module2.setDispIndex(module1.getDispIndex());
+			module1.setDispIndex(tmp);
+			resourcesDao.update(module1);
+			resourcesDao.update(module2);
+	}
+
+	@Override
+	public void down(int moduleId) {
+			Resources module1 = resourcesDao.getResourceById(Integer.valueOf(moduleId));
+			Resources module2 = resourcesDao.getResourceToUp(module1.getParentId(),module1.getDispIndex());
+			int tmp = module2.getDispIndex();
+			module2.setDispIndex(module1.getDispIndex());
+			module1.setDispIndex(tmp);
+			resourcesDao.update(module1);
+			resourcesDao.update(module2);
+	}
 
 }

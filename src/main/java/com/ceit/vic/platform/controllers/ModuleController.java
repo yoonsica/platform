@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ceit.vic.platform.models.ModuleInfoDTO;
-import com.ceit.vic.platform.models.Resources;
 import com.ceit.vic.platform.models.ZTreeNode;
 import com.ceit.vic.platform.service.ResourcesService;
 import com.ceit.vic.platform.tools.FileTool;
@@ -28,7 +26,7 @@ public class ModuleController {
 	@RequestMapping("/moduleChild/{parentId}")
 	@ResponseBody
 	public List<ZTreeNode> moduleChild(@PathVariable int parentId) throws Exception{
-		List<ZTreeNode> childList = resourcesService.getResourcesTreeById(parentId,false);
+		List<ZTreeNode> childList = resourcesService.getResourcesTreeById(parentId,false,false);
 		return childList;
 	}
 	
@@ -36,7 +34,7 @@ public class ModuleController {
 	@RequestMapping("/moduleManage/{parentId}")
 	@ResponseBody
 	public Map<String, Object> moduleManage(@PathVariable int parentId) throws Exception{
-		List<ZTreeNode> childList = resourcesService.getResourcesTreeById(parentId,true);
+		List<ZTreeNode> childList = resourcesService.getResourcesTreeById(parentId,true,true);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("childList", childList);
 		map.put("count", 10);
@@ -68,6 +66,23 @@ public class ModuleController {
 	public String moduleUpdate(ModuleInfoDTO moduleInfo){
 		System.out.println(moduleInfo);
 		resourcesService.updateResources(moduleInfo);
-		return "OK";
+		return "编辑成功！";
 	}
+	
+	@RequestMapping(value="/moduleManage/up/{moduleId}",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String up(@PathVariable int moduleId){
+		System.out.println(moduleId);
+		resourcesService.up(moduleId);
+		return "上调成功！";
+	}
+	
+	@RequestMapping(value="/moduleManage/down/{moduleId}",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String down(@PathVariable int moduleId){
+		System.out.println(moduleId);
+		resourcesService.down(moduleId);
+		return "上调成功！";
+	}
+	
 }

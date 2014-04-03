@@ -19,7 +19,7 @@ request.setAttribute("basePath", basePath);
 	<script type="text/javascript" src="static/nav/IE-fix.js"></script>
 
 	<script type="text/javascript">
-	function addTab(title,href){
+	function addTab(title,href,icon){
 		var tt = $('#tt');  
 	    if (tt.tabs('exists', title)){//如果tab已经存在,则选中并刷新该tab          
 	        tt.tabs('select', title);  
@@ -29,6 +29,7 @@ request.setAttribute("basePath", basePath);
 			tt.tabs('add',{
 				title:title ,
 				content:content,
+				iconCls:'icon-'+icon,
 				closable:true
 			});
 		}
@@ -79,7 +80,7 @@ request.setAttribute("basePath", basePath);
 			addTab("欢迎使用","jsp/welcome.jsp");
 			//addTab($(this).text(),$(this).attr("href"));//调用south.jsp页面的addTab()方法，直接在这里添加tab会报错“option对象为空”
 		//refreshWestDiv("${basePath}moduleChild/"+$(this).attr("id"));
-			refreshWestDiv("${basePath}/moduleIdPass/"+$(this).attr("id"));
+			refreshWestDiv("${basePath}moduleIdPass/"+$(this).attr("id"));
 			return false;
 		});
 	})
@@ -108,8 +109,8 @@ request.setAttribute("basePath", basePath);
 	<div id="southDiv" region="south" border="false" style="height:20px;background: url('static/easyui/themes/default/images/panel_title.png') repeat-x;padding:1px 25px;text-align: right;font-weight:bold;color: #000000;">
 	</div>
 	
-	<div region="center" style="overflow: hidden;">
-		<div id="tt" class="easyui-tabs" fit="true" border="false" style="width:1335;height:566px;">
+	<div region="center">
+		<div id="tt" class="easyui-tabs" fit="true" border="false" style="width:1335px;height:566px;">
 			
 		</div>
 	</div>

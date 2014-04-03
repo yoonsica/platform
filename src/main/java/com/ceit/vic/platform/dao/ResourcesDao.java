@@ -13,9 +13,10 @@ public interface ResourcesDao {
 	/**
 	 * 根据id获得id=id的节点及其所有子项目
 	 * @param parentId
+	 * @param containDisable 是否包含停用模块
 	 * @return
 	 */
-	public List<Object[]> getResourcesTreeById(int id);
+	public List<Object[]> getResourcesTreeById(int id,boolean containDisable);
 	/**
 	 * 根据id获得resources对象
 	 * @param id
@@ -23,4 +24,18 @@ public interface ResourcesDao {
 	 */
 	public Resources getResourceById(int id);
 	public void update(Resources resources);
+	/**
+	 * 找到相同父节点下比显示顺序比dispIndex高的最近节点
+	 * @param parentId
+	 * @param dispIndex
+	 * @return
+	 */
+	public Resources getResourceToDown(int parentId, int dispIndex);
+	/**
+	 *  找到相同父节点下比显示顺序比dispIndex低的最近节点
+	 * @param parentId
+	 * @param dispIndex
+	 * @return
+	 */
+	public Resources getResourceToUp(int parentId, int dispIndex);
 }

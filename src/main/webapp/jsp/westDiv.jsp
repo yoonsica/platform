@@ -43,13 +43,7 @@ request.setAttribute("basePath", basePath);
 			zTree.expandNode(treeNode);
 			return false;
 		}else{
-			if(window.parent.window.getSelectedTitle()=='欢迎使用'){
-				window.parent.window.update(treeNode.name,treeNode.href);
-			}else{
-				window.parent.window.addTab(treeNode.name,treeNode.href);
-			}
-
-			//$("#personDiv").load(url);
+				window.parent.window.addTab(treeNode.name,treeNode.href,treeNode.iconCls);
 		}
 	}
 		$(document).ready(function(){

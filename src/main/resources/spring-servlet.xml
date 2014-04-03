@@ -22,7 +22,13 @@
 		<mvc:message-converters register-defaults="true">  
 	            <bean  
 	                    class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter"  
-	                    p:supportedMediaTypes="*/*" />  
+	                    p:supportedMediaTypes="*/*" >
+	                    <property name="supportedMediaTypes">
+	                    	<list>
+                          		<value>text/html;charset=UTF-8</value>   
+                     		</list>  
+	                    </property>
+	                    </bean>  
 	        </mvc:message-converters>
 	</context:annotation-config>
 	<context:component-scan base-package="com.ceit.vic.platform"/>

@@ -43,16 +43,20 @@ request.setAttribute("basePath", basePath);
 		}
 		function onClick(event, treeId, treeNode, clickFlag) {
 			if (treeNode.isParent) {
-				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-				zTree.expandNode(treeNode);
+				/*var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				zTree.expandNode(treeNode);*/
 				$("#deleteBtn").hide();
+				$("#addFolder").show();
+				$("#addFunction").show();
 			}else{
 				$("#deleteBtn").show();
+				$("#addFolder").hide();
+				$("#addFunction").hide();
 			}
 			if(treeNode.id==1){
-				$("#menuDiv").hide();
+				$("#editBtn").hide();
 			}else{
-				$("#menuDiv").show();
+				$("#editBtn").show();
 			}
 			if(treeNode.isFirstNode){
 				$("#upBtn").hide();
@@ -74,6 +78,26 @@ request.setAttribute("basePath", basePath);
 			infoTable = window.frames['moduleInfoFrame'].document.getElementById("infoTable");
 			moduleEditDiv = window.frames['moduleInfoFrame'].document.getElementById("moduleEditDiv");
 		}
+		
+		function refreshTree(nodeId){
+			$.ajax({  
+                type: "POST",  
+                url: "moduleManage/1",
+                async : false,  
+                cache:false,  
+                dataType: "json",
+                success:function(data){
+                	var newCount = data.count;
+                    $.fn.zTree.init($("#treeDemo"), setting, data.childList);
+                    if(nodeId!=null){
+                    	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                        var node = zTree.getNodeByParam("id", nodeId, null);
+                        zTree.selectNode(node);
+                        onClick(event, "treeDemo", node, 1);
+                    }
+                }  
+         	});
+		}
 
 		$(document).ready(function(){
 			$.ajax({  
@@ -92,6 +116,37 @@ request.setAttribute("basePath", basePath);
 				$(infoTable).hide();
 				$(moduleEditDiv).show();
 			});
+			$("#upBtn").click(function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var nodeId = nodes[0].id;
+				$.ajax({  
+	                type: "POST",  
+	                url: "moduleManage/up/"+nodeId,
+	                async : false,  
+	                cache:false,  
+	                success:function(data){
+	                	alert(data);
+	                	refreshTree(nodeId);
+	                }  
+	         	});
+			});
+			
+			$("#downBtn").click(function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var nodeId = nodes[0].id;
+				$.ajax({  
+	                type: "POST",  
+	                url: "moduleManage/down/"+nodeId,
+	                async : false,  
+	                cache:false,  
+	                success:function(data){
+	                	alert(data);
+	                	refreshTree(nodeId);
+	                }  
+	         	});
+			});
 		});
     </script>
     <style type="text/css">
@@ -100,17 +155,23 @@ request.setAttribute("basePath", basePath);
   </head>
   
   <body>
-  	<div id="treeDiv" style="float: left;height: 500px;">
+  <div class="ceshi" style="position:relative;">
+  	<div id="treeDiv" style="height: 500px;float:left;width: 20%;">
   		<ul id="treeDemo" class="ztree"></ul>
   	</div>
-  	<div id="menuDiv" style="background:#C9EDCC;padding:5px;width:600px;margin-left:250px;display: none;">
-  		<a href="#" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" style="display: none;">删除</a>
-		<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
-		<a href="javascript:void(0)" id="upBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" style="display: none;">上调</a>
-		<a href="javascript:void(0)" id="downBtn" plain="true" class="easyui-linkbutton" iconCls="icon-down" style="display: none;">下调</a>
-	</div>
-  	<div id="moduleInfoDiv" style="height: 500px;margin-left:250px;">
-  		<iframe onload="test_onload()" id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" height="500px" scrolling="no" width="600px"></iframe>
+  	<div style="position:relative;height: 500px;width: 60%;">
+	  	<div id="menuDiv" style="background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
+	  		<a href="#" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" style="display: none;">删除</a>
+			<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
+			<a href="javascript:void(0)" id="upBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" style="display: none;">上调</a>
+			<a href="javascript:void(0)" id="downBtn" plain="true" class="easyui-linkbutton" iconCls="icon-down" style="display: none;">下调</a>
+			<a href="javascript:void(0)" id="addFolder" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加目录</a>
+			<a href="javascript:void(0)" id="addFunction" plain="true" class="easyui-linkbutton" iconCls="icon-addFunction" >添加链接</a>
+		</div>
+	  	<div id="moduleInfoDiv" style="height: 500px;">
+	  		<iframe onload="test_onload()" id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="500px;"></iframe>
+	  	</div>
+  	</div>
   	</div>
   </body>
 </html>

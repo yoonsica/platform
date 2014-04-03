@@ -12,7 +12,14 @@ public class ZTreeNode {
 	boolean open=false;
 	boolean isParent;
 	String href=null;
-	String icon;
+	String icon;//树节点图标
+	String iconCls;//标签页图标css名称
+	public String getIconCls() {
+		return iconCls;
+	}
+	public void setIconCls(String iconCls) {
+		this.iconCls = iconCls;
+	}
 	public String getIcon() {
 		return icon;
 	}

@@ -31,13 +31,18 @@ public class ResourcesDaoImpl implements ResourcesDao {
 		return query.list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public List<Object[]> getResourcesTreeById(int id) {
+	public List<Object[]> getResourcesTreeById(int id,boolean containDisable) {
 		Query query = null;
+		StringBuffer sb = new StringBuffer("select * from Resources t ");
+		if (!containDisable) {
+			sb.append(" where t.state='1' ");
+		}
+		sb.append("start with t.id=").append(id)
+		.append(" connect by t.parentid = prior t.id order by t.dispIndex");
 		try {
-			query = sf.getCurrentSession().createSQLQuery(
-					"select * from Resources t start with t.id=" + id
-							+ " connect by t.parentid = prior t.id order by t.dispIndex");
+			query = sf.getCurrentSession().createSQLQuery(sb.toString());
 		} catch (HibernateException e) {
 			e.printStackTrace();
 		}
@@ -54,6 +59,24 @@ public class ResourcesDaoImpl implements ResourcesDao {
 	@Override
 	public void update(Resources resources) {
 		sf.getCurrentSession().update(resources);
+	}
+
+	@Override
+	public Resources getResourceToDown(int parentId, int dispIndex) {
+		StringBuffer sb = new StringBuffer("from Resources t where t.parentId=");
+		sb.append(parentId).append(" and t.dispIndex<").append(dispIndex)
+		.append(" order by t.dispIndex desc");
+		Query query = sf.getCurrentSession().createQuery(sb.toString());
+		return (Resources) query.list().get(0);
+	}
+
+	@Override
+	public Resources getResourceToUp(int parentId, int dispIndex) {
+		StringBuffer sb = new StringBuffer("from Resources t where t.parentId=");
+		sb.append(parentId).append(" and t.dispIndex>").append(dispIndex)
+		.append(" order by t.dispIndex desc");
+		Query query = sf.getCurrentSession().createQuery(sb.toString());
+		return (Resources) query.list().get(0);
 	}
 
 }
