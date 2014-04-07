@@ -96,12 +96,31 @@ public class ModuleController {
 		return mav;
 	}
 	
-	@RequestMapping("/moduleManage/Add")
+	@RequestMapping("/moduleManage/toAddFunction/{parentId}")
+	public ModelAndView toAddFunction(@PathVariable int parentId,HttpServletRequest request){
+		System.out.println(parentId);
+		ModelAndView mav = new ModelAndView("moduleAddFunction");
+		String dir = request.getSession().getServletContext().getRealPath("/static/images/icons");
+		List<String> iconList = FileTool.getFileNamesByDir(dir);
+		mav.addObject("parent",parentId);
+		mav.addObject("iconList",iconList);
+		return mav;
+	}
+	
+	@RequestMapping("/moduleManage/AddFolder")
 	@ResponseBody
 	public int moduleAddFolder(ModuleInfoDTO moduleInfo){
 		System.out.println(moduleInfo);
 		return resourcesService.addResource(moduleInfo,true);
 	}
+	
+	@RequestMapping("/moduleManage/AddFunction")
+	@ResponseBody
+	public int moduleAddFunction(ModuleInfoDTO moduleInfo){
+		System.out.println(moduleInfo);
+		return resourcesService.addResource(moduleInfo,false);
+	}
+	
 	
 	@RequestMapping(value="/moduleManage/remove/{moduleId}",produces="text/plain;charset=UTF-8")
 	@ResponseBody

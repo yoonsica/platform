@@ -131,6 +131,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 		}else {
 			resources.setmType(2+"");
 			resources.setLink(moduleInfo.getLink());
+			resources.setState(moduleInfo.getState());
 		}
 		
 		resourcesDao.add(resources);

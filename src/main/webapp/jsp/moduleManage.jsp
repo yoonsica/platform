@@ -171,6 +171,13 @@ request.setAttribute("basePath", basePath);
 				$("#moduleInfoFrame").attr("src","${basePath}moduleManage/toAddFolder/"+nodeId);
 			});
 			
+			$("#addFunction").click(function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var nodeId = nodes[0].id;
+				$("#moduleInfoFrame").attr("src","${basePath}moduleManage/toAddFunction/"+nodeId);
+			});
+			
 			$("#deleteBtn").click(function(){
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				var nodes = zTree.getSelectedNodes();

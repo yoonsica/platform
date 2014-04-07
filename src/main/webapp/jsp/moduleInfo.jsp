@@ -9,14 +9,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'moduleInfo.jsp' starting page</title>
+    <title>模块信息</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
+	<link rel="stylesheet" href="${basePath }static/ztree/css/demo.css" type="text/css">
+	<link rel="stylesheet" href="${basePath }static/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+	<script type="text/javascript" src="${basePath }static/ztree/js/jquery-1.4.4.min.js"></script>
+	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.core-3.5.js"></script>
 	<style type="text/css">
 body {
 	FONT-SIZE: 12px;
@@ -55,6 +58,74 @@ tr{
 }
 	</style>
 	<script type="text/javascript">
+	var setting = {
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				beforeClick: beforeClick,
+				onClick: onClick
+			}
+		};
+
+		function beforeClick(treeId, treeNode) {
+			var check = (treeNode && !treeNode.isParent);
+			if (check) alert("链接节点不能作为父节点...");
+			return !check;
+		}
+		
+		function onClick(e, treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+			var nodes = zTree.getSelectedNodes();
+			v = "";
+			v1 = "";
+			v = nodes[0].name;
+			v1 = nodes[0].id;
+			var cityObj = $("#parentSel");
+			cityObj.attr("value", v);
+			$("#parent").attr("value", v1);
+		}
+
+		function showMenu() {
+			var cityObj = $("#parentSel");
+			var cityOffset = $("#parentSel").offset();
+			$("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			$("body").bind("mousedown", onBodyDown);
+		}
+		function hideMenu() {
+			$("#menuContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDown);
+		}
+		function onBodyDown(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+				hideMenu();
+			}
+		}
+
+		$(document).ready(function(){
+			$("#parentSel").focus(function(){
+				showMenu();
+			});
+			$.ajax({  
+                type: "POST",  
+                url: "moduleManage/1",
+                async : false,  
+                cache:false,  
+                dataType: "json",
+                success:function(data){
+                    $.fn.zTree.init($("#treeDemo"), setting, data.childList);
+                    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                    var node = zTree.getNodeByTId("${moduleInfo.parent }");
+                    $("#parentSel").attr("value",node.name);
+                }  
+         	});
+			//$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		});
 		$(function(){
 			$("#submitBtn").click(function(){
 				$.ajax({  
@@ -117,7 +188,12 @@ tr{
 	        </div>
 	        <div >
 	            <label for="parent">类别</label>
-	            <input type="text" name="parent" value="${moduleInfo.parent }"></input>
+				<input id="parentSel" type="text" readonly="readonly" value="" />
+
+<div id="menuContent" class="menuContent" style="display:none; position: absolute;">
+	<ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
+</div>
+	            <input type="hidden" name="parent" id="parent" value="${moduleInfo.parent }"></input>
 	        </div>
 	        <div style="line-height: 60px;height: 60px;float:left;">
 	          	 <label for="link">链接</label>
