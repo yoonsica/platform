@@ -38,4 +38,11 @@ public interface ResourcesDao {
 	 * @return
 	 */
 	public Resources getResourceToUp(int parentId, int dispIndex);
+	
+	/**
+	 * 添加资源
+	 * @param resources
+	 */
+	public void add(Resources resources);
+	public void remove(int moduleId);
 }

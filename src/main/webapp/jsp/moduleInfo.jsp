@@ -74,6 +74,13 @@ tr{
 	                }  
 	         	});
 			});
+			$("#cancleBtn").click(function(){
+               	$(window.parent.document.getElementById("menuDiv")).show();
+               	$("#moduleEditDiv").hide();
+               	$("#infoTable").show();
+               	//window.location.reload(true);
+               	//window.parent.window.refreshTree(null);//刷新树
+			});
 		})
 	</script>
   </head>
@@ -145,6 +152,7 @@ tr{
 	        </div>
 	        <div style="margin-left: auto;margin-right: auto;TEXT-ALIGN: center;">
 	            <input type="button" value="确认" id="submitBtn">
+	            <input type="button" value="取消" id="cancleBtn">
 	        </div>
 	    </form>
   		

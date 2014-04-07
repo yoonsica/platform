@@ -42,10 +42,15 @@ request.setAttribute("basePath", basePath);
 		function beforeClick(treeId, treeNode, clickFlag) {
 		}
 		function onClick(event, treeId, treeNode, clickFlag) {
+			$("#menuDiv").show();
 			if (treeNode.isParent) {
 				/*var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				zTree.expandNode(treeNode);*/
-				$("#deleteBtn").hide();
+				if(treeNode.children==undefined){
+					$("#deleteBtn").show();
+				}else{
+					$("#deleteBtn").hide();
+				}
 				$("#addFolder").show();
 				$("#addFunction").show();
 			}else{
@@ -93,6 +98,7 @@ request.setAttribute("basePath", basePath);
                     	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
                         var node = zTree.getNodeByParam("id", nodeId, null);
                         zTree.selectNode(node);
+                        zTree.expandNode(node, true, true, true);
                         onClick(event, "treeDemo", node, 1);
                     }
                 }  
@@ -119,6 +125,7 @@ request.setAttribute("basePath", basePath);
 			$("#upBtn").click(function(){
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				var nodes = zTree.getSelectedNodes();
+				var parentNode = nodes[0].getParentNode();
 				var nodeId = nodes[0].id;
 				$.ajax({  
 	                type: "POST",  
@@ -128,6 +135,10 @@ request.setAttribute("basePath", basePath);
 	                success:function(data){
 	                	alert(data);
 	                	refreshTree(nodeId);
+	                	if(parentNode.id==1){
+	                		alert("更改了菜单项，菜单项将刷新");
+	                		window.parent.window.navInit();
+	                	}
 	                }  
 	         	});
 			});
@@ -135,6 +146,7 @@ request.setAttribute("basePath", basePath);
 			$("#downBtn").click(function(){
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				var nodes = zTree.getSelectedNodes();
+				var parentNode = nodes[0].getParentNode();
 				var nodeId = nodes[0].id;
 				$.ajax({  
 	                type: "POST",  
@@ -144,9 +156,43 @@ request.setAttribute("basePath", basePath);
 	                success:function(data){
 	                	alert(data);
 	                	refreshTree(nodeId);
+	                	if(parentNode.id==1){
+	                		alert("更改了菜单项，菜单项将刷新");
+	                		window.parent.window.navInit();
+	                	}
 	                }  
 	         	});
 			});
+			
+			$("#addFolder").click(function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var nodeId = nodes[0].id;
+				$("#moduleInfoFrame").attr("src","${basePath}moduleManage/toAddFolder/"+nodeId);
+			});
+			
+			$("#deleteBtn").click(function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var parentNode = nodes[0].getParentNode();
+				var nodeId = nodes[0].id;
+				$.ajax({  
+	                type: "POST",  
+	                url: "moduleManage/remove/"+nodeId,
+	                async : false,  
+	                cache:false,  
+	                success:function(data){
+	                	alert(data);
+	                	refreshTree(parentNode.id);
+	                	window.parent.window.refreshWestDiv(null);
+	                	if(parentNode.id==1){
+	                		alert("更改了菜单项，菜单项将刷新");
+	                		window.parent.window.navInit();
+	                	}
+	                }  
+	         	});
+			});
+			
 		});
     </script>
     <style type="text/css">
@@ -160,8 +206,8 @@ request.setAttribute("basePath", basePath);
   		<ul id="treeDemo" class="ztree"></ul>
   	</div>
   	<div style="position:relative;height: 500px;width: 60%;">
-	  	<div id="menuDiv" style="background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
-	  		<a href="#" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" style="display: none;">删除</a>
+	  	<div id="menuDiv" style="display:none;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
+	  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" style="display: none;">删除</a>
 			<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
 			<a href="javascript:void(0)" id="upBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" style="display: none;">上调</a>
 			<a href="javascript:void(0)" id="downBtn" plain="true" class="easyui-linkbutton" iconCls="icon-down" style="display: none;">下调</a>

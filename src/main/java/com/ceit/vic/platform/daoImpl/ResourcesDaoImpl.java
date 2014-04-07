@@ -79,4 +79,15 @@ public class ResourcesDaoImpl implements ResourcesDao {
 		return (Resources) query.list().get(0);
 	}
 
+
+	@Override
+	public void add(Resources resources) {
+		sf.getCurrentSession().save(resources);
+	}
+
+	@Override
+	public void remove(int moduleId) {
+		sf.getCurrentSession().delete(getResourceById(moduleId));
+	}
+
 }

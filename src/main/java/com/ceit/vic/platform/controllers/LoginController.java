@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ceit.vic.platform.models.NavItem;
@@ -43,8 +44,8 @@ public class LoginController {
 					System.out.println(user);
 					session.setAttribute("user", user);
 					ModelAndView mav = new ModelAndView("south");
-					List<NavItem> menuList = resourcesService.getNavItems();
-					mav.addObject("menuList",menuList);
+					/*List<NavItem> menuList = resourcesService.getNavItems();
+					mav.addObject("menuList",menuList);*/
 					return mav;
 				}
 			}
@@ -52,11 +53,10 @@ public class LoginController {
 		return new ModelAndView("login");
 	}
 	
-/*	@RequestMapping("/nav")
-	public ModelAndView navInit(){
-		ModelAndView mav = new ModelAndView("nav");
-		List<NavItem> itemList = resourcesService.getNavItems();
-		mav.addObject("itemList",itemList);
-		return mav;
+	@RequestMapping("/nav")
+	@ResponseBody
+	public List<NavItem> navInit(){
+		List<NavItem> menuList = resourcesService.getNavItems();
+		return menuList;
 	}
-*/}
+}

@@ -82,7 +82,31 @@ public class ModuleController {
 	public String down(@PathVariable int moduleId){
 		System.out.println(moduleId);
 		resourcesService.down(moduleId);
-		return "上调成功！";
+		return "下调成功！";
+	}
+	@RequestMapping("/moduleManage/toAddFolder/{parentId}")
+	public ModelAndView toAddFolder(@PathVariable int parentId,HttpServletRequest request){
+		System.out.println(parentId);
+		
+		ModelAndView mav = new ModelAndView("moduleAddFolder");
+		String dir = request.getSession().getServletContext().getRealPath("/static/images/icons");
+		List<String> iconList = FileTool.getFileNamesByDir(dir);
+		mav.addObject("parent",parentId);
+		mav.addObject("iconList",iconList);
+		return mav;
 	}
 	
+	@RequestMapping("/moduleManage/Add")
+	@ResponseBody
+	public int moduleAddFolder(ModuleInfoDTO moduleInfo){
+		System.out.println(moduleInfo);
+		return resourcesService.addResource(moduleInfo,true);
+	}
+	
+	@RequestMapping(value="/moduleManage/remove/{moduleId}",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String moduleRemove(@PathVariable int moduleId){
+		resourcesService.remove(moduleId);
+		return "删除成功!";
+	}
 }

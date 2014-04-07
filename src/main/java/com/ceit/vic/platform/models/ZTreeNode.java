@@ -10,7 +10,7 @@ public class ZTreeNode {
 	int id;
 	int pId;
 	boolean open=false;
-	boolean isParent;
+	String isParent="false";
 	String href=null;
 	String icon;//树节点图标
 	String iconCls;//标签页图标css名称
@@ -46,10 +46,10 @@ public class ZTreeNode {
 	public void setOpen(boolean open) {
 		this.open = open;
 	}
-	public boolean isParent() {
+	public String getIsParent() {
 		return isParent;
 	}
-	public void setParent(boolean isParent) {
+	public void setIsParent(String isParent) {
 		this.isParent = isParent;
 	}
 	public int getId() {

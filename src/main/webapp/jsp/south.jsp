@@ -71,9 +71,39 @@ request.setAttribute("basePath", basePath);
 	 
 	function refreshWestDiv(url){
 		//$("#westDiv").load(url);
-		$("#westFrame").attr("src",url);
+		if(url==null){
+			$("#westFrame").attr("src",$("#westFrame").attr("src"));
+		}else{
+			$("#westFrame").attr("src",url);
+		}
 	}
+	
+	function navInit(){
+		$.ajax({  
+            type: "POST",  
+            url: "nav",
+            async : false,  
+            cache:false,  
+            success:function(data){
+            	var ulstr = "<ul>";
+            	$.each(data,function(n,item) {   
+                      ulstr+="<li><a href="+item.href+" id="+item.id+">"+item.text+"</a></li>";
+                });  
+            	ulstr += "</ul>";
+            	$("#nav_slim").html(ulstr);
+            	$("#nav_slim a").click(function(){
+        			addTab("欢迎使用","jsp/welcome.jsp");
+        			//addTab($(this).text(),$(this).attr("href"));//调用south.jsp页面的addTab()方法，直接在这里添加tab会报错“option对象为空”
+        		//refreshWestDiv("${basePath}moduleChild/"+$(this).attr("id"));
+        			refreshWestDiv("${basePath}moduleIdPass/"+$(this).attr("id"));
+        			return false;
+        		});
+            }  
+     	});
+	}
+	
 	$(function() {
+		navInit();
 		var myDate = new Date();
 		$("#southDiv").html("${user.userName }&nbsp;"+myDate.toLocaleDateString());
 		$("#nav_slim a").click(function(){

@@ -25,7 +25,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 				node.setId(department.getId());
 				node.setpId(department.getParentId());
 				node.setName(department.getName());
-				node.setParent(true);
+				node.setIsParent("true");
 				nodeList.add(node);
 			}
 		}

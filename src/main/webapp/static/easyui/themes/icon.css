@@ -58,7 +58,9 @@
 .icon-addFunction{
 	background:url('icons/globe.gif') no-repeat;
 }
-
+.icon-folder{
+	background:url('icons/folder.gif') no-repeat;
+}
 
 
 .icon-mini-add{

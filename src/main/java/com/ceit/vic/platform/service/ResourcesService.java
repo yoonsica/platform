@@ -5,7 +5,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
-import com.ceit.vic.platform.models.Resources;
 import com.ceit.vic.platform.models.ZTreeNode;
 
 public interface ResourcesService {
@@ -37,4 +36,14 @@ public interface ResourcesService {
 	public void up(int moduleId);
 	@Transactional
 	public void down(int moduleId);
+	/**
+	 * 添加资源
+	 * @param moduleInfo
+	 * @param isFolder 是否是目录
+	 * @return 返回添加的资源id
+	 */
+	@Transactional
+	public int addResource(ModuleInfoDTO moduleInfo, boolean isFolder);
+	@Transactional
+	public void remove(int moduleId);
 }

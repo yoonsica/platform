@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.ceit.vic.platform.dao.IDPROVIDERDao;
 import com.ceit.vic.platform.dao.ResourcesDao;
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
@@ -14,7 +16,8 @@ import com.ceit.vic.platform.service.ResourcesService;
 public class ResourcesServiceImpl implements ResourcesService {
 	@Autowired
 	ResourcesDao resourcesDao;
-
+	@Autowired
+	IDPROVIDERDao idproviderDao;
 	@Override
 	public List<NavItem> getNavItems() {
 		List<Resources> rsList = resourcesDao.getNavResources();
@@ -44,7 +47,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 				node.setIconCls(objects[3].toString().split("\\.")[0]);
 			}
 			if (objects[6].toString().equals("1")||objects[6].toString().equals("0")) {//1-目录
-				node.setParent(true);
+				node.setIsParent("true");
 			}else if(objects[6].toString().equals("2")) {
 				node.setHref(objects[4].toString());//链接
 			}
@@ -110,6 +113,35 @@ public class ResourcesServiceImpl implements ResourcesService {
 			module1.setDispIndex(tmp);
 			resourcesDao.update(module1);
 			resourcesDao.update(module2);
+	}
+
+	@Override
+	public int addResource(ModuleInfoDTO moduleInfo, boolean isFolder) {
+		int id = idproviderDao.getCurrentId("RESOURCES");
+		Resources resources = new Resources();
+		resources.setId(id);
+		resources.setDispIndex(id);
+		resources.setIcon(moduleInfo.getIcon());
+		resources.setName(moduleInfo.getName());
+		resources.setParentId(Integer.valueOf(moduleInfo.getParent()));
+		resources.setType(0+"");
+		resources.setState(1+"");
+		if (isFolder) {
+			resources.setmType(1+"");
+		}else {
+			resources.setmType(2+"");
+			resources.setLink(moduleInfo.getLink());
+		}
+		
+		resourcesDao.add(resources);
+		idproviderDao.add("RESOURCES");
+		return resources.getId();
+	}
+
+	@Override
+	public void remove(int moduleId) {
+		resourcesDao.remove(moduleId);
+		
 	}
 
 }
