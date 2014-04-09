@@ -95,24 +95,24 @@ public class ResourcesServiceImpl implements ResourcesService {
 
 	@Override
 	public void up(int moduleId) {
-			Resources module1 = resourcesDao.getResourceById(Integer.valueOf(moduleId));
-			Resources module2 = resourcesDao.getResourceToDown(module1.getParentId(),module1.getDispIndex());
-			int tmp = module2.getDispIndex();
-			module2.setDispIndex(module1.getDispIndex());
-			module1.setDispIndex(tmp);
-			resourcesDao.update(module1);
-			resourcesDao.update(module2);
+		Resources module1 = resourcesDao.getResourceById(Integer.valueOf(moduleId));
+		Resources module2 = resourcesDao.getResourceToDown(module1.getParentId(),module1.getDispIndex());
+		int tmp = module2.getDispIndex();
+		module2.setDispIndex(module1.getDispIndex());
+		module1.setDispIndex(tmp);
+		resourcesDao.update(module1);
+		resourcesDao.update(module2);
 	}
 
 	@Override
 	public void down(int moduleId) {
-			Resources module1 = resourcesDao.getResourceById(Integer.valueOf(moduleId));
-			Resources module2 = resourcesDao.getResourceToUp(module1.getParentId(),module1.getDispIndex());
-			int tmp = module2.getDispIndex();
-			module2.setDispIndex(module1.getDispIndex());
-			module1.setDispIndex(tmp);
-			resourcesDao.update(module1);
-			resourcesDao.update(module2);
+		Resources module1 = resourcesDao.getResourceById(Integer.valueOf(moduleId));
+		Resources module2 = resourcesDao.getResourceToUp(module1.getParentId(),module1.getDispIndex());
+		int tmp = module2.getDispIndex();
+		module2.setDispIndex(module1.getDispIndex());
+		module1.setDispIndex(tmp);
+		resourcesDao.update(module1);
+		resourcesDao.update(module2);
 	}
 
 	@Override
@@ -142,7 +142,6 @@ public class ResourcesServiceImpl implements ResourcesService {
 	@Override
 	public void remove(int moduleId) {
 		resourcesDao.remove(moduleId);
-		
 	}
 
 }

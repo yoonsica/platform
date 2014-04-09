@@ -2,6 +2,7 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+request.setAttribute("basePath", basePath);
 %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -23,13 +24,13 @@ body {
 	BACKGROUND: #FFFFFF; 
 	SCROLLBAR-FACE-COLOR: #bfebd2; 
     SCROLLBAR-HIGHLIGHT-COLOR: #94dc94; 
-   SCROLLBAR-SHADOW-COLOR: #ade2c6; 
-   SCROLLBAR-3DLIGHT-COLOR: #ade2c6; 
-   SCROLLBAR-ARROW-COLOR: #73a790; 
-   SCROLLBAR-TRACK-COLOR: #e9efeb; 
-   SCROLLBAR-DARKSHADOW-COLOR: #8ac7a4; 
-   SCROLLBAR-BASE-COLOR: #168a16; 
-  FONT-FAMILY: "����", "Verdana", "Arial";
+	SCROLLBAR-SHADOW-COLOR: #ade2c6; 
+	SCROLLBAR-3DLIGHT-COLOR: #ade2c6; 
+	SCROLLBAR-ARROW-COLOR: #73a790; 
+	SCROLLBAR-TRACK-COLOR: #e9efeb; 
+	SCROLLBAR-DARKSHADOW-COLOR: #8ac7a4; 
+	SCROLLBAR-BASE-COLOR: #168a16; 
+  	FONT-FAMILY: "����", "Verdana", "Arial";
 	margin-top: 0px; 
 	margin-left: 2px; 
 	margin-right: 0px; 
@@ -57,7 +58,11 @@ body {
 	                	$("#moduleEditDiv").hide();
 	                	$("#infoTable").show();
 	                	window.parent.window.refreshTree(data);//刷新树
-	                	window.parent.parent.window.navInit();
+	                	if($("#parent").attr("value")==1){
+	                		alert("刷新菜单项");
+	                		window.parent.parent.window.navInit();
+	                	}
+	                	window.parent.parent.window.refreshWestDiv(null);
 	                }  
 	         	});
 			});
@@ -73,7 +78,7 @@ body {
 	        </div>
 	        <div >
 	            <label for="parent">类别</label>
-	            <input type="text" name="parent" value="${parent }" readonly="readonly"/>
+	            <input type="text" name="parent" id="parent" value="${parent }" readonly="readonly"/>
 	        </div>
 	        <div style="line-height: 60px;height: 60px;float:left;">
 	          	 <label for="link">链接</label>
@@ -83,7 +88,7 @@ body {
 	        </div>
 	        <div style="clear: left;">
 	            <label for="state">状态</label>
-	            <input type="radio" name="state"  value="1" checked/>启用
+	            <input type="radio" name="state"  value="1" checked="checked"/>启用
 	            <input type="radio" name="state"  value="0" />停用
 	        </div>
 	        <div style="height: 250px;">

@@ -58,7 +58,11 @@ body {
 	                	$("#moduleEditDiv").hide();
 	                	$("#infoTable").show();
 	                	window.parent.window.refreshTree(data);//刷新树
-	                	window.parent.parent.window.navInit();
+	                	if($("#parent").attr("value")==1){
+	                		alert("刷新菜单项");
+	                		window.parent.parent.window.navInit();
+	                	}
+	                	window.parent.parent.window.refreshWestDiv(null);
 	                }  
 	         	});
 			});
@@ -74,7 +78,7 @@ body {
 	        </div>
 	        <div >
 	            <label for="parent">类别</label>
-	            <input type="text" name="parent" value="${parent }" readonly="readonly"/>
+	            <input type="text" name="parent" id="parent" value="${parent }" readonly="readonly"/>
 	        </div>
 	        <div style="height: 250px;">
 	            <label for="icon">功能图标</label><br>
