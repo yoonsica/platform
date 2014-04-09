@@ -4,11 +4,17 @@ public class ModuleInfoDTO {
 String name;
 int id;
 String parent;
+String parentName;
 String link;
 String state;
 String icon;
 String expand;
-
+public String getParentName() {
+	return parentName;
+}
+public void setParentName(String parentName) {
+	this.parentName = parentName;
+}
 public String getIcon() {
 	return icon;
 }

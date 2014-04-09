@@ -74,9 +74,11 @@ public class ResourcesServiceImpl implements ResourcesService {
 			/*Resources parentResources = resourcesDao.getResourceById(resources.getParentId());
 			dto.setParent(parentResources.getName());*/
 			dto.setParent(String.valueOf(resources.getParentId()));
+			Resources parentRs = resourcesDao.getResourceById(resources.getParentId());
+			dto.setParentName("("+parentRs.getId()+")"+parentRs.getName());
 		}
-		//dto.setState(resources.getState().equals("1")?"启用":"停用");
-		dto.setState(resources.getState());
+		dto.setState(resources.getState().equals("1")?"启用":"停用");
+		//dto.setState(resources.getState());
 		return dto;
 	}
 

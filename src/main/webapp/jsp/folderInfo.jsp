@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>模块信息</title>
+    <title>目录信息</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -158,10 +158,10 @@ tr{
   <body style="margin: 0;padding: 0;">
     <table border="0" bgcolor="#cccccc" cellspacing="1" cellpadding="5" width="100%" id="infoTable" class="toptablebg">
     	<thead>
-    		<tr><td colspan="2" align="center" style="font-weight: bolder;">当前选中模块信息</td></tr>
+    		<tr><td colspan="2" align="center" style="font-weight: bolder;">当前选中目录信息</td></tr>
     	</thead>
     	<tbody>
-    		<tr >
+    		<tr>
     			<td align="center" width="20%">ID</td><td width="80%">${moduleInfo.id }</td>
     		</tr>
     		<tr>
@@ -169,9 +169,6 @@ tr{
     		</tr>
     		<tr>
     			<td align="center" width="20%">类别</td><td width="80%">${moduleInfo.parentName }</td>
-    		</tr>
-    		<tr>
-    			<td align="center" width="20%">链接</td><td width="80%">${moduleInfo.link }</td>
     		</tr>
     		<tr>
     			<td align="center" width="20%">状态</td><td width="80%">${moduleInfo.state }</td>
@@ -194,12 +191,6 @@ tr{
 	<ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
 </div>
 	            <input type="hidden" name="parent" id="parent" value="${moduleInfo.parent }"></input>
-	        </div>
-	        <div style="line-height: 60px;height: 60px;float:left;">
-	          	 <label for="link">链接</label>
-	        </div>
-	        <div style="margin-left: 3px;float: left;">
-	        	<textarea name="link" style="height: 60px;">${moduleInfo.link }</textarea>
 	        </div>
 	        <div style="clear: left;">
 	            <label for="state">状态</label>

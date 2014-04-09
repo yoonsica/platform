@@ -9,7 +9,7 @@ public class ZTreeNode {
 	String name;
 	int id;
 	int pId;
-	boolean open=false;
+	boolean open=true;
 	String isParent="false";
 	String href=null;
 	String icon;//树节点图标

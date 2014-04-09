@@ -1,18 +1,13 @@
 package com.ceit.vic.platform.controllers;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.ZTreeNode;
 import com.ceit.vic.platform.service.ResourcesService;
@@ -33,12 +28,9 @@ public class ModuleController {
 
 	@RequestMapping("/moduleManage/{parentId}")
 	@ResponseBody
-	public Map<String, Object> moduleManage(@PathVariable int parentId) throws Exception{
+	public List<ZTreeNode> moduleManage(@PathVariable int parentId) throws Exception{
 		List<ZTreeNode> childList = resourcesService.getResourcesTreeById(parentId,true,true);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("childList", childList);
-		map.put("count", 10);
-		return map;
+		return childList;
 	}
 	@RequestMapping("/moduleIdPass/{moduleId}")
 	public ModelAndView moduleIdPass(@PathVariable int moduleId){
@@ -55,6 +47,17 @@ public class ModuleController {
 		String dir = request.getSession().getServletContext().getRealPath("/static/images/icons");
 		List<String> iconList = FileTool.getFileNamesByDir(dir);
 		ModelAndView mav = new ModelAndView("moduleInfo");
+		ModuleInfoDTO moduleInfo = resourcesService.getModuleInfoById(moduleId);
+		mav.addObject("moduleInfo",moduleInfo);
+		mav.addObject("iconList",iconList);
+		return mav;
+	}
+	
+	@RequestMapping("/folderInfo/{moduleId}")
+	public ModelAndView folderInfo(@PathVariable int moduleId,HttpServletRequest request){
+		String dir = request.getSession().getServletContext().getRealPath("/static/images/icons");
+		List<String> iconList = FileTool.getFileNamesByDir(dir);
+		ModelAndView mav = new ModelAndView("folderInfo");
 		ModuleInfoDTO moduleInfo = resourcesService.getModuleInfoById(moduleId);
 		mav.addObject("moduleInfo",moduleInfo);
 		mav.addObject("iconList",iconList);
@@ -87,7 +90,6 @@ public class ModuleController {
 	@RequestMapping("/moduleManage/toAddFolder/{parentId}")
 	public ModelAndView toAddFolder(@PathVariable int parentId,HttpServletRequest request){
 		System.out.println(parentId);
-		
 		ModelAndView mav = new ModelAndView("moduleAddFolder");
 		String dir = request.getSession().getServletContext().getRealPath("/static/images/icons");
 		List<String> iconList = FileTool.getFileNamesByDir(dir);
