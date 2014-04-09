@@ -26,6 +26,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 			NavItem item = new NavItem(resource.getLink(),resource.getName(),resource.getId());
 			navItems.add(item);
 		}
+		
 		return navItems;
 	}
 
