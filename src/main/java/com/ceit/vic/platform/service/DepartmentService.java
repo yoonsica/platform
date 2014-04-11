@@ -14,5 +14,10 @@ public interface DepartmentService {
 	 */
 	@Transactional(readOnly=true)
 	public List<ZTreeNode> getDepartmentTree();
-	public boolean insertDepartment(Department department);
+	@Transactional
+	public List<ZTreeNode> getDepartmentTreeById(int id);
+	@Transactional
+	public int addDepartment(Department department);
+	@Transactional(readOnly=true)
+	public Department getDepartmentById(int id);
 }

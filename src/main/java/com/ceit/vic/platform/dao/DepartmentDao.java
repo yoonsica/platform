@@ -6,5 +6,7 @@ import com.ceit.vic.platform.models.Department;
 
 public interface DepartmentDao {
 	public List<Department> getAllDepartments();
-	public boolean insertDepartment(Department department);
+	public List<Object[]> getDepartmentTreeById(int id);
+	public void insertDepartment(Department department);
+	public Department getDepartmentById(int id);
 }
