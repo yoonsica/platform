@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.ceit.vic.platform.dao.DepartmentDao;
 import com.ceit.vic.platform.dao.IDPROVIDERDao;
 import com.ceit.vic.platform.models.Department;
+import com.ceit.vic.platform.models.Resources;
 import com.ceit.vic.platform.models.ZTreeNode;
 import com.ceit.vic.platform.service.DepartmentService;
 @Service
@@ -67,6 +68,39 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public Department getDepartmentById(int id) {
 		return departmentDao.getDepartmentById(id);
+	}
+
+	@Override
+	public void remove(int depId) {
+		departmentDao.delete(depId);
+	}
+
+	@Override
+	public void update(Department department) {
+		departmentDao.update(department);
+	}
+
+	@Override
+	public void up(int depId) {
+		Department dep1 = departmentDao.getDepartmentById(depId);
+		Department dep2 = departmentDao.getDepartmentToDown(dep1.getParentId(),dep1.getDispindex());
+		int tmp = dep2.getDispindex();
+		dep2.setDispindex(dep1.getDispindex());
+		dep1.setDispindex(tmp);
+		departmentDao.update(dep1);
+		departmentDao.update(dep2);
+	}
+
+	@Override
+	public void down(int depId) {
+		Department dep1 = departmentDao.getDepartmentById(depId);
+		Department dep2 = departmentDao.getDepartmentToUp(dep1.getParentId(),dep1.getDispindex());
+		int tmp = dep2.getDispindex();
+		dep2.setDispindex(dep1.getDispindex());
+		dep1.setDispindex(tmp);
+		departmentDao.update(dep1);
+		departmentDao.update(dep2);
+		
 	}
 
 

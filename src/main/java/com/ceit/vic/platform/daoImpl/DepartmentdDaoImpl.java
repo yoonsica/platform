@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ceit.vic.platform.dao.DepartmentDao;
 import com.ceit.vic.platform.models.Department;
+import com.ceit.vic.platform.models.Resources;
 @Repository
 public class DepartmentdDaoImpl implements DepartmentDao{
 	@Autowired
@@ -70,4 +71,35 @@ public class DepartmentdDaoImpl implements DepartmentDao{
 		return department;
 	}
 
+	@Override
+	public void delete(int id) {
+		sf.getCurrentSession().delete(getDepartmentById(id));
+	}
+
+	@Override
+	public void update(Department department) {
+		try {
+			sf.getCurrentSession().update(department);
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public Department getDepartmentToDown(int parentId, int dispindex) {
+		StringBuffer sb = new StringBuffer("from Department t where t.parentId=");
+		sb.append(parentId).append(" and t.dispindex<").append(dispindex)
+		.append(" order by t.dispindex desc");
+		Query query = sf.getCurrentSession().createQuery(sb.toString());
+		return (Department) query.list().get(0);
+	}
+
+	@Override
+	public Department getDepartmentToUp(int parentId, int dispindex) {
+		StringBuffer sb = new StringBuffer("from Department t where t.parentId=");
+		sb.append(parentId).append(" and t.dispindex>").append(dispindex)
+		.append(" order by t.dispindex");
+		Query query = sf.getCurrentSession().createQuery(sb.toString());
+		return (Department) query.list().get(0);
+	}
 }

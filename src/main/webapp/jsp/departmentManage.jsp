@@ -24,32 +24,46 @@ request.setAttribute("basePath", basePath);
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.core-3.5.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
   	<script type="text/javascript">
-  	var setting = {
-			data: {
-				simpleData: {
-					enable: true
-				}
-			},
-			callback: {
-   				beforeClick: beforeClick,
-   				onClick: onClick
-   			}
-		};
-
-	function beforeClick(treeId, treeNode, clickFlag) {
-
-	}
+	  	var setting = {
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+	   				beforeClick: beforeClick,
+	   				onClick: onClick
+	   			}
+			};
 	
-	function onClick(event, treeId, treeNode, clickFlag) {
-		if (treeNode.isParent) {
-			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-			zTree.expandNode(treeNode);
-			return false;
-		}else{
-			var url = "${basePath}department/"+treeNode.id;
-			$("#personDiv").load(url);
+		function beforeClick(treeId, treeNode, clickFlag) {
+	
 		}
-	}
+		
+		function onClick(event, treeId, treeNode, clickFlag) {
+			var url = "${basePath}personByDepId/"+treeNode.id;
+			$("#depInfoFrame").attr("src",url);
+		}
+		
+		function refreshTree(nodeId){
+			$.ajax({  
+	               type: "POST",  
+	               url: "department",
+	               async: false,  
+	               cache: false,  
+	               dataType: "json",
+	               success:function(data){
+	                   $.fn.zTree.init($("#treeDemo"), setting, data);
+	                   if(nodeId!=null){
+	                   	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+	                       var node = zTree.getNodeByParam("id", nodeId, null);
+	                       zTree.selectNode(node);
+	                       zTree.expandNode(node, false, false, true);
+	                       onClick(event, "treeDemo", node, 1);
+	                   }
+	               }  
+	        	});
+		}
 
 		$(document).ready(function(){
 			$.ajax({  
@@ -69,6 +83,49 @@ request.setAttribute("basePath", basePath);
 				var nodeId = nodes[0].id;
 				$("#depInfoFrame").attr("src","${basePath}depManage/toAddDepartment/"+nodeId);
 			});
+			
+			$("#deleteBtn").click(function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var parentNode = nodes[0].getParentNode();
+				var nodeId = nodes[0].id;
+	         });
+			$("#editBtn").click(function(){
+				var url = "${basePath}depInfo/"+treeNode.id;
+				$("#personDiv").load(url);
+			});
+			
+			$("#upBtn").click(function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var nodeId = nodes[0].id;
+				$.ajax({  
+	                type: "POST",  
+	                url: "${basePath}depManage/up/"+nodeId,
+	                async : false,  
+	                cache:false,  
+	                success:function(data){
+	                	alert(data);
+	                    refreshTree(nodeId);
+	                }  
+         		});
+			});
+			
+			$("#downBtn").click(function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var nodeId = nodes[0].id;
+				$.ajax({  
+	                type: "POST",  
+	                url: "${basePath}depManage/down/"+nodeId,
+	                async : false,  
+	                cache:false,  
+	                success:function(data){
+	                	alert(data);
+	                    refreshTree(nodeId);
+	                }  
+         		});
+			});
 		});
     </script>
   </head>
@@ -85,16 +142,9 @@ request.setAttribute("basePath", basePath);
   	<div id="treeDiv" style="width: 300px;height: 500px;overflow: scroll;position:absolute;top:30px;">
   		<ul id="treeDemo" class="ztree"></ul>
   	</div>
-  	<div id="personDiv" style="position:absolute;left: 400px;height: 500px;border:1px solid red;">
-  		<div id="personMenuDiv" style="height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
-		<a href="javascript:void(0)" id="addFolder" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
-  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
-		<a href="javascript:void(0)" id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
-		<a href="javascript:void(0)" id="upBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >上调</a>
-		<a href="javascript:void(0)" id="downBtn" plain="true" class="easyui-linkbutton" iconCls="icon-down" >下调</a>
-		</div>
-		<div id="depInfoDiv" style="height: 300px;">
-	  		<iframe onload="test_onload()" id="depInfoFrame" name="depInfoFrame" src="" frameborder="0" scrolling="no" width="100%" ></iframe>
+  	<div id="personDiv" style="position:absolute;left: 400px;height: 700px;width:700px;">
+		<div id="depInfoDiv" style="height: 600px;">
+	  		<iframe id="depInfoFrame" name="depInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="600px"></iframe>
 	  	</div>
   	</div>
     </div>

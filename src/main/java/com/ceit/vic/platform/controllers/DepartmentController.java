@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ceit.vic.platform.models.Department;
-import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.ZTreeNode;
 import com.ceit.vic.platform.service.DepartmentService;
 
@@ -34,10 +33,12 @@ public class DepartmentController {
 		return nodeList;
 	}
 	
-	@RequestMapping(value="/department/{depId}")
-	public String person(@PathVariable String depId){
+	@RequestMapping(value="/depInfo/{depId}")
+	public ModelAndView person(@PathVariable int depId){
 		logger.debug("depId:"+depId);
-		return "person";
+		ModelAndView mav = new ModelAndView("depEdit");
+		mav.addObject("department",departmentService.getDepartmentById(depId));
+		return mav;
 	}
 	
 	@RequestMapping("/depManage/toAddDepartment/{parentId}")
@@ -54,5 +55,35 @@ public class DepartmentController {
 	@ResponseBody
 	public int addDep(Department department){
 		return departmentService.addDepartment(department);
+	}
+	
+	@RequestMapping(value="/depManage/remove/{depId}",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String depRemove(@PathVariable int depId){
+		departmentService.remove(depId);
+		return "删除成功!";
+	}
+	
+	@RequestMapping("/depUpdate")
+	@ResponseBody
+	public String depUpdate(Department department){
+		departmentService.update(department);
+		return "编辑成功！";
+	}
+	
+	@RequestMapping(value="/depManage/up/{depId}",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String up(@PathVariable int depId){
+		System.out.println(depId);
+		departmentService.up(depId);
+		return "上调成功！";
+	}
+	
+	@RequestMapping(value="/depManage/down/{depId}",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String down(@PathVariable int depId){
+		System.out.println(depId);
+		departmentService.down(depId);
+		return "下调成功！";
 	}
 }

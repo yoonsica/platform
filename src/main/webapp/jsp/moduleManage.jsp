@@ -219,7 +219,7 @@ request.setAttribute("basePath", basePath);
   	<div id="treeDiv" style="height: 500px;width: 200px;position:absolute;">
   		<ul id="treeDemo" class="ztree"></ul>
   	</div>
-  	<div style="height: 400px;position:absolute;left: 270px;width:500px;">
+  	<div style="height: 620px;position:absolute;left: 270px;width:500px;">
 	  	<div id="menuDiv" style="display:none;height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
 	  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" style="display: none;">删除</a>
 			<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
@@ -228,8 +228,8 @@ request.setAttribute("basePath", basePath);
 			<a href="javascript:void(0)" id="addFolder" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加目录</a>
 			<a href="javascript:void(0)" id="addFunction" plain="true" class="easyui-linkbutton" iconCls="icon-addFunction" >添加链接</a>
 		</div>
-	  	<div id="moduleInfoDiv" style="height: 300px;">
-	  		<iframe onload="test_onload()" id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="no" width="100%" ></iframe>
+	  	<div id="moduleInfoDiv" style="height: 600px;">
+	  		<iframe onload="test_onload()" id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="600px"></iframe>
 	  	</div>
   	</div>
   	</div>

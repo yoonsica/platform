@@ -74,7 +74,7 @@ public class ResourcesDaoImpl implements ResourcesDao {
 	public Resources getResourceToUp(int parentId, int dispIndex) {
 		StringBuffer sb = new StringBuffer("from Resources t where t.parentId=");
 		sb.append(parentId).append(" and t.dispIndex>").append(dispIndex)
-		.append(" order by t.dispIndex desc");
+		.append(" order by t.dispIndex");
 		Query query = sf.getCurrentSession().createQuery(sb.toString());
 		return (Resources) query.list().get(0);
 	}

@@ -43,7 +43,7 @@ body {
 	<script type="text/javascript">
 		$(function(){
 			$("#cancleBtn").click(function(){
-				//window.location.href = "${basePath}moduleInfo/${parent }";
+				window.location.href = "${basePath}personByDepId/${parentId }";
 			});
 			$("#submitBtn").click(function(){
 				$.ajax({  
@@ -53,7 +53,9 @@ body {
 	                async : false,  
 	                cache:false,  
 	                success:function(data){
-	                	alert("添加成功！");
+	                	alert("添加成功！"+data);
+	                	//window.location.href = "${basePath}personByDepId/${parentId }";
+	                	window.parent.window.refreshTree(data);
 	                }  
 	         	});
 			});

@@ -9,4 +9,9 @@ public interface DepartmentDao {
 	public List<Object[]> getDepartmentTreeById(int id);
 	public void insertDepartment(Department department);
 	public Department getDepartmentById(int id);
+	
+	public void delete(int id);
+	public void update(Department department);
+	public Department getDepartmentToDown(int parentId, int dispindex);
+	public Department getDepartmentToUp(int parentId, int dispindex);
 }

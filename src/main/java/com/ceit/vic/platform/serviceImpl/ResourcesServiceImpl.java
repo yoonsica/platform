@@ -98,7 +98,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 
 	@Override
 	public void up(int moduleId) {
-		Resources module1 = resourcesDao.getResourceById(Integer.valueOf(moduleId));
+		Resources module1 = resourcesDao.getResourceById(moduleId);
 		Resources module2 = resourcesDao.getResourceToDown(module1.getParentId(),module1.getDispIndex());
 		int tmp = module2.getDispIndex();
 		module2.setDispIndex(module1.getDispIndex());
