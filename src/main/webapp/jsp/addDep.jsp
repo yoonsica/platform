@@ -65,25 +65,24 @@ body {
   <body style="margin: 0;padding: 0;">
       <div id="depEditDiv" style="background:#fafafa;padding:10px;">
   		<form id="depInfoForm" method="post" >
-  			<div>
-	            <label for="parentId">上级部门编号</label>
-	            <input type="text" name="parentId" value="${parentId }" readonly="readonly"/>
-	        </div>
-	        <div>
-	            <label for="parentName">上级部门名称</label>
-	            <input type="text" name="parentName" value="${parentName }" disabled="disabled"/>
-	        </div>
-	        <div>
-	            <label for="name">名称</label>
-	            <input type="text" name="name"/>
-	        </div>
-	        <div style="line-height: 60px;height: 60px;float:left;">
-	          	 <label for="memo">备注</label>
-	        </div>
-	        <div style="margin-left: 3px;float: left;">
-	        	<textarea name="memo" style="height: 60px;"></textarea>
-	        </div>
-	        <div style="margin-left: auto;margin-right: auto;TEXT-ALIGN: center;">
+  		<input type="hidden" name="parentId" value="${parentId }" readonly="readonly"/>
+  			<table>
+  				<tr>
+  					<td><label for="parentName">上级部门名称</label></td><td><input type="text" name="parentName" value="${parentName }" disabled="disabled"/></td>
+  				</tr>
+  				<tr>
+  					<td><label for="name">名称</label></td><td><input type="text" name="name"/></td>
+  				</tr>
+  				<tr>
+  					<td>
+  						<div style="line-height: 60px;height: 60px;float:left;">
+	          	 			<label for="memo">备注</label>
+	        			</div>
+	        		</td>
+	        		<td><textarea name="memo" style="height: 60px;"></textarea></td>
+  				</tr>
+  			</table>
+	        <div style="margin-left: 80px;margin-top: 10px;">
 	            <input type="button" value="确认" id="submitBtn">
 	            <input type="button" value="取消" id="cancleBtn">
 	        </div>

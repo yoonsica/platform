@@ -37,6 +37,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 	@Override
 	public int addDepartment(Department department) {
 		int id = idproviderDao.getCurrentId("DEPARTMENT");
+		department.setId(id);
 		department.setDispindex(id);
 		departmentDao.insertDepartment(department);
 		idproviderDao.add("DEPARTMENT");

@@ -187,11 +187,11 @@ tr{
             <input type="hidden" name="id"  value="${moduleInfo.id }" ></input>
 	        <div>
 	            <label for="name">名称</label>
-	            <input  type="text" name="name"  value="${moduleInfo.name }"></input>
+	            <input  type="text" name="name"  value="${moduleInfo.name }" style="width: 172px;"></input>
 	        </div>
 	        <div >
 	            <label for="parent">类别</label>
-				<input id="parentSel" type="text" readonly="readonly" value="" />
+				<input id="parentSel" type="text" readonly="readonly" value="" style="width: 172px;"/>
 
 <div id="menuContent" class="menuContent" style="display:none; position: absolute;">
 	<ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
@@ -202,7 +202,7 @@ tr{
 	          	 <label for="link">链接</label>
 	        </div>
 	        <div style="margin-left: 3px;float: left;">
-	        	<textarea name="link" style="height: 60px;">${moduleInfo.link }</textarea>
+	        	<textarea name="link" style="height: 60px;width: 172px;">${moduleInfo.link }</textarea>
 	        </div>
 	        <div style="clear: left;">
 	            <label for="state">状态</label>

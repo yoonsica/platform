@@ -54,7 +54,7 @@ td {
 tr{
 	background-color: #ffffff;
 }
-#moduleEditDiv div{
+#depEditDiv div{
 	margin-bottom: 5px;
 }
 	</style>
@@ -75,9 +75,15 @@ tr{
 		};
 
 		function beforeClick(treeId, treeNode) {
-			var check = (treeNode && !treeNode.isParent);
-			if (check) alert("链接节点不能作为父节点...");
-			return !check;
+			if(treeNode.getParentNode().id=="${department.id }"){
+				alert("不能选则该部门下的子部门！");
+				return false;
+			}else if(treeNode.id=="${department.id }"){
+				alert("不能选则该部门本身！");
+				return false;
+			}else{
+				return true;		
+			}
 		}
 		
 		function onClick(e, treeId, treeNode) {
@@ -109,6 +115,9 @@ tr{
 		}
 
 		$(document).ready(function(){
+			if("${department.parentId }"==0){
+				$("#parentRow").hide();
+			}
 			$("#parentSel").focus(function(){
 				showMenu();
 			});
@@ -119,10 +128,12 @@ tr{
                 cache:false,  
                 dataType: "json",
                 success:function(data){
-                    $.fn.zTree.init($("#treeDemo"), setting, data.childList);
+                    $.fn.zTree.init($("#treeDemo"), setting, data);
                     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-                    var node = zTree.getNodeByTId("${department.parentId }");
+                    var node = zTree.getNodeByParam("id","${department.parentId }");
                     $("#parentSel").attr("value",node.name);
+                     zTree.selectNode(node);
+            			zTree.expandNode(node, false, false, true);
                 }  
          	});
 			//$.fn.zTree.init($("#treeDemo"), setting, zNodes);
@@ -138,39 +149,45 @@ tr{
 	                success:function(data){
 	                	//刷新整个页面
 	                	alert("更新成功！");
-        		        window.location.href = "${basePath}personByDepId/${parentId }";
+        		        window.location.href = "${basePath}personByDepId/${department.id}";
 	                	window.parent.window.refreshTree(null);//刷新树
 	                }  
 	         	});
 			});
 			$("#cancleBtn").click(function(){
-               	window.location.href = "${basePath}personByDepId/${parentId }";
+               	window.location.href = "${basePath}personByDepId/${department.id }";
 			});
 		})
 	</script>
   </head>
   <body style="margin: 0;padding: 0;">
     
-      <div id="depEditDiv" style="display:none;background:#fafafa;padding:10px;">
+      <div id="depEditDiv" style="background:#fafafa;padding:10px;">
   		<form id="depInfoForm" method="post" >
             <input type="hidden" name="id"  value="${department.id }" ></input>
-	        <div>
-	            <label for="name">名称</label>
-	            <input  type="text" name="name"  value="${department.name }"></input>
+            <table>
+            	<tr>
+            		<td><label for="name">名称</label></td><td><input  type="text" name="name"  value="${department.name }" style="width: 172px;"/></td>
+            	</tr>
+            	<tr id="parentRow">
+            		<td><label for="parentSel">上级部门</label></td><td><input id="parentSel" type="text" readonly="readonly" value="" style="width: 172px;"/></td>
+            	</tr>
+            	<tr>
+            		<td><div style="line-height: 60px;height: 60px;float:left;">
+	          	 			<label for="memo">备注</label>
+	        			</div</td>
+            		<td><textarea name="memo" style="height: 60px;width: 172px;"></textarea></td>
+            	</tr>
+            	<tr>
+            		<td><input type="button" value="确认" id="submitBtn"></td><td><input type="button" value="取消" id="cancleBtn"></td>
+            	</tr>
+            </table>
 	        </div>
-	        <div >
-	            <label for="parentSel">上级部门</label>
-				<input id="parentSel" type="text" readonly="readonly" value="" />
 
 <div id="menuContent" class="menuContent" style="display:none; position: absolute;">
 	<ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
 </div>
 	            <input type="hidden" name="parentId" id="parentId" value="${department.parentId }"></input>
-	        </div>
-	        <div style="margin-left: auto;margin-right: auto;TEXT-ALIGN: center;">
-	            <input type="button" value="确认" id="submitBtn">
-	            <input type="button" value="取消" id="cancleBtn">
-	        </div>
 	    </form>
   		
   	</div>

@@ -74,7 +74,6 @@ request.setAttribute("basePath", basePath);
                 dataType: "json",
                 success:function(data){
                     $.fn.zTree.init($("#treeDemo"), setting, data);
-            		//$("#rightDiv").load("http://localhost:8081/device/ztree/bdz");
                 }  
          	});
          	$("#addFolder").click(function(){
@@ -87,17 +86,39 @@ request.setAttribute("basePath", basePath);
 			$("#deleteBtn").click(function(){
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				var nodes = zTree.getSelectedNodes();
-				var parentNode = nodes[0].getParentNode();
 				var nodeId = nodes[0].id;
+				var pnode = nodes[0].getParentNode();
+				if(nodes[0].children==undefined){
+					$.ajax({  
+		                type: "POST",  
+		                url: "${basePath}depManage/remove/"+nodeId,
+		                async : false,  
+		                cache:false,  
+		                success:function(data){
+		                	alert(data);
+		                    refreshTree(pnode.id);
+		                }  
+         			});
+				}else{
+					alert("含有子部门，不能删除！");
+				}
+				
 	         });
 			$("#editBtn").click(function(){
-				var url = "${basePath}depInfo/"+treeNode.id;
-				$("#personDiv").load(url);
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var nodeId = nodes[0].id;
+				var url = "${basePath}depInfo/"+nodeId;
+				$("#depInfoFrame").attr("src",url);
 			});
 			
 			$("#upBtn").click(function(){
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				var nodes = zTree.getSelectedNodes();
+				if(nodes[0].isFirstNode){
+					alert("已经是第一个节点了！");
+					return false;
+				}
 				var nodeId = nodes[0].id;
 				$.ajax({  
 	                type: "POST",  
@@ -114,6 +135,10 @@ request.setAttribute("basePath", basePath);
 			$("#downBtn").click(function(){
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				var nodes = zTree.getSelectedNodes();
+				if(nodes[0].isLastNode){
+					alert("已经是最后一个节点了！");
+					return false;
+				}
 				var nodeId = nodes[0].id;
 				$.ajax({  
 	                type: "POST",  
