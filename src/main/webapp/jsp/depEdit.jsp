@@ -139,6 +139,7 @@ tr{
 			//$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 		});
 		$(function(){
+			//这里编码有问题，中文传到后台是乱码
 			$("#submitBtn").click(function(){
 				$.ajax({  
 	                type: "POST",  

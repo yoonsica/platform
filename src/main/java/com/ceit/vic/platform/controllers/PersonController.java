@@ -1,6 +1,9 @@
 package com.ceit.vic.platform.controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +31,15 @@ public class PersonController {
 	
 	@RequestMapping("/persons/{depId}")
 	@ResponseBody
-	public List<PersonDTO> persons(@PathVariable int depId){
+	public Map<String,Object> persons(@PathVariable int depId,int page,int rows){
 		logger.debug("depId:"+depId);
-		List<PersonDTO> list = personService.getPersonsByDepId(depId);
-		return list;
+		System.out.println(page+"**********************");
+		logger.debug("rows:"+rows);
+		int total = personService.getTotalPersonsByDepId(depId);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("total",total);
+		map.put("rows", personService.getPersonsByDepId(depId,page,rows));
+		//给total赋值
+		return map;
 	}
 }

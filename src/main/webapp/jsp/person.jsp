@@ -123,6 +123,9 @@ request.setAttribute("basePath", basePath);
 			});
 			var p = $('#test').datagrid('getPager');
 			$(p).pagination({
+				total:100,
+				pageSize:10,
+				
 				onBeforeRefresh:function(){
 					alert('before refresh');
 				}

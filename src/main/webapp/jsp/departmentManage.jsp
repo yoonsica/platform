@@ -157,14 +157,14 @@ request.setAttribute("basePath", basePath);
   
   <body>
   <div class="ceshi" style="position:relative;">
-  <div id="depMenuDiv" style="width: 300px;position:absolute;height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
+  <div id="depMenuDiv" style="width: 320px;position:absolute;height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
 		<a href="javascript:void(0)" id="addFolder" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
   		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
 		<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
 		<a href="javascript:void(0)" id="upBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >上调</a>
 		<a href="javascript:void(0)" id="downBtn" plain="true" class="easyui-linkbutton" iconCls="icon-down" >下调</a>
 	</div>
-  	<div id="treeDiv" style="width: 300px;height: 500px;overflow: scroll;position:absolute;top:30px;">
+  	<div id="treeDiv" style="width: 320px;height: 500px;overflow: scroll;position:absolute;top:37px;">
   		<ul id="treeDemo" class="ztree"></ul>
   	</div>
   	<div id="personDiv" style="position:absolute;left: 400px;height: 700px;width:700px;">

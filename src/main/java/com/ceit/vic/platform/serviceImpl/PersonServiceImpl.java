@@ -18,8 +18,11 @@ public class PersonServiceImpl implements PersonService {
 	@Autowired
 	DepartmentDao departmentDao;
 	@Override
-	public List<PersonDTO> getPersonsByDepId(int depId) {
-		List<Person> personList = depPersonDao.getPersonsByDepId(depId);
+	public List<PersonDTO> getPersonsByDepId(int depId,int page,int rows) {
+		int firstResult,maxResults;
+		firstResult = (page-1)*rows;
+		maxResults = rows;
+		List<Person> personList = depPersonDao.getPersonsByDepId(depId,firstResult,maxResults);
 		List<PersonDTO> dtoList = new ArrayList<PersonDTO>();
 		String departmentName = departmentDao.getDepartmentById(depId).getName();
 		for (Person person : personList) {
@@ -33,6 +36,10 @@ public class PersonServiceImpl implements PersonService {
 			dtoList.add(dto);
 		}
 		return dtoList;
+	}
+	@Override
+	public int getTotalPersonsByDepId(int depId) {
+		return depPersonDao.getTotalPersonByDepId(depId);
 	}
 
 }

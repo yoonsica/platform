@@ -18,13 +18,15 @@ public class DepPersonDaoImpl implements DepPersonDao{
 	private SessionFactory sf;
 
 	@Override
-	public List<Person> getPersonsByDepId(int depId) {
+	public List<Person> getPersonsByDepId(int depId,int firstResult,int maxResults) {
 		Query query = null;
 		StringBuffer sb = new StringBuffer("from Dep_Person t where t.depId=");
 		sb.append(depId).append(" order by t.personId");
 		List<Dep_Person> list=new ArrayList<Dep_Person>();
 		try {
 			query = sf.getCurrentSession().createQuery(sb.toString());
+			query.setFirstResult(firstResult);
+			query.setMaxResults(maxResults);
 			list = query.list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
@@ -45,5 +47,19 @@ public class DepPersonDaoImpl implements DepPersonDao{
 			}
 		}
 		return personList;
+	}
+
+	@Override
+	public int getTotalPersonByDepId(int depId) {
+		Query query = null;
+		StringBuffer sb = new StringBuffer("select count(*) from Dep_Person t where t.depId=");
+		sb.append(depId).append(" order by t.personId");
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());
+			return Integer.valueOf(query.uniqueResult().toString());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
 	}
 }
