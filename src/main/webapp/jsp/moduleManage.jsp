@@ -142,6 +142,7 @@ request.setAttribute("basePath", basePath);
 	                success:function(data){
 	                	alert(data);
 	                	refreshTree(nodeId);
+	                	window.parent.window.refreshWestDiv(null);
 	                	if(parentNode.id==1){
 	                		alert("更改了菜单项，菜单项将刷新");
 	                		window.parent.window.navInit();
@@ -163,6 +164,7 @@ request.setAttribute("basePath", basePath);
 	                success:function(data){
 	                	alert(data);
 	                	refreshTree(nodeId);
+	                	window.parent.window.refreshWestDiv(null);
 	                	if(parentNode.id==1){
 	                		alert("更改了菜单项，菜单项将刷新");
 	                		window.parent.window.navInit();

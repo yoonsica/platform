@@ -68,6 +68,7 @@ request.setAttribute("basePath", basePath);
 					iconCls:'icon-add',
 					handler:function(){
 						$('#btnsave').linkbutton('enable');
+						
 						alert('add');
 					}
 				},{
@@ -76,6 +77,10 @@ request.setAttribute("basePath", basePath);
 					iconCls:'icon-remove',
 					handler:function(){
 						$('#btndelete').linkbutton('enable');
+						var rows = $('#test').datagrid('getSelections');//获得选中行
+						for(var i=0; i<rows.length; i++){
+						    alert(rows[i].name);
+						}
 						alert('删除');
 					}
 				},'-',{
