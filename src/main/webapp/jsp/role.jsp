@@ -17,12 +17,35 @@ request.setAttribute("basePath", basePath);
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+		<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/icon.css">
 	<link rel="stylesheet" href="${basePath }static/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.core-3.5.js"></script>
 	<script type="text/javascript">
+	var setting = {
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+	   				beforeClick: beforeClick,
+	   				onClick: onClick
+	   			}
+			};
+	
+		function beforeClick(treeId, treeNode, clickFlag) {
+	
+		}
+		
+		function onClick(event, treeId, treeNode, clickFlag) {
+			var url = "${basePath}personByRoleId/"+treeNode.id;
+			$("#roleInfoFrame").attr("src",url);
+		}
+		
 		$(document).ready(function(){
 			$.ajax({  
                 type: "POST",  
@@ -33,32 +56,38 @@ request.setAttribute("basePath", basePath);
                 success:function(data){
                     $.fn.zTree.init($("#treeDemo"), setting, data);
                     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-                    var node = zTree.getNodeByParam("id", 1, null);
+                    var node = zTree.getNodeByParam("id", 0, null);
                     zTree.selectNode(node);
                     zTree.expandNode(node, true, true, true);
                 }  
          	});
+         	
+         	$("#editBtn").click(function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var nodeId = nodes[0].id;
+				var url = "${basePath}roleInfo/"+nodeId;
+				$("#roleInfoFrame").attr("src",url);
+			});
 		});
 	</script>
   </head>
   
   <body>
     <div class="ceshi" style="position:relative;">
-  	<div id="treeDiv" style="height: 500px;width: 200px;position:absolute;">
-  		<ul id="treeDemo" class="ztree">
-  		<!-- 显示角色树 -->
-  		</ul>
-  	</div>
-  	<div style="height: 620px;position:absolute;left: 270px;width:500px;">
-	  	<div id="menuDiv" style="display:none;height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
-	  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" style="display: none;">删除</a>
+    	<div id="roleMenuDiv" style="width: 320px;position:absolute;height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
+			<a href="javascript:void(0)" id="addBtn" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
+	  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
 			<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
-			<a href="javascript:void(0)" id="addBtn" plain="true" class="easyui-linkbutton" iconCls="icon-addFunction" >添加角色</a>
 		</div>
-	  	<div id="moduleInfoDiv" style="height: 600px;">
-	  		<iframe onload="test_onload()" id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="600px"></iframe>
-	  	</div>
-  	</div>
+	  	<div id="treeDiv" style="width: 320px;height: 500px;overflow: scroll;position:absolute;top:37px;">
+  			<ul id="treeDemo" class="ztree"></ul>
+  		</div>
+	  	<div id="personDiv" style="position:absolute;left: 400px;height: 700px;width:700px;">
+			<div id="roleInfoDiv" style="height: 600px;">
+		  		<iframe id="roleInfoFrame" name="roleInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="600px"></iframe>
+		  	</div>
+  		</div>
   	</div>
   </body>
 </html>

@@ -10,7 +10,7 @@ request.setAttribute("basePath", basePath);
   <head>
     <base href="<%=basePath%>">
     
-    <title>编辑部门</title>
+    <title>编辑角色</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -75,11 +75,13 @@ tr{
 		};
 
 		function beforeClick(treeId, treeNode) {
-			if(treeNode.id==4){return true};
-			if(treeNode.getParentNode().id=="${department.id }"){
+			if(treeNode.id==0){
+				return true;
+			}
+			if(treeNode.getParentNode().id=="${role.id }"){
 				alert("不能选则该部门下的子部门！");
 				return false;
-			}else if(treeNode.id=="${department.id }"){
+			}else if(treeNode.id=="${role.id }"){
 				alert("不能选则该部门本身！");
 				return false;
 			}else{
@@ -116,7 +118,7 @@ tr{
 		}
 
 		$(document).ready(function(){
-			if("${department.parentId }"==0){
+			if("${role.parentId }"==-1){
 				$("#parentRow").hide();
 			}
 			$("#parentSel").focus(function(){
@@ -124,14 +126,14 @@ tr{
 			});
 			$.ajax({  
                 type: "POST",  
-                url: "department",
+                url: "roleManage",
                 async : false,  
                 cache:false,  
                 dataType: "json",
                 success:function(data){
                     $.fn.zTree.init($("#treeDemo"), setting, data);
                     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-                    var node = zTree.getNodeByParam("id","${department.parentId }");
+                    var node = zTree.getNodeByParam("id","${role.parentId }");
                     $("#parentSel").attr("value",node.name);
                      zTree.selectNode(node);
             			zTree.expandNode(node, false, false, true);
@@ -140,36 +142,37 @@ tr{
 			//$.fn.zTree.init($("#treeDemo"), setting, zNodes);
 		});
 		$(function(){
+			//这里编码有问题，中文传到后台是乱码
 			$("#submitBtn").click(function(){
 				$.ajax({  
 	                type: "POST",  
-	                url: "depUpdate",
+	                url: "roleUpdate",
 	                contentType: "application/x-www-form-urlencoded; charset=utf-8",
-	                data:$("#depInfoForm").serialize(),
+	                data:$("#roleInfoForm").serialize(),
 	                async : false,  
 	                cache:false,  
 	                success:function(data){
 	                	//刷新整个页面
 	                	alert("更新成功！");
-        		        window.location.href = "${basePath}personByDepId/${department.id}";
+        		        window.location.href = "${basePath}personByDepId/${role.id}";
 	                	window.parent.window.refreshTree(null);//刷新树
 	                }  
 	         	});
 			});
 			$("#cancleBtn").click(function(){
-               	window.location.href = "${basePath}personByDepId/${department.id }";
+               	window.location.href = "${basePath}personByDepId/${role.id }";
 			});
 		})
 	</script>
   </head>
   <body style="margin: 0;padding: 0;">
     
-      <div id="depEditDiv" style="background:#fafafa;padding:10px;">
-  		<form id="depInfoForm" method="post" >
-            <input type="hidden" name="id"  value="${department.id }" ></input>
+      <div id="roleEditDiv" style="background:#fafafa;padding:10px;">
+  		<form id="roleInfoForm" method="post" >
+            <input type="hidden" name="id"  value="${role.id }" ></input>
             <table>
             	<tr>
-            		<td><label for="name">名称</label></td><td><input  type="text" name="name"  value="${department.name }" style="width: 172px;"/></td>
+            		<td><label for="name">名称</label></td><td><input  type="text" name="name"  value="${role.name }" style="width: 172px;"/></td>
             	</tr>
             	<tr id="parentRow">
             		<td><label for="parentSel">上级部门</label></td><td><input id="parentSel" type="text" readonly="readonly" value="" style="width: 172px;"/></td>
@@ -178,7 +181,7 @@ tr{
             		<td><div style="line-height: 60px;height: 60px;float:left;">
 	          	 			<label for="memo">备注</label>
 	        			</div</td>
-            		<td><textarea name="memo" style="height: 60px;width: 172px;"></textarea></td>
+            		<td><textarea name="memo" style="height: 60px;width: 172px;" > ${role.memo }</textarea></td>
             	</tr>
             	<tr>
             		<td><input type="button" value="确认" id="submitBtn"></td><td><input type="button" value="取消" id="cancleBtn"></td>
@@ -189,7 +192,7 @@ tr{
 <div id="menuContent" class="menuContent" style="display:none; position: absolute;">
 	<ul id="treeDemo" class="ztree" style="margin-top:0; width:160px;"></ul>
 </div>
-	            <input type="hidden" name="parentId" id="parentId" value="${department.parentId }"></input>
+	            <input type="hidden" name="parentId" id="parentId" value="${role.parentId }"></input>
 	    </form>
   		
   	</div>

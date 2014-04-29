@@ -2,6 +2,7 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+request.setAttribute("basePath", basePath);
 %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -106,9 +107,9 @@ tr{
 				hideMenu();
 			}
 		}
-
-		$(document).ready(function(){
-			$("#parentSel").focus(function(){
+		
+		$(function(){
+		$("#parentSel").focus(function(){
 				showMenu();
 			});
 			$.ajax({  
@@ -127,13 +128,11 @@ tr{
                     zTree.expandNode(node, false, false, true);
                 }  
          	});
-			//$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-		});
-		$(function(){
 			$("#submitBtn").click(function(){
 				$.ajax({  
 	                type: "POST",  
 	                url: "moduleUpdate",
+	                contentType: "application/x-www-form-urlencoded; charset=utf-8",
 	                data:$("#moduleInfoForm").serialize(),
 	                async : false,  
 	                cache:false,  
@@ -144,7 +143,8 @@ tr{
 	                	$("#moduleEditDiv").hide();
 	                	$("#infoTable").show();
 	                	window.location.reload(true);
-	                	window.parent.window.refreshTree(null);//刷新树
+	                	window.parent.window.refreshTree($("#id").val());//刷新树
+	                	window.parent.parent.window.refreshWestDiv(null);//刷新树
 	                }  
 	         	});
 			});
@@ -189,7 +189,7 @@ tr{
 	            <label for="name">名称</label>
 	            <input  type="text" name="name"  value="${moduleInfo.name }" style="width: 172px;"></input>
 	        </div>
-	        <div >
+	        <div>
 	            <label for="parent">类别</label>
 				<input id="parentSel" type="text" readonly="readonly" value="" style="width: 172px;"/>
 

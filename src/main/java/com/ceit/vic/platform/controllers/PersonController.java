@@ -1,8 +1,6 @@
 package com.ceit.vic.platform.controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ceit.vic.platform.models.PersonDTO;
 import com.ceit.vic.platform.service.PersonService;
 
 @Controller

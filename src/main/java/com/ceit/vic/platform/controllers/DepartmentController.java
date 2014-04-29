@@ -64,7 +64,7 @@ public class DepartmentController {
 		return "删除成功!";
 	}
 	
-	@RequestMapping("/depUpdate")
+	@RequestMapping(value="/depUpdate",produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String depUpdate(Department department){
 		departmentService.update(department);

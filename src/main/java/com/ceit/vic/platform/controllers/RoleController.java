@@ -1,9 +1,10 @@
 package com.ceit.vic.platform.controllers;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,33 +14,106 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ceit.vic.platform.models.PersonDTO;
-import com.ceit.vic.platform.service.PersonService;
+import com.ceit.vic.platform.models.Person;
+import com.ceit.vic.platform.models.Role;
+import com.ceit.vic.platform.models.ZTreeNode;
+import com.ceit.vic.platform.service.RoleService;
 
 @Controller
 public class RoleController {
 	static Logger logger = Logger.getLogger(RoleController.class);
 	@Autowired
-	PersonService personService;
-	@RequestMapping(value="/personByDepId/{depId}")
-	public ModelAndView personByDepId(@PathVariable String depId){
-		logger.debug("depId:"+depId);//暂时用来跳转到person.jsp，然后ajax获得json数据
-		ModelAndView mav = new ModelAndView("person");
-		mav.addObject("depId",depId);
+	RoleService roleService;
+	
+	@RequestMapping("roleManage")
+	@ResponseBody
+	public List<ZTreeNode> roleTree(){
+		return roleService.getRoleTree();
+	}
+	
+	/**
+	 * 跳转到编辑页面
+	 * @param roleId
+	 * @return
+	 */
+	@RequestMapping(value="/roleInfo/{roleId}")
+	public ModelAndView roleInfo(@PathVariable int roleId){
+		logger.debug("roleId"+roleId);
+		ModelAndView mav = new ModelAndView("roleEdit");
+		mav.addObject("role",roleService.getRoleById(roleId));
 		return mav;
 	}
 	
-	@RequestMapping("/persons/{depId}")
+	/**
+	 * 编辑，更新
+	 * @param role
+	 * @return
+	 */
+	@RequestMapping(value="/roleUpdate",produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public Map<String,Object> persons(@PathVariable int depId,int page,int rows){
-		logger.debug("depId:"+depId);
+	public String roleUpdate(Role role){
+		roleService.update(role);
+		return "更新成功！";
+	}
+	
+	/**
+	 * 删除
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping(value="/roleRemove/{id}",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String roleRemove(@PathVariable int id){
+		roleService.delete(id);
+		return "删除成功!";
+	}
+	
+	/**
+	 * 跳转到增加角色页面
+	 * @param parentId
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/toAddRole/{parentId}")
+	public ModelAndView toAddRole(@PathVariable int parentId,HttpServletRequest request){
+		System.out.println(parentId);
+		ModelAndView mav = new ModelAndView("addRole");
+		Role role = roleService.getRoleById(parentId);
+		mav.addObject("parentId",parentId);
+		mav.addObject("parentName",role.getName());
+		return mav;
+	}
+	/**
+	 * 增加角色
+	 * @param role
+	 * @return
+	 */
+	@RequestMapping("/roleManage/addRole")
+	@ResponseBody
+	public int addRole(Role role){
+		return roleService.add(role);
+	}
+	
+	@RequestMapping(value="/personByRoleId/{roleId}")
+	public ModelAndView personByDepId(@PathVariable String roleId){
+		ModelAndView mav = new ModelAndView("personByRole");
+		mav.addObject("roleId",roleId);
+		return mav;
+	}
+	
+	
+	@RequestMapping("/getPersonsByRoleId/{roleId}")
+	@ResponseBody
+	public Map<String,Object> persons(@PathVariable int roleId,int page,int rows){
+		logger.debug("depId:"+roleId);
 		System.out.println(page+"**********************");
 		logger.debug("rows:"+rows);
-		int total = personService.getTotalPersonsByDepId(depId);
+		int total = roleService.getPersonsAmountByRoleId(roleId);
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("total",total);
-		map.put("rows", personService.getPersonsByDepId(depId,page,rows));
-		//给total赋值
+		if (total>0) {
+			map.put("rows", roleService.getPersonsByRoleId(roleId, page, rows));
+		}
 		return map;
 	}
 }

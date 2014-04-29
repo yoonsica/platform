@@ -18,7 +18,7 @@ public class RoleDaoImpl implements RoleDao {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Role> getRolesTreeById(int id) {
+	public List<Role> getRolesTree() {
 		Query query = null;
 		StringBuffer sb = new StringBuffer("from Role t order by t.dispIndex");
 		try {

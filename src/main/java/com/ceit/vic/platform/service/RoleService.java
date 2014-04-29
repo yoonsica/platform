@@ -20,15 +20,23 @@ public interface RoleService {
 	@Transactional
 	public void delete(int id);
 	@Transactional
-	public void add(Role role);
-	
+	public int add(Role role);
+	@Transactional
 	public Role getRoleById(int id);
 	/**
 	 * 根据roleId获得该角色下的人员集合
 	 * @param roleId
 	 * @return
 	 */
-	public List<Person> getPersonsByRoleId(int roleId);
+	@Transactional
+	public List<Person> getPersonsByRoleId(int roleId,int page,int rows);
+	/**
+	 * 获取该角色下的人数
+	 * @param roleId
+	 * @return
+	 */
+	@Transactional
+	public int getPersonsAmountByRoleId(int roleId);
 	
 	
 }

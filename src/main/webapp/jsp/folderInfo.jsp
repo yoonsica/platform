@@ -2,6 +2,7 @@
 <%
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+request.setAttribute("basePath", basePath);
 %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -74,9 +75,17 @@ tr{
 		};
 
 		function beforeClick(treeId, treeNode) {
-			var check = (treeNode && !treeNode.isParent);
-			if (check) alert("链接节点不能作为父节点...");
-			return !check;
+			if(treeNode.id==1){return true};
+			if(treeNode.getParentNode().id=="${moduleInfo.id }"){
+				alert("不能选则该目录下的子节点！");
+				return false;
+			}else if(treeNode.id=="${moduleInfo.id }"){
+				alert("不能选则本身！");
+				return false;
+			}else if(!treeNode.isParent){
+				alert("链接节点不能作为父节点！");		
+			}
+			return true;
 		}
 		
 		function onClick(e, treeId, treeNode) {
@@ -118,7 +127,7 @@ tr{
                 cache:false,  
                 dataType: "json",
                 success:function(data){
-                    $.fn.zTree.init($("#treeDemo"), setting, data.childList);
+                    $.fn.zTree.init($("#treeDemo"), setting, data);
                     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
                     var node = zTree.getNodeByTId("${moduleInfo.parent }");
                     $("#parentSel").attr("value",node.name);
@@ -131,6 +140,7 @@ tr{
 				$.ajax({  
 	                type: "POST",  
 	                url: "moduleUpdate",
+                    contentType: "application/x-www-form-urlencoded; charset=utf-8",
 	                data:$("#moduleInfoForm").serialize(),
 	                async : false,  
 	                cache:false,  
@@ -141,7 +151,12 @@ tr{
 	                	$("#moduleEditDiv").hide();
 	                	$("#infoTable").show();
 	                	window.location.reload(true);
-	                	window.parent.window.refreshTree(null);//刷新树
+	                	window.parent.window.refreshTree("${moduleInfo.id }");//刷新树
+	                	window.parent.parent.window.refreshWestDiv(null);//刷新树
+	                	if($("#parent").attr("value")==1){
+	                		alert("刷新菜单项");
+	                		window.parent.parent.window.navInit();
+	                	}
 	                }  
 	         	});
 			});
@@ -217,7 +232,7 @@ tr{
 					</c:choose>
 	            </c:forEach>
 	        </div>
-	        <div style="margin-left: auto;margin-right: auto;TEXT-ALIGN: center;">
+	        <div style="clear: left;margin-left: auto;margin-right: auto;TEXT-ALIGN: center;">
 	            <input type="button" value="确认" id="submitBtn">
 	            <input type="button" value="取消" id="cancleBtn">
 	        </div>

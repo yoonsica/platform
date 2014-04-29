@@ -100,7 +100,7 @@ body {
 						</div>
 	            </c:forEach>
 	        </div>
-	        <div style="margin-left: auto;margin-right: auto;TEXT-ALIGN: center;">
+	        <div style="clear:left;margin-left: auto;margin-right: auto;TEXT-ALIGN: center;">
 	            <input type="button" value="确认" id="submitBtn">
 	            <input type="button" value="取消" id="cancleBtn">
 	        </div>
