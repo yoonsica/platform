@@ -9,4 +9,8 @@ public interface PersonDao {
 	public void delete(int id);
 	public void update(Person person);
 	public List<Person> getPersonsByIds(List<Integer> personIds);
+	public Person getPersonsById(int id);
+	public Person getPersonToDown(int depId, int dispIndex);
+	public Person getPersonToUp(int depId, int dispIndex);
+	public void multDelete(int[] idArray);
 }

@@ -37,6 +37,28 @@ public interface RoleService {
 	 */
 	@Transactional
 	public int getPersonsAmountByRoleId(int roleId);
+	/**
+	 * 取消指定人员的角色授权
+	 * @param roleId
+	 * @param personId
+	 */
+	@Transactional
+	public void canclePersonRole(int roleId, String[] personId);
+	
+	/**
+	 * 批量添加角色授权
+	 * @param roleId 角色id
+	 * @param idArray 人员id数组
+	 */
+	@Transactional
+	public void addPersonRole(int roleId, int[] idArray);
+	@Transactional
+	public List<Role> getAllRoles();
+	@Transactional
+	public int getRoleIdByPersonId(int personId);
+	
+	@Transactional
+	public void updateByPersonId(int id, int roleId);
 	
 	
 }

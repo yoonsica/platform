@@ -7,9 +7,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ceit.vic.platform.dao.DepPersonDao;
+import com.ceit.vic.platform.dao.Dep_PersonDao;
 import com.ceit.vic.platform.dao.DepartmentDao;
+import com.ceit.vic.platform.dao.IDPROVIDERDao;
+import com.ceit.vic.platform.dao.PersonDao;
+import com.ceit.vic.platform.dao.Person_RoleDao;
+import com.ceit.vic.platform.models.Dep_Person;
 import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.PersonDTO;
+import com.ceit.vic.platform.models.Person_Role;
 import com.ceit.vic.platform.service.PersonService;
 @Service
 public class PersonServiceImpl implements PersonService {
@@ -17,6 +23,14 @@ public class PersonServiceImpl implements PersonService {
 	DepPersonDao depPersonDao;
 	@Autowired
 	DepartmentDao departmentDao;
+	@Autowired
+	IDPROVIDERDao idproviderDao;
+	@Autowired
+	PersonDao personDao;
+	@Autowired
+	Person_RoleDao person_RoleDao;
+	@Autowired
+	Dep_PersonDao dep_PersonDao;
 	@Override
 	public List<PersonDTO> getPersonsByDepId(int depId,int page,int rows) {
 		int firstResult,maxResults;
@@ -40,6 +54,90 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public int getTotalPersonsByDepId(int depId) {
 		return depPersonDao.getTotalPersonByDepId(depId);
+	}
+	@Override
+	public void add(Person person, int roleId, int depId) {
+		//添加人员
+		int personId = idproviderDao.getCurrentId("PERSON");
+		person.setId(personId);
+		personDao.add(person);
+		idproviderDao.add("PERSON");
+		//添加人员角色关联
+		int personRoleId = idproviderDao.getCurrentId("PERSONROLE");
+		Person_Role person_Role = new Person_Role();
+		person_Role.setPersonId(personId);
+		person_Role.setRoleId(roleId);
+		person_Role.setId(personRoleId);
+		person_RoleDao.add(person_Role);
+		idproviderDao.add("PERSONROLE");
+		
+		//添加人员部门关联
+		int depPersonId = idproviderDao.getCurrentId("DEP_PERSON");
+		Dep_Person dep_Person = new Dep_Person();
+		dep_Person.setId(depPersonId);
+		dep_Person.setPersonId(person.getId());
+		dep_Person.setDepId(depId);
+		dep_Person.setMainDep(1);
+		dep_PersonDao.add(dep_Person);
+		idproviderDao.add("DEP_PERSON");
+		
+	}
+	@Override
+	public String up(int depId,int personId) {
+		Person person1 = personDao.getPersonsById(personId);
+		Person person2 = personDao.getPersonToDown(depId,person1.getDispIndex());
+		if (person2==null) {
+			return "已经是第一个了，无法上调！";
+		}
+		int tmp = person2.getDispIndex();
+		person2.setDispIndex(person1.getDispIndex());
+		person1.setDispIndex(tmp);
+		personDao.update(person1);
+		personDao.update(person2);
+		return "上调成功！";
+	}
+	@Override
+	public String down(int depId, int personId) {
+		Person person1 = personDao.getPersonsById(personId);
+		Person person2 = personDao.getPersonToUp(depId,person1.getDispIndex());
+		if (person2==null) {
+			return "已经是最后一个了，无法下调！";
+		}
+		int tmp = person2.getDispIndex();
+		person2.setDispIndex(person1.getDispIndex());
+		person1.setDispIndex(tmp);
+		personDao.update(person1);
+		personDao.update(person2);
+		return "上调成功！";
+	}
+	@Override
+	public Person getPersonById(int personId) {
+		return personDao.getPersonsById(personId);
+	}
+	@Override
+	public void update(Person person) {
+		personDao.update(person);
+	}
+	@Override
+	public void updateDepartment(int id, int depId) {
+		Dep_Person dep_Person =  depPersonDao.getByPersonId(id).get(0);
+		dep_Person.setDepId(depId);
+		dep_PersonDao.update(dep_Person);
+	}
+	@Override
+	public void delete(int[] idArray) {
+		personDao.multDelete(idArray);
+		
+	}
+	@Override
+	public void deleteDepPerson(int depId, int[] idArray) {
+		dep_PersonDao.deletePerson(depId,idArray);
+		
+	}
+	@Override
+	public void deletePersonRole(int[] idArray) {
+		person_RoleDao.deleteByPersonIds(idArray);
+		
 	}
 
 }

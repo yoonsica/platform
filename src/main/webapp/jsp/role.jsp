@@ -46,6 +46,26 @@ request.setAttribute("basePath", basePath);
 			$("#roleInfoFrame").attr("src",url);
 		}
 		
+		function refreshTree(nodeId){
+			$.ajax({  
+	               type: "POST",  
+	               url: "roleManage",
+	               async: false,  
+	               cache: false,  
+	               dataType: "json",
+	               success:function(data){
+	                   $.fn.zTree.init($("#treeDemo"), setting, data);
+	                   if(nodeId!=null){
+	                   	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+	                       var node = zTree.getNodeByParam("id", nodeId, null);
+	                       zTree.selectNode(node);
+	                       zTree.expandNode(node, false, false, true);
+	                       onClick(event, "treeDemo", node, 1);
+	                   }
+	               }  
+	        	});
+		}
+		
 		$(document).ready(function(){
 			$.ajax({  
                 type: "POST",  
@@ -69,6 +89,36 @@ request.setAttribute("basePath", basePath);
 				var url = "${basePath}roleInfo/"+nodeId;
 				$("#roleInfoFrame").attr("src",url);
 			});
+			
+			$("#addBtn").click(function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var nodeId = nodes[0].id;
+				var url = "${basePath}roleInfo/"+nodeId;
+				$("#roleInfoFrame").attr("src",url);
+			});
+			
+			$("#deleteBtn").click(function(){
+				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var nodes = zTree.getSelectedNodes();
+				var nodeId = nodes[0].id;
+				var pnode = nodes[0].getParentNode();
+				if(nodes[0].children==undefined){
+					$.ajax({  
+		                type: "POST",  
+		                url: "${basePath}roleRemove/"+nodeId,
+		                async : false,  
+		                cache:false,  
+		                success:function(data){
+		                	alert(data);
+		                    refreshTree(pnode.id);
+		                }  
+         			});
+				}else{
+					alert("含有子节点，不能删除！");
+				}
+				
+	         });
 		});
 	</script>
   </head>

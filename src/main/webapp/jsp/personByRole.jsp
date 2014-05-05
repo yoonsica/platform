@@ -68,20 +68,32 @@ request.setAttribute("basePath", basePath);
 					iconCls:'icon-add',
 					handler:function(){
 						$('#btnsave').linkbutton('enable');
-						
-						alert('add');
+						//与部门管理中人员列表里的授权功能重复
+						this.location.href="toAddPersonRole/{roleId}";
+						//alert('add');
 					}
 				},'-',{
 					id:'btndelete',
-					text:'删除',
+					text:'取消授权',
 					iconCls:'icon-remove',
 					handler:function(){
 						$('#btndelete').linkbutton('enable');
 						var rows = $('#test').datagrid('getSelections');//获得选中行
+						var idArray = new Array();
 						for(var i=0; i<rows.length; i++){
-						    alert(rows[i].name);
+						    idArray.push(rows[i].id);
 						}
-						alert('删除');
+						$.ajax({  
+			               type: "POST",  
+			               url: "cancleRole/${roleId}",
+			               data:"idArray="+idArray,
+			               async: false,  
+			               cache: false,  
+			               dataType: "json",
+			               success:function(data){
+			                   window.location.reload();
+			               }  
+	        			});
 					}
 				}
 				]

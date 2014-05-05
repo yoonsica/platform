@@ -42,6 +42,9 @@ request.setAttribute("basePath", basePath);
 	</style>
 	<script>
 		$(function(){
+			$("#backBtn").click(function(){
+				this.location.href = "role.jsp";
+			});
 			$('#test').datagrid({
 				title:'人员列表',
 				iconCls:'icon-save',
@@ -63,19 +66,12 @@ request.setAttribute("basePath", basePath);
 				rownumbers:true,
 				pagination:true,
 				toolbar:[{
-					id:'btnadd',
-					text:'添加',
-					iconCls:'icon-add',
+					id:'btnauthorize',
+					text:'授权角色',
+					iconCls:'icon-202',
 					handler:function(){
-						$('#btnsave').linkbutton('enable');
-						window.location.href = "${basePath}toAddPerson/${depId}";
-					}
-				},{
-					id:'btndelete',
-					text:'删除',
-					iconCls:'icon-remove',
-					handler:function(){
-						$('#btndelete').linkbutton('enable');
+						$('#btnauthorize').linkbutton('enable');
+						alert('授权角色');
 						var rows = $('#test').datagrid('getSelections');//获得选中行
 						var idArray = new Array();
 						for(var i=0; i<rows.length; i++){
@@ -83,92 +79,17 @@ request.setAttribute("basePath", basePath);
 						}
 						$.ajax({  
 			               type: "POST",  
-			               url: "deletePerson/${depId}",
+			               url: "addPersonRole/${roleId}",
 			               data:"idArray="+idArray,
 			               async: false,  
 			               cache: false,  
+			               dataType: "json",
 			               success:function(data){
-			               		alert(data);
-			               		window.location.href = "${basePath}personByDepId/${depId}";
+			                   alert(data);
 			               }  
 	        			});
 					}
-				},'-',{
-					id:'btnedit',
-					text:'编辑',
-					iconCls:'icon-edit',
-					handler:function(){
-						$('#btnedit').linkbutton('enable');
-						var rows = $('#test').datagrid('getSelections');//获得选中行
-						if(rows.length>1){
-							alert("不能同时编辑多个人员！");
-							return false;
-						}
-						window.location.href ="toEditPerson/${depId}/"+rows[0].id,
-					}
-				},{
-					id:'btnup',
-					text:'上调',
-					iconCls:'icon-up',
-					handler:function(){
-						$('#btnup').linkbutton('enable');
-						var rows = $('#test').datagrid('getSelections');//获得选中行
-						if(rows.length>1){
-							alert("不能同时上调多个人员！");
-							return false;
-						}
-						$.ajax({  
-			               type: "POST",  
-			               url: "upPerson/${depId}/"+rows[0].id,
-			               async: false,  
-			               cache: false,  
-			               success:function(data){
-			               		alert(data);
-			               		window.location.href = "${basePath}personByDepId/${depId}";
-			               }  
-	        			});
-					}
-				},{
-					id:'btndown',
-					text:'下调',
-					iconCls:'icon-down',
-					handler:function(){
-						$('#btndown').linkbutton('enable');
-						var rows = $('#test').datagrid('getSelections');//获得选中行
-						if(rows.length>1){
-							alert("不能同时下调多个人员！");
-							return false;
-						}
-						$.ajax({  
-			               type: "POST",  
-			               url: "downPerson/${depId}/"+rows[0].id,
-			               async: false,  
-			               cache: false,  
-			               success:function(data){
-			               		alert(data);
-			               		window.location.href = "${basePath}personByDepId/${depId}";
-			               }  
-	        			});
-					}
-				},{
-					id:'btnauthorize',
-					text:'授权角色',
-					iconCls:'icon-202',
-					handler:function(){
-						$('#btnauthorize').linkbutton('enable');
-						//添加时就已经授予了角色，这个功能包含在编辑里了，可以删除？
-						alert('授权角色');
-					}
-				},{
-					id:'btnresetPassword',
-					text:'密码重置',
-					iconCls:'icon-112',
-					handler:function(){
-						$('#btnresetPassword').linkbutton('enable');
-						alert('密码重置');
-					}
-				}
-				]
+				}]
 			});
 			var p = $('#test').datagrid('getPager');
 			$(p).pagination({
@@ -185,6 +106,6 @@ request.setAttribute("basePath", basePath);
   
   <body>
 	<table id="test"></table>
-	
+	<input type="button" id="backBtn" value="返回角色管理">
   </body>
 </html>

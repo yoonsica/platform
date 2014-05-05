@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.Role;
 import com.ceit.vic.platform.models.ZTreeNode;
 import com.ceit.vic.platform.service.RoleService;
@@ -115,5 +114,32 @@ public class RoleController {
 			map.put("rows", roleService.getPersonsByRoleId(roleId, page, rows));
 		}
 		return map;
+	}
+	
+	/**
+	 * 对person取消授权
+	 * @return
+	 */
+	@RequestMapping("/cancleRole/{roleId}")
+	@ResponseBody
+	public String canclePersonRole(@PathVariable int roleId,String[] idArray){
+		System.out.println(idArray);
+		roleService.canclePersonRole(roleId, idArray);
+		return "删除成功！";
+	}
+	
+	@RequestMapping("/toAddPersonRole/{roleId}")
+	public ModelAndView toAddPersonRole(@PathVariable int roleId){
+		ModelAndView mav = new ModelAndView("toAddPersonRole");
+		Role role = roleService.getRoleById(roleId);
+		mav.addObject("role",role);
+		return mav;
+	}
+	
+	@RequestMapping("/addPersonRole/{roleId}")
+	@ResponseBody
+	public String addPersonRole(@PathVariable int roleId,int[] idArray){
+		roleService.addPersonRole(roleId,idArray);
+		return "添加成功！";
 	}
 }

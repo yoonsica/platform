@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.PersonDTO;
 
 public interface PersonService {
@@ -18,4 +19,30 @@ public interface PersonService {
 	
 	@Transactional(readOnly=true)
 	public int getTotalPersonsByDepId(int depId);
+	/**
+	 * 添加人员
+	 * @param person
+	 * @param roleId 人员角色
+	 * @param depId 所属部门
+	 */
+	@Transactional
+	public void add(Person person, int roleId, int depId);
+	
+	@Transactional
+	public String up(int depId,int personId);
+	
+	@Transactional
+	public String down(int depId,int personId);
+	@Transactional
+	public Person getPersonById(int personId);
+	@Transactional
+	public void update(Person person);
+	@Transactional
+	public void updateDepartment(int id, int depId);
+	@Transactional
+	public void delete(int[] idArray);
+	@Transactional
+	public void deleteDepPerson(int depId, int[] idArray);
+	@Transactional
+	public void deletePersonRole(int[] idArray);
 }

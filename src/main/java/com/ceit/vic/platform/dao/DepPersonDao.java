@@ -1,6 +1,8 @@
 package com.ceit.vic.platform.dao;
 
 import java.util.List;
+
+import com.ceit.vic.platform.models.Dep_Person;
 import com.ceit.vic.platform.models.Person;
 
 public interface DepPersonDao {
@@ -11,4 +13,5 @@ public interface DepPersonDao {
 	 * @return
 	 */
 	public int getTotalPersonByDepId(int depId);
+	public List<Dep_Person> getByPersonId(int personId);
 }

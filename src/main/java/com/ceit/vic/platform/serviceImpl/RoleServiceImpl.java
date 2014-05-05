@@ -11,6 +11,7 @@ import com.ceit.vic.platform.dao.PersonDao;
 import com.ceit.vic.platform.dao.Person_RoleDao;
 import com.ceit.vic.platform.dao.RoleDao;
 import com.ceit.vic.platform.models.Person;
+import com.ceit.vic.platform.models.Person_Role;
 import com.ceit.vic.platform.models.Role;
 import com.ceit.vic.platform.models.ZTreeNode;
 import com.ceit.vic.platform.service.RoleService;
@@ -69,6 +70,38 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public int getPersonsAmountByRoleId(int roleId) {
 		return person_RoleDao.getPersonAmountByRoleId(roleId);
+	}
+	@Override
+	public void canclePersonRole(int roleId, String[] personId) {
+		person_RoleDao.removeByRoleIdPersonId(roleId,personId);
+		
+	}
+	@Override
+	public void addPersonRole(int roleId, int[] idArray) {
+		for (int personId : idArray) {
+			if(person_RoleDao.getPersonRole(roleId,personId).size()==1){
+				int id = idproviderDao.getCurrentId("PERSONROLE");
+				Person_Role person_Role = new Person_Role();
+				person_Role.setPersonId(personId);
+				person_Role.setRoleId(roleId);
+				person_Role.setId(id);
+				person_RoleDao.add(person_Role);
+				idproviderDao.add("PERSONROLE");
+			}
+		}
+	}
+	@Override
+	public List<Role> getAllRoles() {
+		return roleDao.getRolesTree();
+	}
+	@Override
+	public int getRoleIdByPersonId(int personId) {
+		return person_RoleDao.getPersonRoleByPersonId(personId).getRoleId();
+	}
+	@Override
+	public void updateByPersonId(int id, int roleId) {
+		person_RoleDao.updateByPersonId(id,roleId);
+		
 	}
 
 }
