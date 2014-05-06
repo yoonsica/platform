@@ -87,7 +87,7 @@ public class RoleController {
 	 * @param role
 	 * @return
 	 */
-	@RequestMapping("/roleManage/addRole")
+	@RequestMapping("/addRole")
 	@ResponseBody
 	public int addRole(Role role){
 		return roleService.add(role);

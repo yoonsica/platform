@@ -13,6 +13,14 @@ public class Role {
 	private String name;
 	private String memo;
 	private int dispIndex;
+	private int isFolder;//0-角色，1--目录
+	
+	public int getIsFolder() {
+		return isFolder;
+	}
+	public void setIsFolder(int isFolder) {
+		this.isFolder = isFolder;
+	}
 	public int getId() {
 		return id;
 	}

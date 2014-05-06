@@ -104,7 +104,7 @@ request.setAttribute("basePath", basePath);
 							alert("不能同时编辑多个人员！");
 							return false;
 						}
-						window.location.href ="toEditPerson/${depId}/"+rows[0].id,
+						window.location.href ="${basePath}toEditPerson/${depId}/"+rows[0].id;
 					}
 				},{
 					id:'btnup',
@@ -174,7 +174,6 @@ request.setAttribute("basePath", basePath);
 			$(p).pagination({
 				total:100,
 				pageSize:10,
-				
 				onBeforeRefresh:function(){
 					alert('before refresh');
 				}

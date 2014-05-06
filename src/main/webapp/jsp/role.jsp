@@ -94,7 +94,11 @@ request.setAttribute("basePath", basePath);
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				var nodes = zTree.getSelectedNodes();
 				var nodeId = nodes[0].id;
-				var url = "${basePath}roleInfo/"+nodeId;
+				if(!nodes[0].isParent){
+					alert("请选择目录节点作为父节点!");
+					return false;
+				}
+				var url = "${basePath}toAddRole/"+nodeId;
 				$("#roleInfoFrame").attr("src",url);
 			});
 			

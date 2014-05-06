@@ -6,11 +6,16 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ceit.vic.platform.dao.Dep_PersonDao;
+import com.ceit.vic.platform.dao.DepartmentDao;
 import com.ceit.vic.platform.dao.IDPROVIDERDao;
 import com.ceit.vic.platform.dao.PersonDao;
 import com.ceit.vic.platform.dao.Person_RoleDao;
 import com.ceit.vic.platform.dao.RoleDao;
+import com.ceit.vic.platform.models.Dep_Person;
+import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.Person;
+import com.ceit.vic.platform.models.PersonDTO;
 import com.ceit.vic.platform.models.Person_Role;
 import com.ceit.vic.platform.models.Role;
 import com.ceit.vic.platform.models.ZTreeNode;
@@ -22,6 +27,10 @@ public class RoleServiceImpl implements RoleService {
 	@Autowired
 	IDPROVIDERDao idproviderDao;
 	@Autowired
+	DepartmentDao departmentDao;
+	@Autowired
+	Dep_PersonDao dep_PersonDao;
+	@Autowired
 	Person_RoleDao person_RoleDao;
 	@Autowired
 	PersonDao personDao;
@@ -31,6 +40,11 @@ public class RoleServiceImpl implements RoleService {
 		List<ZTreeNode> nodeList = new ArrayList<ZTreeNode>();
 		for (Role role : roleList) {
 			ZTreeNode node = new ZTreeNode();
+			if (role.getIsFolder()==1) {
+				node.setIsParent("true");
+			}else {
+				node.setIsParent("false");
+			}
 			node.setId(role.getId());
 			node.setpId(role.getParentId());
 			node.setName(role.getName());
@@ -60,12 +74,24 @@ public class RoleServiceImpl implements RoleService {
 		return roleDao.getRoleById(id);
 	}
 	@Override
-	public List<Person> getPersonsByRoleId(int roleId,int page,int rows) {
+	public List<PersonDTO> getPersonsByRoleId(int roleId,int page,int rows) {
 		int firstResult,maxResults;
 		firstResult = (page-1)*rows;
 		maxResults = rows;
 		List<Integer> personIds = person_RoleDao.getPersonIdsByRoleId(roleId,firstResult,maxResults);
-		return personDao.getPersonsByIds(personIds);
+		List<Person> list1 =  personDao.getPersonsByIds(personIds);
+		List<PersonDTO> list2 = new ArrayList<PersonDTO>();
+		for (Person person : list1) {
+			PersonDTO dto = new PersonDTO();
+			dto.setId(person.getId());
+			Dep_Person dep_Person = dep_PersonDao.getByPersonId(person.getId());
+			dto.setDepartmentName(departmentDao.getDepartmentById(dep_Person.getDepId()).getName());
+			dto.setState(person.getState().equals("0")?"启用":"停用");
+			dto.setMemo(person.getMemo());
+			dto.setName(person.getName());
+			list2.add(dto);
+		}
+		return list2;
 	}
 	@Override
 	public int getPersonsAmountByRoleId(int roleId) {
@@ -79,7 +105,7 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public void addPersonRole(int roleId, int[] idArray) {
 		for (int personId : idArray) {
-			if(person_RoleDao.getPersonRole(roleId,personId).size()==1){
+			if(person_RoleDao.getPersonRole(roleId,personId).size()!=1){
 				int id = idproviderDao.getCurrentId("PERSONROLE");
 				Person_Role person_Role = new Person_Role();
 				person_Role.setPersonId(personId);

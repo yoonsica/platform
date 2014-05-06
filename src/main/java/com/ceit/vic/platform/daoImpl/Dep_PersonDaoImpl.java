@@ -54,4 +54,16 @@ public class Dep_PersonDaoImpl implements Dep_PersonDao  {
 		}
 	}
 
+	@Override
+	public Dep_Person getByPersonId(int id) {
+		Query query = null;
+		try {
+			query = sf.getCurrentSession().createQuery("from Dep_Person t where t.personId = "+id+" and t.mainDep=1");
+			return (Dep_Person) query.uniqueResult();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+
 }

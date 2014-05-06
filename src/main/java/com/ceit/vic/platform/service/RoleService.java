@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ceit.vic.platform.models.Person;
+import com.ceit.vic.platform.models.PersonDTO;
 import com.ceit.vic.platform.models.Role;
 import com.ceit.vic.platform.models.ZTreeNode;
 
@@ -29,7 +30,7 @@ public interface RoleService {
 	 * @return
 	 */
 	@Transactional
-	public List<Person> getPersonsByRoleId(int roleId,int page,int rows);
+	public List<PersonDTO> getPersonsByRoleId(int roleId,int page,int rows);
 	/**
 	 * 获取该角色下的人数
 	 * @param roleId

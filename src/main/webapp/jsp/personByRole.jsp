@@ -46,7 +46,7 @@ request.setAttribute("basePath", basePath);
 				title:'人员列表',
 				iconCls:'icon-save',
 				width:600,
-				height:'auto',
+				height:'522',
 				fitColumns: true,
 				url:"getPersonsByRoleId/${roleId}",
 				frozenColumns:[[
@@ -69,7 +69,7 @@ request.setAttribute("basePath", basePath);
 					handler:function(){
 						$('#btnsave').linkbutton('enable');
 						//与部门管理中人员列表里的授权功能重复
-						this.location.href="toAddPersonRole/{roleId}";
+						window.parent.location.href="${basePath}toAddPersonRole/${roleId}";
 						//alert('add');
 					}
 				},'-',{

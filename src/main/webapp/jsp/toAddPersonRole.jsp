@@ -23,6 +23,25 @@ request.setAttribute("basePath", basePath);
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.core-3.5.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
+  	<style type="text/css">
+		body {
+	FONT-SIZE: 12px;
+	BACKGROUND: #FFFFFF; 
+	SCROLLBAR-FACE-COLOR: #bfebd2; 
+    SCROLLBAR-HIGHLIGHT-COLOR: #94dc94; 
+   SCROLLBAR-SHADOW-COLOR: #ade2c6; 
+   SCROLLBAR-3DLIGHT-COLOR: #ade2c6; 
+   SCROLLBAR-ARROW-COLOR: #73a790; 
+   SCROLLBAR-TRACK-COLOR: #e9efeb; 
+   SCROLLBAR-DARKSHADOW-COLOR: #8ac7a4; 
+   SCROLLBAR-BASE-COLOR: #168a16; 
+  FONT-FAMILY: "����", "Verdana", "Arial";
+	margin-top: 0px; 
+	margin-left: 2px; 
+	margin-right: 0px; 
+	overflow-y: auto
+}
+	</style>
   	<script type="text/javascript">
 	  	var setting = {
 				data: {
@@ -41,7 +60,6 @@ request.setAttribute("basePath", basePath);
 		
 		function onClick(event, treeId, treeNode, clickFlag) {
 			var url = "${basePath}personByDepIdRoleId/"+treeNode.id+"/${role.id}";
-			alert(url);
 			$("#depInfoFrame").attr("src",url);
 		}
 		
@@ -63,12 +81,12 @@ request.setAttribute("basePath", basePath);
   
   <body>
   <div class="ceshi" style="position:relative;">
-  	<div id="treeDiv" style="width: 320px;height: 500px;overflow: scroll;position:absolute;top:37px;">
+  	<div id="treeDiv" style="width: 320px;height: 500px;overflow: scroll;position:absolute;top:5px;">
   		<ul id="treeDemo" class="ztree"></ul>
   	</div>
   	<div id="personDiv" style="position:absolute;left: 400px;height: 700px;width:700px;">
-		给${role.name }添加人员
-		<div id="depInfoDiv" style="height: 600px;">
+		<div style="width:700px;font-size: 20px;font-weight: bold;text-align: center;">给${role.name }添加人员</div>
+		<div id="depInfoDiv" style="height: 600px;width:700px;">
 	  		<iframe id="depInfoFrame" name="depInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="600px"></iframe>
 	  	</div>
   	</div>

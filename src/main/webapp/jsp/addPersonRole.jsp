@@ -43,13 +43,12 @@ request.setAttribute("basePath", basePath);
 	<script>
 		$(function(){
 			$("#backBtn").click(function(){
-				this.location.href = "role.jsp";
+				window.parent.location.href = "${basePath}jsp/role.jsp";
 			});
 			$('#test').datagrid({
 				title:'人员列表',
 				iconCls:'icon-save',
 				width:600,
-				height:'auto',
 				fitColumns: true,
 				url:"persons/${depId}",
 				frozenColumns:[[
@@ -80,10 +79,10 @@ request.setAttribute("basePath", basePath);
 						$.ajax({  
 			               type: "POST",  
 			               url: "addPersonRole/${roleId}",
+        	               contentType: "application/x-www-form-urlencoded; charset=utf-8",
 			               data:"idArray="+idArray,
 			               async: false,  
 			               cache: false,  
-			               dataType: "json",
 			               success:function(data){
 			                   alert(data);
 			               }  
@@ -104,8 +103,14 @@ request.setAttribute("basePath", basePath);
 	</script>
   </head>
   
-  <body>
-	<table id="test"></table>
-	<input type="button" id="backBtn" value="返回角色管理">
+  <body class="easyui-layout">
+  	<div region="center" style="padding:5px;" border="false">
+  
+  	<table>
+  		<tr><td><table id="test"></table></td></tr>
+  		<tr><td align="center"><input type="button" id="backBtn" value="返回角色管理"></td></tr>
+  	</table>
+  	</div>
+  	
   </body>
 </html>
