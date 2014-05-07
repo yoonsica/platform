@@ -16,7 +16,7 @@ public class IDPROVIDERDaoImpl implements IDPROVIDERDao {
 	@Override
 	public int getCurrentId(String tableName) {
 		Query query = sf.getCurrentSession().createQuery("select t.id from IDPROVIDER t where t.name='"+tableName+"'");
-		return (int) query.uniqueResult();
+		return Integer.parseInt((String) query.uniqueResult());
 	}
 
 	@Override
