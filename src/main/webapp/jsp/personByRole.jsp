@@ -86,11 +86,12 @@ request.setAttribute("basePath", basePath);
 						$.ajax({  
 			               type: "POST",  
 			               url: "cancleRole/${roleId}",
+		               	   contentType: "application/x-www-form-urlencoded; charset=utf-8",
 			               data:"idArray="+idArray,
 			               async: false,  
 			               cache: false,  
-			               dataType: "json",
 			               success:function(data){
+			               	alert(data);
 			                   window.location.reload();
 			               }  
 	        			});

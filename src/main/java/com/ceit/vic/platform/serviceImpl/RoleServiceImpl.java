@@ -84,6 +84,7 @@ public class RoleServiceImpl implements RoleService {
 		for (Person person : list1) {
 			PersonDTO dto = new PersonDTO();
 			dto.setId(person.getId());
+			dto.setCode(person.getCode());
 			Dep_Person dep_Person = dep_PersonDao.getByPersonId(person.getId());
 			dto.setDepartmentName(departmentDao.getDepartmentById(dep_Person.getDepId()).getName());
 			dto.setState(person.getState().equals("0")?"启用":"停用");

@@ -48,9 +48,9 @@ public class Person_RoleDaoImpl implements Person_RoleDao{
 	public List<Person_Role> getPersonRoleByIds(int roleId,String[] personId){
 		Query query = null;
 		StringBuffer sb = new StringBuffer("from Person_Role t where t.roleId=");
-		sb.append(roleId).append("and t.personId in(");
+		sb.append(roleId).append(" and t.personId in(");
 		for (String id : personId) {
-			sb.append(id);
+			sb.append(id).append(",");
 		}
 		sb = new StringBuffer(sb.substring(0,sb.length()-1));
 		sb.append(")");

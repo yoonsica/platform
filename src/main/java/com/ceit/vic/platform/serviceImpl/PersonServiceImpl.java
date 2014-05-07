@@ -1,6 +1,7 @@
 package com.ceit.vic.platform.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,7 +138,14 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public void deletePersonRole(int[] idArray) {
 		person_RoleDao.deleteByPersonIds(idArray);
-		
+	}
+	@Override
+	public List<Person> getPersonsByIds(int[] idArray) {
+		List<Integer> list = new ArrayList<Integer>();
+		for (int id : idArray) {
+			list.add(id);
+		}
+		return personDao.getPersonsByIds(list);
 	}
 
 }
