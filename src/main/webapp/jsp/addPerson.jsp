@@ -82,14 +82,6 @@ body {
   					<td><label for="state">状态</label></td><td><input type="radio" name="state" checked="checked" value="0"/>正常 <input type="radio" name="sex" value="1"/>停用  </td>
   				</tr>
   				<tr>
-  					<td><label for="roleId">角色</label></td>
-  					<td><select name="roleId">
-  						<c:forEach items="${roleList }" var="role">
-  							<option value="${role.id }">${role.name }</option>
-  						</c:forEach>
-  						</select> </td>
-  				</tr>
-  				<tr>
   					<td>
   						<div style="line-height: 60px;height: 60px;float:left;">
 	          	 			<label for="memo">备注</label>

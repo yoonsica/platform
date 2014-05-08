@@ -120,12 +120,12 @@ public class RoleController {
 	 * 对person取消授权
 	 * @return
 	 */
-	@RequestMapping("/cancleRole/{roleId}")
+	@RequestMapping(value="/cancleRole/{roleId}",produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String canclePersonRole(@PathVariable int roleId,String[] idArray){
 		System.out.println(idArray);
 		roleService.canclePersonRole(roleId, idArray);
-		return "删除成功！";
+		return "取消授权成功！";
 	}
 	
 	@RequestMapping("/toAddPersonRole/{roleId}")
@@ -136,10 +136,12 @@ public class RoleController {
 		return mav;
 	}
 	
-	@RequestMapping("/addPersonRole/{roleId}")
+	@RequestMapping(value="/addPersonRole/{roleId}", produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String addPersonRole(@PathVariable int roleId,int[] idArray){
-		roleService.addPersonRole(roleId,idArray);
+		int[] roleIds = new int[1];
+		roleIds[0] = roleId;
+		roleService.addPersonRole(roleIds,idArray);
 		return "添加成功！";
 	}
 }

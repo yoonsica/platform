@@ -84,6 +84,7 @@ public class RoleServiceImpl implements RoleService {
 		for (Person person : list1) {
 			PersonDTO dto = new PersonDTO();
 			dto.setId(person.getId());
+			dto.setCode(person.getCode());
 			Dep_Person dep_Person = dep_PersonDao.getByPersonId(person.getId());
 			dto.setDepartmentName(departmentDao.getDepartmentById(dep_Person.getDepId()).getName());
 			dto.setState(person.getState().equals("0")?"启用":"停用");
@@ -103,18 +104,21 @@ public class RoleServiceImpl implements RoleService {
 		
 	}
 	@Override
-	public void addPersonRole(int roleId, int[] idArray) {
-		for (int personId : idArray) {
-			if(person_RoleDao.getPersonRole(roleId,personId).size()!=1){
-				int id = idproviderDao.getCurrentId("PERSONROLE");
-				Person_Role person_Role = new Person_Role();
-				person_Role.setPersonId(personId);
-				person_Role.setRoleId(roleId);
-				person_Role.setId(id);
-				person_RoleDao.add(person_Role);
-				idproviderDao.add("PERSONROLE");
+	public void addPersonRole(int[] roleIds, int[] idArray) {
+		for (int roleId : roleIds) {
+			for (int personId : idArray) {
+				if(person_RoleDao.getPersonRole(roleId,personId).size()!=1){
+					int id = idproviderDao.getCurrentId("PERSONROLE");
+					Person_Role person_Role = new Person_Role();
+					person_Role.setPersonId(personId);
+					person_Role.setRoleId(roleId);
+					person_Role.setId(id);
+					person_RoleDao.add(person_Role);
+					idproviderDao.add("PERSONROLE");
+				}
 			}
 		}
+		
 	}
 	@Override
 	public List<Role> getAllRoles() {

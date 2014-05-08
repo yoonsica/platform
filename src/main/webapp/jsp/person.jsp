@@ -156,8 +156,12 @@ request.setAttribute("basePath", basePath);
 					iconCls:'icon-202',
 					handler:function(){
 						$('#btnauthorize').linkbutton('enable');
-						//添加时就已经授予了角色，这个功能包含在编辑里了，可以删除？
-						alert('授权角色');
+						var rows = $('#test').datagrid('getSelections');//获得选中行
+						var idArray = new Array();
+						for(var i=0; i<rows.length; i++){
+						    idArray.push(rows[i].id);
+						}
+						window.parent.location.href = "${basePath}person/toAuthorizeRole?idArray="+idArray;
 					}
 				},{
 					id:'btnresetPassword',

@@ -45,4 +45,6 @@ public interface PersonService {
 	public void deleteDepPerson(int depId, int[] idArray);
 	@Transactional
 	public void deletePersonRole(int[] idArray);
+	@Transactional
+	public List<Person> getPersonsByIds(int[] idArray);
 }

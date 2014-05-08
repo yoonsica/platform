@@ -66,8 +66,6 @@ public class PersonController {
 	public ModelAndView toAddPerson(@PathVariable int depId){
 		ModelAndView mav = new ModelAndView("addPerson");
 		Department department = departmentService.getDepartmentById(depId);
-		List<Role> roleList = roleService.getAllRoles();
-		mav.addObject("roleList",roleList);
 		mav.addObject("department",department);
 		return mav;
 	}
@@ -75,7 +73,6 @@ public class PersonController {
 	@RequestMapping("/addPerson")
 	@ResponseBody
 	public String addPerson(HttpServletRequest request){
-		int roleId = Integer.valueOf(request.getParameter("roleId"));
 		int depId = Integer.valueOf(request.getParameter("depId"));
 		Person person = new Person();
 		person.setCode(request.getParameter("code"));
@@ -83,7 +80,7 @@ public class PersonController {
 		person.setSex(request.getParameter("sex"));
 		person.setState(request.getParameter("state"));
 		person.setMemo(request.getParameter("memo"));
-		personService.add(person,roleId,depId);
+		personService.add(person,-1,depId);
 		return "添加成功！";
 	}
 	
@@ -131,12 +128,37 @@ public class PersonController {
 		return "编辑成功！";
 	}
 	
-	@RequestMapping("deletePerson/{depId}")
+	@RequestMapping("/deletePerson/{depId}")
 	@ResponseBody
 	public String deletePerson(@PathVariable int depId,int[] idArray){
 		personService.delete(idArray);
 		personService.deleteDepPerson(depId,idArray);
 		personService.deletePersonRole(idArray);
 		return "删除成功！";
+	}
+	
+	@RequestMapping("/person/toAuthorizeRole")
+	public ModelAndView toAuthorizeRole(int[] idArray){
+		List<Person> personList = personService.getPersonsByIds(idArray);
+		ModelAndView mav = new ModelAndView("toAuthorizeRole");
+		mav.addObject("personList",personList);
+		return mav;
+	}
+	
+	@RequestMapping(value="/authorizeRole",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String authorizeRole(int[] roleIds,String personIds){
+		System.out.println(roleIds);
+		if (personIds!=null) {
+			String[] idStrings = personIds.split(",");
+			int[] persons = new int[idStrings.length];
+			for (int i = 0; i < idStrings.length; i++) {
+				persons[i] = Integer.valueOf(idStrings[i]).intValue();
+			}
+			roleService.addPersonRole(roleIds, persons);
+			return "添加成功！";
+		}
+		
+		return null;
 	}
 }
