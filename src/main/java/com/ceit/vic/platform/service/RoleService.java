@@ -48,11 +48,11 @@ public interface RoleService {
 	
 	/**
 	 * 批量添加角色授权
-	 * @param roleId 角色id
+	 * @param roleId 角色id数组
 	 * @param idArray 人员id数组
 	 */
 	@Transactional
-	public void addPersonRole(int roleId, int[] idArray);
+	public void addPersonRole(int[] roleId, int[] idArray);
 	@Transactional
 	public List<Role> getAllRoles();
 	@Transactional

@@ -139,7 +139,9 @@ public class RoleController {
 	@RequestMapping(value="/addPersonRole/{roleId}", produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String addPersonRole(@PathVariable int roleId,int[] idArray){
-		roleService.addPersonRole(roleId,idArray);
+		int[] roleIds = new int[1];
+		roleIds[0] = roleId;
+		roleService.addPersonRole(roleIds,idArray);
 		return "添加成功！";
 	}
 }

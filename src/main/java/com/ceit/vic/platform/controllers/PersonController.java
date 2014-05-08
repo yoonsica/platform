@@ -145,10 +145,19 @@ public class PersonController {
 		return mav;
 	}
 	
-	@RequestMapping("/authorizeRole")
+	@RequestMapping(value="/authorizeRole",produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String authorizeRole(int[] roleIds,List<Person> personIds){
+	public String authorizeRole(int[] roleIds,String personIds){
 		System.out.println(roleIds);
+		if (personIds!=null) {
+			String[] idStrings = personIds.split(",");
+			int[] persons = new int[idStrings.length];
+			for (int i = 0; i < idStrings.length; i++) {
+				persons[i] = Integer.valueOf(idStrings[i]).intValue();
+			}
+			roleService.addPersonRole(roleIds, persons);
+			return "添加成功！";
+		}
 		
 		return null;
 	}

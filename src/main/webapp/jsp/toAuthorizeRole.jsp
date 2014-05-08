@@ -74,26 +74,18 @@ request.setAttribute("basePath", basePath);
 		
 		$(document).ready(function(){
 			$("#confirmBtn").click(function(){
-				var rows = $('#test').datagrid('getSelections');//获得选中行
+				var rows = $('#test').datagrid('selectAll');//获得选中行
 				var idArray = new Array();
 				for(var i=0; i<rows.length; i++){
 				    idArray.push(rows[i].id);
 				}
-				$.each("${requestScope.personList}",function(i,val){
-					alert(val.name);
-				});
-				$.ajax({  
-	                type: "POST",  
-	                url: "authorizeRole",
-	                data:"roleIds="+idArray+"&personIds=${personList}",
-	                async : false,  
-	                cache:false,  
-	                success:function(data){
-	                	alert(data);
-	                }  
-	         	});
+				alert(idArray);
+				
 			});
-			$("#cancleBtn").click(function(){});
+			$("#cancleBtn").click(function(){
+				//返回部门管理
+				window.location.href = "${basePath}jsp/departmentManage.jsp";
+			});
 			$.ajax({  
                 type: "POST",  
                 url: "roleManage",
@@ -150,11 +142,14 @@ request.setAttribute("basePath", basePath);
 			为<c:forEach items="${personList }" var="person" end="3">
 				${person.name }、	
 			</c:forEach>等${fn:length(personList) }个人选择角色
+			<span id="personIds"><c:forEach items="${personList }" var="person" end="3">${person.id },</c:forEach></span>
 		</div>
 		<div id="depInfoDiv" style="height: 600px;width:700px;">
 		<table id="test"></table>
-		<input type="button" id="confirmBtn" value="确定"/>
-		<input type="button" id="cancleBtn" value="取消"/>
+	  	</div>
+	  	<div style="width:700px;text-align: center;">
+	  		<a href="javascript:void(0);" id="confirmBtn" class="easyui-linkbutton" iconCls="icon-ok">Ok</a>
+	  		<a href="javascript:void(0);" id="cancleBtn" class="easyui-linkbutton" iconCls="icon-cancel">Cancel</a>
 	  	</div>
   	</div>
     </div>
