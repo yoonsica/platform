@@ -158,7 +158,13 @@ public class PersonController {
 			roleService.addPersonRole(roleIds, persons);
 			return "添加成功！";
 		}
-		
 		return null;
+	}
+	
+	@RequestMapping(value="/resetPassword",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String authorizeRole(int[] idArray){
+		personService.resetPassword(idArray);
+		return "密码已经重置为用户名";
 	}
 }

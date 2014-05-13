@@ -5,8 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ceit.vic.platform.dao.DepartmentDao;
 import com.ceit.vic.platform.dao.IDPROVIDERDao;
+import com.ceit.vic.platform.dao.ResAccessDao;
 import com.ceit.vic.platform.dao.ResourcesDao;
+import com.ceit.vic.platform.models.DepDTO;
+import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
 import com.ceit.vic.platform.models.Resources;
@@ -18,6 +22,10 @@ public class ResourcesServiceImpl implements ResourcesService {
 	ResourcesDao resourcesDao;
 	@Autowired
 	IDPROVIDERDao idproviderDao;
+	@Autowired
+	ResAccessDao resAccessDao;
+	@Autowired 
+	DepartmentDao departmentDao;
 	@Override
 	public List<NavItem> getNavItems() {
 		List<Resources> rsList = resourcesDao.getNavResources();
@@ -127,7 +135,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 		resources.setIcon(moduleInfo.getIcon());
 		resources.setName(moduleInfo.getName());
 		resources.setParentId(Integer.valueOf(moduleInfo.getParent()));
-		resources.setType(0+"");
+		resources.setType(moduleInfo.getType()==null?"0":moduleInfo.getType());
 		resources.setState(1+"");
 		if (isFolder) {
 			resources.setmType(1+"");
@@ -145,6 +153,22 @@ public class ResourcesServiceImpl implements ResourcesService {
 	@Override
 	public void remove(int moduleId) {
 		resourcesDao.remove(moduleId);
+	}
+
+	@Override
+	public List<DepDTO> getDepAuthList(int resId, int page, int rows) {
+		int firstResult,maxResults;
+		firstResult = (page-1)*rows;
+		maxResults = rows;
+		// 获得已授权的部门id集合
+		List<Integer> idList = resAccessDao.getAccessIdsByResId(resId, 2,firstResult,maxResults);
+		List<Department> depList = departmentDao.getDepartmentsByIds(idList);
+		List<DepDTO> dtoList = new ArrayList<DepDTO>();
+		for (Department department : depList) {
+			DepDTO dto = new DepDTO(department.getId(),department.getName(),department.getMemo());
+			dtoList.add(dto);
+		}
+		return dtoList;
 	}
 
 }

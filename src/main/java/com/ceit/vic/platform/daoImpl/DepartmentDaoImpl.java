@@ -13,7 +13,7 @@ import com.ceit.vic.platform.dao.DepartmentDao;
 import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.Resources;
 @Repository
-public class DepartmentdDaoImpl implements DepartmentDao{
+public class DepartmentDaoImpl implements DepartmentDao{
 	@Autowired
 	private SessionFactory sf;
 	@Override
@@ -101,5 +101,28 @@ public class DepartmentdDaoImpl implements DepartmentDao{
 		.append(" order by t.dispindex");
 		Query query = sf.getCurrentSession().createQuery(sb.toString());
 		return (Department) query.list().get(0);
+	}
+
+	@Override
+	public List<Department> getDepartmentsByIds(List<Integer> idList) {
+		if (idList==null||idList.size()==0) {
+			return null;
+		}
+		StringBuffer sb = new StringBuffer();
+		sb.append("from Department t where t.id in(");
+		for (int i = 0; i < idList.size()-1; i++) {
+			idList.get(i);
+			sb.append(",");
+		}
+		sb.append(idList.get(idList.size()-1))
+		.append(") order by t.dispindex");
+		Query query;
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());
+			return query.list();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
 	}
 }

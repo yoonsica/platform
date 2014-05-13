@@ -13,4 +13,5 @@ public interface PersonDao {
 	public Person getPersonToDown(int depId, int dispIndex);
 	public Person getPersonToUp(int depId, int dispIndex);
 	public void multDelete(int[] idArray);
+	public void resetPassword(int[] idArray);
 }

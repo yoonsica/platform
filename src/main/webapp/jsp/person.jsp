@@ -169,7 +169,21 @@ request.setAttribute("basePath", basePath);
 					iconCls:'icon-112',
 					handler:function(){
 						$('#btnresetPassword').linkbutton('enable');
-						alert('密码重置');
+						var rows = $('#test').datagrid('getSelections');//获得选中行
+						var idArray = new Array();
+						for(var i=0; i<rows.length; i++){
+						    idArray.push(rows[i].id);
+						}
+						$.ajax({  
+			               type: "POST",  
+			               url: "resetPassword",
+			               data:"idArray="+idArray,
+			               async: false,  
+			               cache: false,  
+			               success:function(data){
+			               		alert(data);
+			               }  
+	        			});
 					}
 				}
 				]

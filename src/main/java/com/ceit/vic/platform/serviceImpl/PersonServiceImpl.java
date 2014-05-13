@@ -147,5 +147,10 @@ public class PersonServiceImpl implements PersonService {
 		}
 		return personDao.getPersonsByIds(list);
 	}
+	@Override
+	public void resetPassword(int[] idArray) {
+		personDao.resetPassword(idArray);
+		
+	}
 
 }

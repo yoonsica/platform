@@ -14,4 +14,5 @@ public interface DepartmentDao {
 	public void update(Department department);
 	public Department getDepartmentToDown(int parentId, int dispindex);
 	public Department getDepartmentToUp(int parentId, int dispindex);
+	public List<Department> getDepartmentsByIds(List<Integer> idList);
 }

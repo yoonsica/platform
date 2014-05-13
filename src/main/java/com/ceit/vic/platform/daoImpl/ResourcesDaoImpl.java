@@ -37,7 +37,7 @@ public class ResourcesDaoImpl implements ResourcesDao {
 		Query query = null;
 		StringBuffer sb = new StringBuffer("select * from Resources t ");
 		if (!containDisable) {
-			sb.append(" where t.state='1' ");
+			sb.append(" where t.state='1' and t.type='0' ");
 		}
 		sb.append("start with t.id=").append(id)
 		.append(" connect by t.parentid = prior t.id order by t.dispIndex");

@@ -179,6 +179,7 @@ tr{
     		<tr>
     			<td align="center" width="20%">状态</td><td width="80%">${moduleInfo.state }</td>
     		</tr>
+    		<tr><td colspan="2"><table id="test"></table></td></tr>
     	</tbody>
     </table>
     

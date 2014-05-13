@@ -47,4 +47,6 @@ public interface PersonService {
 	public void deletePersonRole(int[] idArray);
 	@Transactional
 	public List<Person> getPersonsByIds(int[] idArray);
+	@Transactional
+	public void resetPassword(int[] idArray);
 }

@@ -3,6 +3,7 @@ package com.ceit.vic.platform.service;
 import java.util.List;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ceit.vic.platform.models.DepDTO;
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
 import com.ceit.vic.platform.models.ZTreeNode;
@@ -46,4 +47,13 @@ public interface ResourcesService {
 	public int addResource(ModuleInfoDTO moduleInfo, boolean isFolder);
 	@Transactional
 	public void remove(int moduleId);
+	/**
+	 * 获得已授权的部门列表
+	 * @param resId
+	 * @param page
+	 * @param rows
+	 * @return
+	 */
+	@Transactional
+	public List<DepDTO> getDepAuthList(int resId, int page, int rows);
 }

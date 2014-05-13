@@ -128,4 +128,17 @@ public class PersonDaoImpl implements PersonDao {
 		}
 	}
 
+	@Override
+	public void resetPassword(int[] idArray) {
+		if (idArray!=null) {
+			StringBuffer sb = new StringBuffer("update Person t set t.password = t.code where t.id in(");
+			for (int i = 0; i < idArray.length-1; i++) {
+				sb.append(idArray[i]).append(",");
+			}
+			sb.append(idArray[idArray.length-1]).append(")");
+			sf.getCurrentSession().createQuery(sb.toString()).executeUpdate();
+		}
+		
+	}
+
 }

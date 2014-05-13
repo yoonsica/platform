@@ -1,6 +1,9 @@
 package com.ceit.vic.platform.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -129,5 +132,41 @@ public class ModuleController {
 	public String moduleRemove(@PathVariable int moduleId){
 		resourcesService.remove(moduleId);
 		return "删除成功!";
+	}
+	
+
+	@RequestMapping("/toAddButtonLink/{moduleId}")
+	public ModelAndView toAddButtonLink(@PathVariable int moduleId){
+		ModelAndView mav = new ModelAndView("addButtonLink");
+		mav.addObject("resId",moduleId);
+		return mav;
+	}
+	
+	@RequestMapping("/addButtonLink")
+	public ModelAndView addButtonLink(ModuleInfoDTO dto){
+		ModelAndView mav = new ModelAndView("buttonLink");
+		resourcesService.addResource(dto, false);
+		return mav;
+	}
+	
+	@RequestMapping("/toResAuth/{moduleId}")
+	public ModelAndView toAddFunction(@PathVariable int moduleId){
+		ModelAndView mav = new ModelAndView("resDepAuth");
+		mav.addObject("resId",moduleId);
+		return mav;
+	}
+	
+	@RequestMapping("/resAuth/{accessType}/{resId}")
+	@ResponseBody
+	public Map<String,Object> resAuth(@PathVariable int accessType,@PathVariable int resId,int page,int rows){
+		Map<String,Object> map = new HashMap<String, Object>();
+		if (accessType==2) {
+			map.put("rows",resourcesService.getDepAuthList(resId,page,rows));
+		}
+		
+		/*map.put("total",total);
+		map.put("rows", personService.getPersonsByDepId(depId,page,rows));*/
+		//给total赋值
+		return map;
 	}
 }

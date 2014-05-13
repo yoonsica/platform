@@ -169,7 +169,7 @@ request.setAttribute("basePath", basePath);
   	</div>
   	<div id="personDiv" style="position:absolute;left: 400px;height: 700px;width:700px;">
 		<div id="depInfoDiv" style="height: 600px;">
-	  		<iframe id="depInfoFrame" name="depInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="600px"></iframe>
+	  		<iframe id="depInfoFrame" name="depInfoFrame" src="" frameborder="0" scrolling="auto" width="100%" height="600px"></iframe>
 	  	</div>
   	</div>
     </div>

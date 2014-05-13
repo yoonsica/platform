@@ -73,19 +73,6 @@ request.setAttribute("basePath", basePath);
 		}
 		
 		$(document).ready(function(){
-			$("#confirmBtn").click(function(){
-				var rows = $('#test').datagrid('selectAll');//获得选中行
-				var idArray = new Array();
-				for(var i=0; i<rows.length; i++){
-				    idArray.push(rows[i].id);
-				}
-				alert(idArray);
-				
-			});
-			$("#cancleBtn").click(function(){
-				//返回部门管理
-				window.location.href = "${basePath}jsp/departmentManage.jsp";
-			});
 			$.ajax({  
                 type: "POST",  
                 url: "roleManage",
@@ -119,12 +106,35 @@ request.setAttribute("basePath", basePath);
 						$('#btnsave').linkbutton('enable');
 						var rows = $('#test').datagrid('getSelections');//获得选中行
 						if(!rows.length>0){
-							alert("请选择要删除的行");
+							alert("请选择要删除的角色");
 							return false;
 						}
 						for(var i=0; i<rows.length; i++){
 						   	$('#test').datagrid('deleteRow',$('#test').datagrid('getRowIndex',rows[i]));
 						}
+					}
+				},'-',{
+					id:'btnConfirm',
+					text:'确定',
+					iconCls:'icon-ok',
+					handler:function(){
+						$('#test').datagrid('selectAll');//获得选中行
+						var rows = $('#test').datagrid('getSelections');//获得选中行
+						var idArray = new Array();
+						for(var i=0; i<rows.length; i++){
+						    idArray.push(rows[i].id);
+						}
+						$.ajax({  
+			                type: "POST",  
+			                url: "authorizeRole",
+			                data:"roleIds="+idArray+"&personIds="+$("#personIds").text(),
+			                async : false,  
+			                cache:false,  
+			                success:function(data){
+			                	alert(data);
+			                	window.location.href = "${basePath}jsp/departmentManager.jsp";
+			                }  
+			         	});
 					}
 				}]
 			});
@@ -134,7 +144,7 @@ request.setAttribute("basePath", basePath);
   
   <body>
   <div class="ceshi" style="position:relative;">
-  	<div id="treeDiv" style="width: 320px;height: 500px;overflow: scroll;position:absolute;top:5px;">
+  	<div id="treeDiv" style="width: 300px;height: 500px;overflow: scroll;position:absolute;top:5px;">
   		<ul id="treeDemo" class="ztree"></ul>
   	</div>
   	<div id="personDiv" style="position:absolute;left: 400px;height: 700px;width:700px;">
@@ -142,14 +152,10 @@ request.setAttribute("basePath", basePath);
 			为<c:forEach items="${personList }" var="person" end="3">
 				${person.name }、	
 			</c:forEach>等${fn:length(personList) }个人选择角色
-			<span id="personIds"><c:forEach items="${personList }" var="person" end="3">${person.id },</c:forEach></span>
+			<span id="personIds" style="display: none;"><c:forEach items="${personList }" var="person">${person.id },</c:forEach></span>
 		</div>
-		<div id="depInfoDiv" style="height: 600px;width:700px;">
+		<div id="depInfoDiv" style="height: 600px;width:700px;float:left;">
 		<table id="test"></table>
-	  	</div>
-	  	<div style="width:700px;text-align: center;">
-	  		<a href="javascript:void(0);" id="confirmBtn" class="easyui-linkbutton" iconCls="icon-ok">Ok</a>
-	  		<a href="javascript:void(0);" id="cancleBtn" class="easyui-linkbutton" iconCls="icon-cancel">Cancel</a>
 	  	</div>
   	</div>
     </div>
