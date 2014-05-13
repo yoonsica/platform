@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
-import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.PersonDTO;
 import com.ceit.vic.platform.models.Role;
 import com.ceit.vic.platform.models.ZTreeNode;

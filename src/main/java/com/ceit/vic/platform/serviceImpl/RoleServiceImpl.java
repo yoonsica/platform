@@ -13,7 +13,6 @@ import com.ceit.vic.platform.dao.PersonDao;
 import com.ceit.vic.platform.dao.Person_RoleDao;
 import com.ceit.vic.platform.dao.RoleDao;
 import com.ceit.vic.platform.models.Dep_Person;
-import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.PersonDTO;
 import com.ceit.vic.platform.models.Person_Role;

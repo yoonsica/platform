@@ -2,11 +2,13 @@ package com.ceit.vic.platform.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ceit.vic.platform.dao.IDPROVIDERDao;
 import com.ceit.vic.platform.dao.ResourcesDao;
+import com.ceit.vic.platform.models.Dictionary;
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
 import com.ceit.vic.platform.models.Resources;
