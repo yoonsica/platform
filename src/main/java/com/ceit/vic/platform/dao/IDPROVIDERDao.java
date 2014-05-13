@@ -13,4 +13,6 @@ public interface IDPROVIDERDao {
 	 * @param tableName
 	 */
 	public void add(String tableName);
+	
+	public int generateId(Class<?> tableClass);
 }

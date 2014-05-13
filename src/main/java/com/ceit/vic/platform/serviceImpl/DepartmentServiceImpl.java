@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import com.ceit.vic.platform.dao.DepartmentDao;
 import com.ceit.vic.platform.dao.IDPROVIDERDao;
 import com.ceit.vic.platform.models.Department;
-import com.ceit.vic.platform.models.Resources;
 import com.ceit.vic.platform.models.ZTreeNode;
 import com.ceit.vic.platform.service.DepartmentService;
 @Service

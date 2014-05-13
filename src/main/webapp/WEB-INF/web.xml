@@ -59,5 +59,18 @@
 	  <url-pattern>/*</url-pattern>
 	</filter-mapping>
 	
+	<filter>  
+		<filter-name>Set Character Encoding</filter-name>  
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>  
+		<init-param>  
+			<param-name>encoding</param-name>  
+			<param-value>utf8</param-value>  
+		</init-param>  
+	</filter>  
+	<filter-mapping>  
+	   <filter-name>Set Character Encoding</filter-name>  
+	   <url-pattern>/*</url-pattern>  
+	</filter-mapping>  
+	
 	<!-- 配置druid 结束 -->
  </web-app>

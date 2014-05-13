@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table
-public class Dict {
+public class Dictionary {
 	@Id
 	private int id;
 	private String name;
@@ -44,11 +44,11 @@ public class Dict {
 	public void setParentId(int parentId) {
 		this.parentId = parentId;
 	}
-	public int getIsLeaf() {
-		return isLeaf;
-	}
 	public void setIsLeaf(int isLeaf) {
 		this.isLeaf = isLeaf;
+	}
+	public boolean isLeaf() {
+		return isLeaf == 1 ? true : false;
 	}
 	
 	
