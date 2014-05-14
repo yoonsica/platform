@@ -45,4 +45,8 @@ public interface ResourcesDao {
 	 */
 	public void add(Resources resources);
 	public void remove(int moduleId);
+	public List<Resources> getButtonLinkByResId(int resId, int firstResult,
+			int maxResults);
+	public int getButtonLinkAmount(int resId);
+	public void remove(int[] idArray);
 }

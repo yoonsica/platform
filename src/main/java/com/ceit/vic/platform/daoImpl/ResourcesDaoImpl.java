@@ -90,4 +90,52 @@ public class ResourcesDaoImpl implements ResourcesDao {
 		sf.getCurrentSession().delete(getResourceById(moduleId));
 	}
 
+	@Override
+	public List<Resources> getButtonLinkByResId(int resId, int firstResult,
+			int maxResults) {
+		Query query;
+		StringBuffer sb = new StringBuffer("from Resources t where t.parentId =");
+		sb.append(resId)
+		.append(" and t.type in(1,2) order by t.dispIndex");
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());
+			query.setFirstResult(firstResult);
+			query.setMaxResults(maxResults);
+			return query.list();
+		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	@Override
+	public int getButtonLinkAmount(int resId) {
+		Query query;
+		StringBuffer sb = new StringBuffer("select count(*) from Resources t where t.parentId =");
+		sb.append(resId)
+		.append(" and t.type in(1,2)");
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());
+			return Integer.valueOf(query.uniqueResult().toString());
+		} catch (Exception e) {
+		}
+		return 0;
+	}
+
+	@Override
+	public void remove(int[] idArray) {
+		if (idArray!=null) {
+			StringBuffer sb = new StringBuffer("delete Resources t where t.id in(");
+			for (int i = 0; i < idArray.length-1; i++) {
+				sb.append(idArray[i]).append(",");
+			}
+			sb.append(idArray[idArray.length-1]).append(")");
+			try {
+				sf.getCurrentSession().createQuery(sb.toString()).executeUpdate();
+			} catch (HibernateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+
 }

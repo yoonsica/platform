@@ -169,4 +169,24 @@ public class ModuleController {
 		//给total赋值
 		return map;
 	}
+	
+	@RequestMapping("/buttonLinkList/{resId}")
+	@ResponseBody
+	public Map<String,Object> buttonLinkList(@PathVariable int resId,int page,int rows){
+		System.out.println(resId);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("rows",resourcesService.getButtonLinkList(resId,page,rows));
+		map.put("total",resourcesService.getButtonLinkListSize(resId));
+		/*map.put("total",total);
+		map.put("rows", personService.getPersonsByDepId(depId,page,rows));*/
+		//给total赋值
+		return map;
+	}
+	
+	@RequestMapping("/deleteButtonLink")
+	@ResponseBody
+	public String deleteButtonLink(int[] idArray){
+		resourcesService.remove(idArray);
+		return "删除成功！";
+	}
 }

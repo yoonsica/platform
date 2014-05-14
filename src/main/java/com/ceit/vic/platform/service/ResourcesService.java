@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ceit.vic.platform.models.ButtonLinkDTO;
 import com.ceit.vic.platform.models.DepDTO;
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
@@ -48,6 +49,8 @@ public interface ResourcesService {
 	public int addResource(ModuleInfoDTO moduleInfo, boolean isFolder);
 	@Transactional
 	public void remove(int moduleId);
+	@Transactional
+	public void remove(int[] idArray);
 	/**
 	 * 获得已授权的部门列表
 	 * @param resId
@@ -57,4 +60,8 @@ public interface ResourcesService {
 	 */
 	@Transactional
 	public List<DepDTO> getDepAuthList(int resId, int page, int rows);
+	@Transactional
+	public List<ButtonLinkDTO> getButtonLinkList(int resId, int page, int rows);
+	@Transactional
+	public int getButtonLinkListSize(int resId);
 }

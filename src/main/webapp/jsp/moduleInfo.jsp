@@ -21,6 +21,9 @@ request.setAttribute("basePath", basePath);
 	<link rel="stylesheet" href="${basePath }static/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.core-3.5.js"></script>
+	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/icon.css">
+	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
 	<style type="text/css">
 body {
 	FONT-SIZE: 12px;
@@ -39,19 +42,19 @@ body {
 	margin-right: 0px; 
 	overflow-y: auto
 }
-textarea {
+.toptablebg textarea {
 	BORDER-TOP-WIDTH: 1px; 
 	BORDER-LEFT-WIDTH: 1px; 
 	FONT-SIZE: 12px; 
 	BORDER-BOTTOM-WIDTH: 1px; 
 	BORDER-RIGHT-WIDTH: 1px
 }
-td {
+.toptablebg td {
 	FONT-SIZE: 12px;
 	padding: 3px;
 	font-size: 12px;
 }
-tr{
+.toptablebg tr{
 	background-color: #ffffff;
 }
 #moduleEditDiv div{
@@ -109,7 +112,7 @@ tr{
 		}
 		
 		$(function(){
-		$("#parentSel").focus(function(){
+			$("#parentSel").focus(function(){
 				showMenu();
 			});
 			$.ajax({  
@@ -155,7 +158,66 @@ tr{
                	//window.location.reload(true);
                	//window.parent.window.refreshTree(null);//刷新树
 			});
-		})
+			$('#buttonLinkTable').datagrid({
+					title:'按钮和链接列表',
+					iconCls:'icon-save',
+					width:'100%',
+					height:'auto',
+					fitColumns: true,
+					url:"buttonLinkList/${moduleId}",
+					frozenColumns:[[
+		                {field:'ck',checkbox:true}
+					]],
+					columns:[[
+						{field:'id',title:'id',width:40,sortable:true,hidden:true},
+						{field:'name',title:'名称',width:80},
+						{field:'link',title:'请求地址',width:140},
+						{field:'memo',title:'备注',width:140}
+					]],
+					rownumbers:true,
+					pagination:true,
+					toolbar:[{
+						id:'btnAdd',
+						text:'添加',
+						iconCls:'icon-add',
+						handler:function(){
+							$('#btnsave').linkbutton('enable');
+							window.location.href = "${basePath}toAddButtonLink/${moduleId}";
+						}
+					},{
+						id:'btnRemove',
+						text:'添加',
+						iconCls:'icon-remove',
+						handler:function(){
+							$('#btnsave').linkbutton('enable');
+							var rows = $('#test').datagrid('getSelections');//获得选中行
+							var idArray = new Array();
+							for(var i=0; i<rows.length; i++){
+							    idArray.push(rows[i].id);
+							}
+							$.ajax({  
+				               type: "POST",  
+				               url: "${basePath}deleteButtonLink",
+				               data:"idArray="+idArray,
+				               async: false,  
+				               cache: false,  
+				               success:function(data){
+				               		alert(data);
+				               		window.location.href = "${basePath}toAddButtonLink/${moduleId}";;
+				               }  
+		        			});
+						}
+					}
+					]					
+				});
+				var p = $('#buttonLinkTable').datagrid('getPager');
+			$(p).pagination({
+				pageSize:10,
+				onBeforeRefresh:function(){
+					alert('before refresh');
+				}
+			});
+		});
 	</script>
   </head>
   <body style="margin: 0;padding: 0;">
@@ -179,10 +241,9 @@ tr{
     		<tr>
     			<td align="center" width="20%">状态</td><td width="80%">${moduleInfo.state }</td>
     		</tr>
-    		<tr><td colspan="2"><table id="test"></table></td></tr>
     	</tbody>
+    	 <table id="buttonLinkTable"></table>
     </table>
-    
       <div id="moduleEditDiv" style="display:none;background:#fafafa;padding:10px;">
   		<form id="moduleInfoForm" method="post" >
             <input type="hidden" name="id"  value="${moduleInfo.id }" ></input>
