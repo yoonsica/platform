@@ -55,7 +55,10 @@ request.setAttribute("basePath", basePath);
                 dataType: "json",
                 success:function(data){
                     $.fn.zTree.init($("#treeDemo"), setting, data);
-            		//$("#rightDiv").load("http://localhost:8081/device/ztree/bdz");
+            		var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                        var node = zTree.getNodeByParam("id", 2, null);
+                        zTree.selectNode(node);
+                        zTree.expandNode(node, true, true, true);
                 }  
          	});  
 		});

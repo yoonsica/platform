@@ -111,8 +111,7 @@ public class DepartmentDaoImpl implements DepartmentDao{
 		StringBuffer sb = new StringBuffer();
 		sb.append("from Department t where t.id in(");
 		for (int i = 0; i < idList.size()-1; i++) {
-			idList.get(i);
-			sb.append(",");
+			sb.append(idList.get(i)).append(",");
 		}
 		sb.append(idList.get(idList.size()-1))
 		.append(") order by t.dispindex");

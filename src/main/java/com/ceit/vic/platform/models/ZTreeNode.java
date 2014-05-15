@@ -14,6 +14,16 @@ public class ZTreeNode {
 	String href=null;
 	String icon;//树节点图标
 	String iconCls;//标签页图标css名称
+	public ZTreeNode(String name, int id, int pId) {
+		super();
+		this.name = name;
+		this.id = id;
+		this.pId = pId;
+	}
+	public ZTreeNode() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
 	public String getIconCls() {
 		return iconCls;
 	}

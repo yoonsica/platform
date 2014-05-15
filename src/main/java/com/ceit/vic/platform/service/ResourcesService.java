@@ -26,6 +26,15 @@ public interface ResourcesService {
 	 */
 	@Transactional(readOnly=true)
 	public List<ZTreeNode> getResourcesTreeById(int id,boolean containId,boolean containDisable) throws Exception;
+	/**
+	 * 获得资源列表
+	 * @param id
+	 * @param containBtnLink 是否包含页面内的按钮和链接元素
+	 * @return
+	 * @throws Exception
+	 */
+	@Transactional(readOnly=true)
+	public List<ZTreeNode> getAllResources(boolean containBtnLink) throws Exception;
 	@Transactional(readOnly=true)
 	public ModuleInfoDTO getModuleInfoById(int moduleId);
 	
@@ -64,4 +73,13 @@ public interface ResourcesService {
 	public List<ButtonLinkDTO> getButtonLinkList(int resId, int page, int rows);
 	@Transactional
 	public int getButtonLinkListSize(int resId);
+	/**
+	 * 把模块授权给多个部门
+	 * @param idArray 部门id集合
+	 * @param resId 模块id
+	 */
+	@Transactional
+	public void addResAccess(int[] idArray, int resId, int accessType);
+	@Transactional
+	public void deleteResAccess(int[] idArray, int resId, int accessType);
 }

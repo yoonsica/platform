@@ -8,6 +8,12 @@ public class ButtonLinkDTO {
 		this.link = link;
 		this.memo = memo;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	public ButtonLinkDTO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -16,6 +22,7 @@ public class ButtonLinkDTO {
 	String name;
 	String link;
 	String memo;
+	String type;
 	public int getId() {
 		return id;
 	}

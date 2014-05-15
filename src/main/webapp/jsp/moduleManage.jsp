@@ -83,16 +83,17 @@ request.setAttribute("basePath", basePath);
 			$("#moduleInfoFrame").attr("src",url);
 		}
 		
-		var infoTable,moduleEditDiv;
+		var infoTable,moduleEditDiv,buttonLinkDiv;
 		function test_onload(){
 			infoTable = window.frames['moduleInfoFrame'].document.getElementById("infoTable");
 			moduleEditDiv = window.frames['moduleInfoFrame'].document.getElementById("moduleEditDiv");
+			buttonLinkDiv = window.frames['moduleInfoFrame'].document.getElementById("buttonLinkDiv");
 		}
 		
 		function refreshTree(nodeId){
 			$.ajax({  
                 type: "POST",  
-                url: "moduleManage/1",
+                url: "moduleManage",
                 async : false,  
                 cache:false,  
                 dataType: "json",
@@ -112,7 +113,7 @@ request.setAttribute("basePath", basePath);
 		$(document).ready(function(){
 			$.ajax({  
                 type: "POST",  
-                url: "moduleManage/1",
+                url: "moduleManage",
                 async : false,  
                 cache:false,  
                 dataType: "json",
@@ -127,6 +128,7 @@ request.setAttribute("basePath", basePath);
 			$("#editBtn").click(function(){
 				$("#menuDiv").hide();
 				$(infoTable).hide();
+				$(buttonLinkDiv).hide();
 				$(moduleEditDiv).show();
 			});
 			$("#upBtn").click(function(){

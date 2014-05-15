@@ -35,9 +35,9 @@ public class ResourcesDaoImpl implements ResourcesDao {
 	@Override
 	public List<Object[]> getResourcesTreeById(int id,boolean containDisable) {
 		Query query = null;
-		StringBuffer sb = new StringBuffer("select * from Resources t ");
+		StringBuffer sb = new StringBuffer("select * from Resources t where t.type='0' ");
 		if (!containDisable) {
-			sb.append(" where t.state='1' and t.type='0' ");
+			sb.append("and t.state='1' ");
 		}
 		sb.append("start with t.id=").append(id)
 		.append(" connect by t.parentid = prior t.id order by t.dispIndex");
@@ -128,7 +128,7 @@ public class ResourcesDaoImpl implements ResourcesDao {
 			for (int i = 0; i < idArray.length-1; i++) {
 				sb.append(idArray[i]).append(",");
 			}
-			sb.append(idArray[idArray.length-1]).append(")");
+			sb.append(idArray[idArray.length-1]).append(") ");
 			try {
 				sf.getCurrentSession().createQuery(sb.toString()).executeUpdate();
 			} catch (HibernateException e) {
@@ -136,6 +136,22 @@ public class ResourcesDaoImpl implements ResourcesDao {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	@Override
+	public List<Resources> getAllResources(boolean containBtnLink) {
+		Query query = null;
+		StringBuffer sb = new StringBuffer("from Resources t where t.state='1' ");
+		if (!containBtnLink) {
+			sb.append("and t.type='0' ");
+		}
+		sb.append("order by t.dispIndex");
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());return query.list();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

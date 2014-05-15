@@ -145,8 +145,8 @@ body {
 	                	$(window.parent.document.getElementById("menuDiv")).show();
 	                	$("#moduleEditDiv").hide();
 	                	$("#infoTable").show();
-	                	window.location.reload(true);
-	                	window.parent.window.refreshTree($("#id").val());//刷新树
+	                	//window.location.reload(true);
+	                	window.parent.window.refreshTree("${moduleInfo.id }");//刷新树
 	                	window.parent.parent.window.refreshWestDiv(null);//刷新树
 	                }  
 	         	});
@@ -171,6 +171,7 @@ body {
 					columns:[[
 						{field:'id',title:'id',width:40,sortable:true,hidden:true},
 						{field:'name',title:'名称',width:80},
+						{field:'type',title:'类型',width:140},
 						{field:'link',title:'请求地址',width:140},
 						{field:'memo',title:'备注',width:140}
 					]],
@@ -242,8 +243,8 @@ body {
     			<td align="center" width="20%">状态</td><td width="80%">${moduleInfo.state }</td>
     		</tr>
     	</tbody>
-    	 <table id="buttonLinkTable"></table>
     </table>
+    <div id="buttonLinkDiv"><table id="buttonLinkTable"></table></div>
       <div id="moduleEditDiv" style="display:none;background:#fafafa;padding:10px;">
   		<form id="moduleInfoForm" method="post" >
             <input type="hidden" name="id"  value="${moduleInfo.id }" ></input>

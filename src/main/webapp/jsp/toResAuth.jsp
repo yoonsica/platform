@@ -43,21 +43,16 @@ request.setAttribute("basePath", basePath);
 		}
 		function onClick(event, treeId, treeNode, clickFlag) {
 			$("#menuDiv").show();
-			var url = "${basePath}toResDepAuth/"+treeNode.id;//部门授权情况
+			var url = "${basePath}toResAuth/"+treeNode.id;//部门授权情况
 			//$("#moduleInfoDiv").load(url);
 			$("#moduleInfoFrame").attr("src",url);
 		}
 		
-		var infoTable,moduleEditDiv;
-		function test_onload(){
-			infoTable = window.frames['moduleInfoFrame'].document.getElementById("infoTable");
-			moduleEditDiv = window.frames['moduleInfoFrame'].document.getElementById("moduleEditDiv");
-		}
 		
 		function refreshTree(nodeId){
 			$.ajax({  
                 type: "POST",  
-                url: "moduleManage/1",
+                url: "moduleWithBtnLinkManage",
                 async : false,  
                 cache:false,  
                 dataType: "json",
@@ -77,7 +72,7 @@ request.setAttribute("basePath", basePath);
 		$(document).ready(function(){
 			$.ajax({  
                 type: "POST",  
-                url: "moduleManage/1",
+                url: "moduleWithBtnLinkManage",
                 async : false,  
                 cache:false,  
                 dataType: "json",
@@ -103,13 +98,9 @@ request.setAttribute("basePath", basePath);
   		<ul id="treeDemo" class="ztree"></ul>
   	</div>
   	<div style="height: 620px;position:absolute;left: 270px;width:500px;">
-	  	<div id="menuDiv" style="display:none;height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
-	  		<a href="javascript:void(0)" id="depBtn" class="easyui-linkbutton" plain="true" iconCls="icon-folder" >授权部门</a>
-			<a href="javascript:void(0)"  id="personBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >授权人员</a>
-			<a href="javascript:void(0)" id="roleBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >授权角色</a>
-		</div>
+	  	
 	  	<div id="moduleInfoDiv" style="height: 600px;">
-	  		<iframe onload="test_onload()" id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="600px"></iframe>
+	  		<iframe id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="600px"></iframe>
 	  	</div>
   	</div>
   	</div>

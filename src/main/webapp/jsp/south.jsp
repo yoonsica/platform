@@ -133,7 +133,7 @@ request.setAttribute("basePath", basePath);
 	<div id="westDiv" region="west" split="true" title="功能列表" style="width:160px;padding:0;margin: 0;">
 		<%--<jsp:include page="westDiv.jsp"></jsp:include>
 		--%>
-		<iframe id="westFrame" src="" frameborder="0" width="100%" style="padding: 0;margin: 0;"></iframe>
+		<iframe id="westFrame" src="" frameborder="0" width="100%" height="330" style="padding: 0;margin: 0;"></iframe>
 	</div>
 	
 	<div id="southDiv" region="south" border="false" style="height:20px;background: url('static/easyui/themes/default/images/panel_title.png') repeat-x;padding:1px 25px;text-align: right;font-weight:bold;color: #000000;">

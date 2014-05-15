@@ -3,7 +3,6 @@
 String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 request.setAttribute("basePath", basePath);
-System.out.print(request.getAttribute("resId"));
 %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
@@ -66,7 +65,7 @@ System.out.print(request.getAttribute("resId"));
 					iconCls:'icon-add',
 					handler:function(){
 						$('#btnsave').linkbutton('enable');
-						window.location.href = "${basePath}toAddDepAuth/${resId}";
+						window.parent.location.href = "${basePath}toAddDepAuth/${resId}";
 					}
 				},{
 					id:'btndelete',
@@ -87,7 +86,7 @@ System.out.print(request.getAttribute("resId"));
 			               cache: false,  
 			               success:function(data){
 			               		alert(data);
-			               		window.location.href = var url = "${basePath}jsp/resDepAuth.jsp?resId=${resId}";
+			               		window.location.href = "${basePath}jsp/resDepAuth.jsp?resId=${resId}";
 			               }  
 	        			});
 					}
@@ -107,6 +106,11 @@ System.out.print(request.getAttribute("resId"));
   </head>
   
   <body>
+  	<div id="menuDiv" style="height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
+	  		<a href="javascript:void(0)" id="depBtn" class="easyui-linkbutton" plain="true" iconCls="icon-folder" >授权部门</a>
+			<a href="javascript:void(0)"  id="personBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >授权人员</a>
+			<a href="javascript:void(0)" id="roleBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >授权角色</a>
+	</div>
 	<table id="test"></table>
 	
   </body>

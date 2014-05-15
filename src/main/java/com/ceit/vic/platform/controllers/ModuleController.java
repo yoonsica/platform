@@ -29,12 +29,20 @@ public class ModuleController {
 	}
 	
 
-	@RequestMapping("/moduleManage/{parentId}")
+	@RequestMapping("/moduleManage")
 	@ResponseBody
-	public List<ZTreeNode> moduleManage(@PathVariable int parentId) throws Exception{
-		List<ZTreeNode> childList = resourcesService.getResourcesTreeById(parentId,true,true);
+	public List<ZTreeNode> moduleManage() throws Exception{
+		List<ZTreeNode> childList = resourcesService.getAllResources(false);
 		return childList;
 	}
+	
+	@RequestMapping("/moduleWithBtnLinkManage")
+	@ResponseBody
+	public List<ZTreeNode> moduleWithBtnLinkManage() throws Exception{
+		List<ZTreeNode> childList = resourcesService.getAllResources(true);
+		return childList;
+	}
+	
 	@RequestMapping("/moduleIdPass/{moduleId}")
 	public ModelAndView moduleIdPass(@PathVariable int moduleId){
 		ModelAndView mav = new ModelAndView("westDiv");
@@ -151,7 +159,7 @@ public class ModuleController {
 	
 	@RequestMapping("/toResAuth/{moduleId}")
 	public ModelAndView toAddFunction(@PathVariable int moduleId){
-		ModelAndView mav = new ModelAndView("resDepAuth");
+		ModelAndView mav = new ModelAndView("resAuth");
 		mav.addObject("resId",moduleId);
 		return mav;
 	}
@@ -187,6 +195,27 @@ public class ModuleController {
 	@ResponseBody
 	public String deleteButtonLink(int[] idArray){
 		resourcesService.remove(idArray);
+		return "删除成功！";
+	}
+	
+	@RequestMapping("/toAddDepAuth/{moduleId}")
+	public ModelAndView toAddDepAuth(@PathVariable int moduleId){
+		ModelAndView mav = new ModelAndView("toAddDepAuth");
+		mav.addObject("resId",moduleId);
+		return mav;
+	}
+	
+	@RequestMapping("/addDepAuth")
+	@ResponseBody
+	public String addDepAuth(int[] depIds,int resId,int accessType){
+		resourcesService.addResAccess(depIds,resId,accessType);
+		return "删除成功！";
+	}
+	
+	@RequestMapping("/deleteDepAuth/{resId}")
+	@ResponseBody
+	public String deleteDepAuth(int[] idArray,int resId){
+		resourcesService.deleteResAccess(idArray,resId,2);
 		return "删除成功！";
 	}
 }

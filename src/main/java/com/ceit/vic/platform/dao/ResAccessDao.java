@@ -2,6 +2,8 @@ package com.ceit.vic.platform.dao;
 
 import java.util.List;
 
+import com.ceit.vic.platform.models.ResAccess;
+
 
 public interface ResAccessDao {
 	/**
@@ -13,4 +15,8 @@ public interface ResAccessDao {
 	 * @return
 	 */
 	public List<Integer> getAccessIdsByResId(int resId,int accessType, int firstResult, int maxResults);
+
+	public void add(ResAccess resAccess);
+
+	public void deleteResAccess(int[] idArray, int resId, int accessType);
 }

@@ -17,6 +17,7 @@ public interface ResourcesDao {
 	 * @return
 	 */
 	public List<Object[]> getResourcesTreeById(int id,boolean containDisable);
+	public List<Resources> getAllResources(boolean containDisable);
 	/**
 	 * 根据id获得resources对象
 	 * @param id

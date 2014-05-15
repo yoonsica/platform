@@ -15,6 +15,7 @@ import com.ceit.vic.platform.models.DepDTO;
 import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
+import com.ceit.vic.platform.models.ResAccess;
 import com.ceit.vic.platform.models.Resources;
 import com.ceit.vic.platform.models.ZTreeNode;
 import com.ceit.vic.platform.service.ResourcesService;
@@ -154,6 +155,11 @@ public class ResourcesServiceImpl implements ResourcesService {
 		resources.setType(moduleInfo.getType() == null ? "0" : moduleInfo
 				.getType());
 		resources.setState(1 + "");
+		if (resources.getType().equals("1")) {
+			resources.setIcon("169.gif");
+		}else if (resources.getType().equals("2")) {
+			resources.setIcon("globe.gif");
+		}
 		if (isFolder) {
 			resources.setmType(1 + "");
 		} else {
@@ -202,6 +208,11 @@ public class ResourcesServiceImpl implements ResourcesService {
 			ButtonLinkDTO dto = new ButtonLinkDTO(resources.getId(),
 					resources.getName(), resources.getLink(),
 					resources.getMemo());
+			if (resources.getType().equals("1")) {
+				dto.setType("按钮");
+			}else if (resources.getType().equals("2")) {
+				dto.setType("链接");
+			}
 			dtoList.add(dto);
 		}
 		return dtoList;
@@ -216,6 +227,47 @@ public class ResourcesServiceImpl implements ResourcesService {
 	@Override
 	public void remove(int[] idArray) {
 		resourcesDao.remove(idArray);
+		
+	}
+
+	@Override
+	public List<ZTreeNode> getAllResources(boolean containBtnLink)
+			throws Exception {
+		List<Resources> resList = resourcesDao.getAllResources(containBtnLink);
+		List<ZTreeNode> nodeList = new ArrayList<ZTreeNode>();
+		for (Resources resources : resList) {
+			ZTreeNode node = new ZTreeNode(resources.getName(),resources.getId(),resources.getParentId());
+			node.setIcon("static/easyui/themes/icons/"+resources.getIcon());
+			node.setIconCls(resources.getIcon().split("\\.")[0]);
+			if (resources.getType().equals("0")) {
+				if (resources.getmType().equals("1")
+						|| resources.getmType().equals("0")) {// 1-目录
+					node.setIsParent("true");
+					node.setHref(null==resources.getLink()?"":resources.getLink());
+				} 
+			}
+			nodeList.add(node);
+		}
+		return nodeList;
+	}
+
+	@Override
+	public void addResAccess(int[] idArray, int resId, int accessType) {
+		for (int i : idArray) {
+			int id = idproviderDao.getCurrentId("RESACCESS");
+			ResAccess resAccess = new ResAccess();
+			resAccess.setId(id);
+			resAccess.setAccessId(i);//部门、人员、角色id
+			resAccess.setAccessType(accessType);
+			resAccess.setResId(resId);
+			resAccessDao.add(resAccess);
+			idproviderDao.add("RESACCESS");
+		}		
+	}
+
+	@Override
+	public void deleteResAccess(int[] idArray, int resId, int accessType) {
+		resAccessDao.deleteResAccess(idArray,resId,accessType);
 		
 	}
 
