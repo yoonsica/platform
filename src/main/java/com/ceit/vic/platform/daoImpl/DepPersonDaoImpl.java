@@ -76,4 +76,18 @@ public class DepPersonDaoImpl implements DepPersonDao{
 		}
 		return null;
 	}
+
+	@Override
+	public Dep_Person getMainByPersonId(int personId) {
+		Query query = null;
+		StringBuffer sb = new StringBuffer(" from Dep_Person t where t.personId=");
+		sb.append(personId).append(" and t.mainDep=1");
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());
+			return (Dep_Person) query.uniqueResult();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 }

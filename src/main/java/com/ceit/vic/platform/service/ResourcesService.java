@@ -8,6 +8,8 @@ import com.ceit.vic.platform.models.ButtonLinkDTO;
 import com.ceit.vic.platform.models.DepDTO;
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
+import com.ceit.vic.platform.models.PersonDTO;
+import com.ceit.vic.platform.models.RoleDTO;
 import com.ceit.vic.platform.models.ZTreeNode;
 
 public interface ResourcesService {
@@ -82,4 +84,10 @@ public interface ResourcesService {
 	public void addResAccess(int[] idArray, int resId, int accessType);
 	@Transactional
 	public void deleteResAccess(int[] idArray, int resId, int accessType);
+	@Transactional
+	public int getAuthTotal(int resId,int accessType);
+	@Transactional
+	public List<RoleDTO> getRoleAuthList(int resId, int page, int rows);
+	@Transactional
+	public List<PersonDTO> getPersonAuthList(int resId, int page, int rows);
 }

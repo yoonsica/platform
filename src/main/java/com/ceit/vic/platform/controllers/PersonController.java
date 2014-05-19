@@ -38,6 +38,14 @@ public class PersonController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/personByDepIdToAuth/{depId}/{resId}")
+	public ModelAndView personByDepIdToAuth(@PathVariable String depId,@PathVariable String resId){
+		logger.debug("depId:"+depId);//暂时用来跳转到person.jsp，然后ajax获得json数据
+		ModelAndView mav = new ModelAndView("personToSelect");
+		mav.addObject("depId",depId);
+		mav.addObject("resId",resId);
+		return mav;
+	}
 	@RequestMapping(value="/personByDepIdRoleId/{depId}/{roleId}")
 	public ModelAndView personByDepIdRoleId(@PathVariable int depId,@PathVariable int roleId){
 		logger.debug("depId:"+depId);//暂时用来跳转到person.jsp，然后ajax获得json数据

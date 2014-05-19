@@ -132,8 +132,8 @@ request.setAttribute("basePath", basePath);
 						}
 						$.ajax({  
 			                type: "POST",  
-			                url: "addDepAuth",
-			                data:"depIds="+idArray+"&resId=${resId}&accessType=2",
+			                url: "addResAuth",
+			                data:"idArray="+idArray+"&resId=${resId}&accessType=2",
 			                async : false,  
 			                cache:false,  
 			                success:function(data){

@@ -14,4 +14,5 @@ public interface DepPersonDao {
 	 */
 	public int getTotalPersonByDepId(int depId);
 	public List<Dep_Person> getByPersonId(int personId);
+	public Dep_Person getMainByPersonId(int personId);
 }

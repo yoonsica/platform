@@ -24,5 +24,6 @@ public interface RoleDao {
 	public void remove(int roleId);
 	
 	public void update(Role role);
+	public List<Role> getRolesByIds(List<Integer> idList);
 	
 }

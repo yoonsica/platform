@@ -41,6 +41,11 @@ public class PersonServiceImpl implements PersonService {
 		String departmentName = departmentDao.getDepartmentById(depId).getName();
 		for (Person person : personList) {
 			PersonDTO dto = new PersonDTO();
+			if (person.getSex()==null) {
+				dto.setSex("未知");
+			}else {
+				dto.setSex(person.getSex().equals("0")?"男":"女");
+			}
 			dto.setId(person.getId());
 			dto.setName(person.getName());
 			dto.setCode(person.getCode());

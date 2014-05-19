@@ -157,21 +157,48 @@ public class ModuleController {
 		return mav;
 	}
 	
-	@RequestMapping("/toResAuth/{moduleId}")
+	@RequestMapping("/toDepAuth/{moduleId}")
 	public ModelAndView toAddFunction(@PathVariable int moduleId){
-		ModelAndView mav = new ModelAndView("resAuth");
+		ModelAndView mav = new ModelAndView("depAuth");
 		mav.addObject("resId",moduleId);
 		return mav;
 	}
-	
+	@RequestMapping("/toAddPersonAuth/{moduleId}")
+	public ModelAndView toAddPersonAuth(@PathVariable int moduleId){
+		ModelAndView mav = new ModelAndView("toAddPersonAuth");
+		mav.addObject("resId",moduleId);
+		return mav;
+	}
+	@RequestMapping("/toPersonAuth/{moduleId}")
+	public ModelAndView toPersonAuth(@PathVariable int moduleId){
+		ModelAndView mav = new ModelAndView("personAuth");
+		mav.addObject("resId",moduleId);
+		return mav;
+	}
+	@RequestMapping("/toRoleAuth/{moduleId}")
+	public ModelAndView toRoleAuth(@PathVariable int moduleId){
+		ModelAndView mav = new ModelAndView("roleAuth");
+		mav.addObject("resId",moduleId);
+		return mav;
+	}
+	@RequestMapping("/toAddRoleAuth/{moduleId}")
+	public ModelAndView toAddRoleAuth(@PathVariable int moduleId){
+		ModelAndView mav = new ModelAndView("toAddRoleAuth");
+		mav.addObject("resId",moduleId);
+		return mav;
+	}
 	@RequestMapping("/resAuth/{accessType}/{resId}")
 	@ResponseBody
 	public Map<String,Object> resAuth(@PathVariable int accessType,@PathVariable int resId,int page,int rows){
 		Map<String,Object> map = new HashMap<String, Object>();
 		if (accessType==2) {
 			map.put("rows",resourcesService.getDepAuthList(resId,page,rows));
+		}else if (accessType==0) {
+			map.put("rows", resourcesService.getRoleAuthList(resId, page, rows));
+		}else if (accessType==1) {
+			map.put("rows", resourcesService.getPersonAuthList(resId, page, rows));
 		}
-		
+		map.put("total", resourcesService.getAuthTotal(resId,accessType));
 		/*map.put("total",total);
 		map.put("rows", personService.getPersonsByDepId(depId,page,rows));*/
 		//给total赋值
@@ -205,17 +232,17 @@ public class ModuleController {
 		return mav;
 	}
 	
-	@RequestMapping("/addDepAuth")
+	@RequestMapping(value="/addResAuth",produces="text/plain;charset=UTF-8" )
 	@ResponseBody
-	public String addDepAuth(int[] depIds,int resId,int accessType){
-		resourcesService.addResAccess(depIds,resId,accessType);
-		return "删除成功！";
+	public String addResAuth(int[] idArray,int resId, int accessType){
+		resourcesService.addResAccess(idArray,resId,accessType);
+		return "添加成功！";
 	}
 	
-	@RequestMapping("/deleteDepAuth/{resId}")
+	@RequestMapping(value="/deleteResAuth/{resId}",produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String deleteDepAuth(int[] idArray,int resId){
-		resourcesService.deleteResAccess(idArray,resId,2);
+	public String deleteResAuth(int[] idArray,@PathVariable int resId,int accessType){
+		resourcesService.deleteResAccess(idArray,resId,accessType);
 		return "删除成功！";
 	}
 }

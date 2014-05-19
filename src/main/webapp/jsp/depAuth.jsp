@@ -10,7 +10,7 @@ request.setAttribute("basePath", basePath);
   <head>
     <base href="<%=basePath%>">
     
-    <title>资源授权</title>
+    <title>给部门授权</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -80,13 +80,13 @@ request.setAttribute("basePath", basePath);
 						}
 						$.ajax({  
 			               type: "POST",  
-			               url: "deleteDepAuth/${resId}",
-			               data:"idArray="+idArray,
+			               url: "deleteResAuth/${resId}",
+			               data:"idArray="+idArray+"&accessType=2",
 			               async: false,  
 			               cache: false,  
 			               success:function(data){
 			               		alert(data);
-			               		window.location.href = "${basePath}jsp/resDepAuth.jsp?resId=${resId}";
+			               		window.parent.clickZtree("${resId}");
 			               }  
 	        			});
 					}
@@ -106,11 +106,6 @@ request.setAttribute("basePath", basePath);
   </head>
   
   <body>
-  	<div id="menuDiv" style="height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
-	  		<a href="javascript:void(0)" id="depBtn" class="easyui-linkbutton" plain="true" iconCls="icon-folder" >授权部门</a>
-			<a href="javascript:void(0)"  id="personBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >授权人员</a>
-			<a href="javascript:void(0)" id="roleBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >授权角色</a>
-	</div>
 	<table id="test"></table>
 	
   </body>

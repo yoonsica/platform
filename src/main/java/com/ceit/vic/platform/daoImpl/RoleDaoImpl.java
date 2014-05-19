@@ -53,4 +53,27 @@ public class RoleDaoImpl implements RoleDao {
 		sf.getCurrentSession().delete(getRoleById(roleId));
 	}
 
+
+	@Override
+	public List<Role> getRolesByIds(List<Integer> idList) {
+		if (idList==null||idList.size()==0) {
+			return null;
+		}
+		StringBuffer sb = new StringBuffer();
+		sb.append("from Role t where t.id in(");
+		for (int i = 0; i < idList.size()-1; i++) {
+			sb.append(idList.get(i)).append(",");
+		}
+		sb.append(idList.get(idList.size()-1))
+		.append(") order by t.dispIndex");
+		Query query;
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());
+			return query.list();
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null;
+	}
+
 }

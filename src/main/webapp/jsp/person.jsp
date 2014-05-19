@@ -54,7 +54,8 @@ request.setAttribute("basePath", basePath);
 				]],
 				columns:[[
 					{field:'id',title:'id',width:40,sortable:true,hidden:true},
-					{field:'name',title:'姓名',width:80},
+					{field:'name',title:'姓名',width:60},
+					{field:'sex',title:'性别',width:35},
 					{field:'departmentName',title:'所在部门',width:130},
 					{field:'code',title:'用户名',width:80},
 					{field:'state',title:'状态',width:30},

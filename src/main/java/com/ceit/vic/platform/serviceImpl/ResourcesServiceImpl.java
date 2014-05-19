@@ -6,17 +6,24 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ceit.vic.platform.dao.DepPersonDao;
 import com.ceit.vic.platform.dao.DepartmentDao;
 import com.ceit.vic.platform.dao.IDPROVIDERDao;
+import com.ceit.vic.platform.dao.PersonDao;
 import com.ceit.vic.platform.dao.ResAccessDao;
 import com.ceit.vic.platform.dao.ResourcesDao;
+import com.ceit.vic.platform.dao.RoleDao;
 import com.ceit.vic.platform.models.ButtonLinkDTO;
 import com.ceit.vic.platform.models.DepDTO;
 import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
+import com.ceit.vic.platform.models.Person;
+import com.ceit.vic.platform.models.PersonDTO;
 import com.ceit.vic.platform.models.ResAccess;
 import com.ceit.vic.platform.models.Resources;
+import com.ceit.vic.platform.models.Role;
+import com.ceit.vic.platform.models.RoleDTO;
 import com.ceit.vic.platform.models.ZTreeNode;
 import com.ceit.vic.platform.service.ResourcesService;
 
@@ -30,7 +37,12 @@ public class ResourcesServiceImpl implements ResourcesService {
 	ResAccessDao resAccessDao;
 	@Autowired
 	DepartmentDao departmentDao;
-
+	@Autowired
+	DepPersonDao depPersonDao;
+	@Autowired
+	PersonDao personDao;
+	@Autowired
+	RoleDao roleDao;
 	@Override
 	public List<NavItem> getNavItems() {
 		List<Resources> rsList = resourcesDao.getNavResources();
@@ -269,6 +281,53 @@ public class ResourcesServiceImpl implements ResourcesService {
 	public void deleteResAccess(int[] idArray, int resId, int accessType) {
 		resAccessDao.deleteResAccess(idArray,resId,accessType);
 		
+	}
+
+	@Override
+	public int getAuthTotal(int resId,int accessType) {
+		return resAccessDao.getAccessIdTotalByResId(resId,accessType);
+	}
+
+	@Override
+	public List<RoleDTO> getRoleAuthList(int resId, int page, int rows) {
+		int firstResult, maxResults;
+		firstResult = (page - 1) * rows;
+		maxResults = rows;
+		// 获得已授权的部门id集合
+		List<Integer> idList = resAccessDao.getAccessIdsByResId(resId, 0,
+				firstResult, maxResults);
+		List<Role> roleList = roleDao.getRolesByIds(idList);
+		List<RoleDTO> dtoList = new ArrayList<RoleDTO>();
+		for (Role role : roleList) {
+			RoleDTO dto = new RoleDTO(role.getId(), role.getName(), role.getMemo());
+			dtoList.add(dto);
+		}
+		return dtoList;
+	}
+
+	@Override
+	public List<PersonDTO> getPersonAuthList(int resId, int page, int rows) {
+		int firstResult, maxResults;
+		firstResult = (page - 1) * rows;
+		maxResults = rows;
+		// 获得已授权的部门id集合
+		List<Integer> idList = resAccessDao.getAccessIdsByResId(resId, 1,
+				firstResult, maxResults);
+		List<Person> personList = personDao.getPersonsByIds(idList);
+		List<PersonDTO> dtoList = new ArrayList<PersonDTO>();
+		for (Person person : personList) {
+			PersonDTO dto = new PersonDTO(person.getId(),person.getName(),person.getCode(),person.getMemo());
+			if (person.getSex()==null) {
+				dto.setSex("未知");
+			}else {
+				dto.setSex(person.getSex().equals("0")?"男":"女");
+			}
+			int depId = depPersonDao.getMainByPersonId(person.getId()).getDepId();
+			String depName = departmentDao.getDepartmentById(depId).getName();
+			dto.setDepartmentName(depName);
+			dtoList.add(dto);
+		}
+		return dtoList;
 	}
 
 }

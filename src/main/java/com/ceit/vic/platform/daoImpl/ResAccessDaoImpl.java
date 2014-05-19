@@ -62,4 +62,19 @@ public class ResAccessDaoImpl implements ResAccessDao {
 		}
 
 	}
+
+	@Override
+	public int getAccessIdTotalByResId(int resId,int accessType) {
+		Query query;
+		StringBuffer sb = new StringBuffer();
+		sb.append("select count(t.accessId) from ResAccess t where t.accessType=")
+				.append(accessType).append(" and t.resId=").append(resId);
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());
+			return Integer.valueOf(query.uniqueResult().toString());
+		} catch (Exception e) {
+		}
+		return 0;
+		
+	}
 }

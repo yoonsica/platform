@@ -43,11 +43,18 @@ request.setAttribute("basePath", basePath);
 		}
 		function onClick(event, treeId, treeNode, clickFlag) {
 			$("#menuDiv").show();
-			var url = "${basePath}toResAuth/"+treeNode.id;//部门授权情况
+			var url = "${basePath}toDepAuth/"+treeNode.id;//部门授权情况
 			//$("#moduleInfoDiv").load(url);
 			$("#moduleInfoFrame").attr("src",url);
 		}
 		
+		function clickZtree(nodeId){
+			var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+            var node = zTree.getNodeByParam("id", nodeId, null);
+            zTree.selectNode(node);
+            zTree.expandNode(node, true, true, true);
+            onClick(event, "treeDemo", node, 1);
+		}
 		
 		function refreshTree(nodeId){
 			$.ajax({  
@@ -84,7 +91,20 @@ request.setAttribute("basePath", basePath);
                     zTree.expandNode(node, true, true, true);
                 }  
          	});
-			
+			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+			$("#depBtn").click(function(){
+			//获得当前点击的节点
+				var nodes = treeObj.getSelectedNodes();
+				$("#moduleInfoFrame").attr("src","${basePath}toDepAuth/"+nodes[0].id);
+			});
+			$("#personBtn").click(function(){
+				var nodes = treeObj.getSelectedNodes();
+				$("#moduleInfoFrame").attr("src","${basePath}toPersonAuth/"+nodes[0].id);
+			});
+			$("#roleBtn").click(function(){
+				var nodes = treeObj.getSelectedNodes();
+				$("#moduleInfoFrame").attr("src","${basePath}toRoleAuth/"+nodes[0].id);
+			});
 		});
     </script>
     <style type="text/css">
@@ -97,9 +117,13 @@ request.setAttribute("basePath", basePath);
   	<div id="treeDiv" style="height: 500px;width: 200px;position:absolute;">
   		<ul id="treeDemo" class="ztree"></ul>
   	</div>
-  	<div style="height: 620px;position:absolute;left: 270px;width:500px;">
-	  	
-	  	<div id="moduleInfoDiv" style="height: 600px;">
+  	<div style="height: 620px;position:absolute;left: 270px;width:700px;">
+	  	<div id="menuDiv" style="height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
+	  		<a href="javascript:void(0)" id="depBtn" class="easyui-linkbutton" plain="true" iconCls="icon-folder" >授权部门</a>
+			<a href="javascript:void(0)"  id="personBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >授权人员</a>
+			<a href="javascript:void(0)" id="roleBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >授权角色</a>
+		</div>
+	  	<div id="moduleInfoDiv" style="height: 600px;width: 700px;">
 	  		<iframe id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="600px"></iframe>
 	  	</div>
   	</div>

@@ -118,7 +118,7 @@ request.setAttribute("basePath", basePath);
 					text:'确定',
 					iconCls:'icon-ok',
 					handler:function(){
-						$('#test').datagrid('selectAll');//获得选中行
+						$('#test').datagrid('selectAll');//全选
 						var rows = $('#test').datagrid('getSelections');//获得选中行
 						var idArray = new Array();
 						for(var i=0; i<rows.length; i++){
@@ -126,15 +126,23 @@ request.setAttribute("basePath", basePath);
 						}
 						$.ajax({  
 			                type: "POST",  
-			                url: "authorizeRole",
-			                data:"roleIds="+idArray+"&personIds="+$("#personIds").text(),
+			                url: "addResAuth",
+			                data:"idArray="+idArray+"&resId=${resId}&accessType=0",
 			                async : false,  
 			                cache:false,  
 			                success:function(data){
 			                	alert(data);
-			                	window.location.href = "${basePath}jsp/departmentManager.jsp";
+			                	window.location.href = "${basePath}jsp/toResAuth.jsp";
 			                }  
 			         	});
+					}
+				},{
+					id:'btnBack',
+					text:'返回资源分配',
+					iconCls:'icon-undo',
+					handler:function(){
+						$('#btnsave').linkbutton('enable');
+						window.location.href = "${basePath}jsp/toResAuth.jsp";
 					}
 				}]
 			});
@@ -149,12 +157,9 @@ request.setAttribute("basePath", basePath);
   	</div>
   	<div id="personDiv" style="position:absolute;left: 400px;height: 700px;width:700px;">
 		<div style="width:700px;font-size: 20px;font-weight: bold;text-align: center;">
-			为<c:forEach items="${personList }" var="person" end="3">
-				${person.name }、	
-			</c:forEach>等${fn:length(personList) }个人选择角色
-			<span id="personIds" style="display: none;"><c:forEach items="${personList }" var="person">${person.id },</c:forEach></span>
+			选择角色进行授权
 		</div>
-		<div id="depInfoDiv" style="height: 600px;width:700px;float:left;">
+		<div id="depInfoDiv" style="height: 600px;width:700px;">
 		<table id="test"></table>
 	  	</div>
   	</div>
