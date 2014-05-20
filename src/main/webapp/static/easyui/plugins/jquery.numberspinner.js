@@ -1,16 +1,17 @@
 ﻿/**
- * jQuery EasyUI 1.2.6
+ * jQuery EasyUI 1.3.6
  * 
- * Licensed under the GPL terms
- * To use it on other terms please contact us
+ * Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
  *
- * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ] 
- * 
+ * Licensed under the GPL license: http://www.gnu.org/licenses/gpl.txt
+ * To use it on other terms please contact us at info@jeasyui.com
+ *
  */
 (function($){
 function _1(_2){
+$(_2).addClass("numberspinner-f");
 var _3=$.data(_2,"numberspinner").options;
-$(_2).spinner(_3).numberbox(_3);
+$(_2).spinner(_3).numberbox($.extend({},_3,{width:"auto"}));
 };
 function _4(_5,_6){
 var _7=$.data(_5,"numberspinner").options;
@@ -44,7 +45,7 @@ _1(this);
 };
 $.fn.numberspinner.methods={options:function(jq){
 var _c=$.data(jq[0],"numberspinner").options;
-return $.extend(_c,{value:jq.numberbox("getValue")});
+return $.extend(_c,{value:jq.numberbox("getValue"),originalValue:jq.numberbox("options").originalValue});
 },setValue:function(jq,_d){
 return jq.each(function(){
 $(this).numberbox("setValue",_d);
@@ -56,12 +57,17 @@ return jq.each(function(){
 $(this).spinner("clear");
 $(this).numberbox("clear");
 });
+},reset:function(jq){
+return jq.each(function(){
+var _e=$(this).numberspinner("options");
+$(this).numberspinner("setValue",_e.originalValue);
+});
 }};
-$.fn.numberspinner.parseOptions=function(_e){
-return $.extend({},$.fn.spinner.parseOptions(_e),$.fn.numberbox.parseOptions(_e),{});
+$.fn.numberspinner.parseOptions=function(_f){
+return $.extend({},$.fn.spinner.parseOptions(_f),$.fn.numberbox.parseOptions(_f),{});
 };
-$.fn.numberspinner.defaults=$.extend({},$.fn.spinner.defaults,$.fn.numberbox.defaults,{spin:function(_f){
-_4(this,_f);
+$.fn.numberspinner.defaults=$.extend({},$.fn.spinner.defaults,$.fn.numberbox.defaults,{spin:function(_10){
+_4(this,_10);
 }});
 })(jQuery);
 

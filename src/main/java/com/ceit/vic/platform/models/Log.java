@@ -33,7 +33,7 @@ public class Log {
 	
 	@ManyToOne(fetch=FetchType.EAGER, cascade={CascadeType.REFRESH})  
     @JoinColumn(name="TYPE_ID")  
-	private LogType logType;
+	private LogType type;
 
 	public int getId() {
 		return id;
@@ -75,12 +75,13 @@ public class Log {
 		this.person = person;
 	}
 
-	public LogType getLogType() {
-		return logType;
+	public LogType getType() {
+		return type;
 	}
 
-	public void setLogType(LogType logType) {
-		this.logType = logType;
+	public void setType(LogType type) {
+		this.type = type;
 	}
+
 	
 }

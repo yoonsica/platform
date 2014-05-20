@@ -1,5 +1,6 @@
 package com.ceit.vic.platform.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -12,7 +13,9 @@ public class Dictionary {
 	private String name;
 	private String value;//内部值（如xg）
 	private int dispIndex;
+	@Column(name="PARENT_ID")
 	private int parentId;
+	@Column(name="IS_LEAF")
 	private int isLeaf;//分类，0-大类（字典分类）;1-小类（字典明细） ???
 	public int getId() {
 		return id;

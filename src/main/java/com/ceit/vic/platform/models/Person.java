@@ -23,6 +23,14 @@ public class Person implements Serializable{
 	private String memo;
 	private String state;//状态，0表示正常  1-停用
 	private String sex;
+	
+	public Person() {
+	}
+
+	public Person(int id) {
+		this.id = id;
+	}
+	
 	public int getId() {
 		return id;
 	}
