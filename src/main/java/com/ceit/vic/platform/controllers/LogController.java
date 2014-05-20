@@ -43,8 +43,8 @@ public class LogController {
 				endTime, 
 				pageIndex, 
 				pageSize, 
-				sortNames.equals("") ? null : sortNames.split(","), 
-				sortOrders.equals("") ? null : sortOrders.split(","));
+				sortNames.equals("null") || sortNames.equals("") ? null : sortNames.split(","), 
+				sortOrders.equals("null") || sortOrders.equals("") ? null : sortOrders.split(","));
 		return logResult;
 	}
 	

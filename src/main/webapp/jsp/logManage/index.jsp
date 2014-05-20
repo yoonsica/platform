@@ -115,6 +115,19 @@ request.setAttribute("basePath", basePath);
     	function idSorter(a, b) {
     		return a > b;
     	}
+    	
+    	function reloadLogTable(queryParams) {
+    		$.ajax({  
+                type: "POST",  
+                url: "logManage/show",
+                dataType: "json", 
+                data: queryParams, 
+                async: false,  
+                success:function(logData) {
+                	$('#log').datagrid('loadData', logData);
+                }  
+         	});
+    	}
 	    
 		$(document).ready(function(){
 			$.ajax({  
@@ -171,8 +184,8 @@ request.setAttribute("basePath", basePath);
 					queryParams["sortNames"] = sortNames;
 					queryParams["sortOrders"] = sortOrders;
 					
-					$('#log').datagrid('load', queryParams);
 					$('#log').datagrid('getPager').pagination('select', queryParams["pageIndex"]);
+					reloadLogTable(queryParams);
 				}
 		    });
 		    $('#log').datagrid('getPager').pagination({
@@ -180,34 +193,22 @@ request.setAttribute("basePath", basePath);
    		        	queryParams["pageIndex"] = pageIndex;
    		        	queryParams["pageSize"] = pageSize;
    		        
-   		        	$.ajax({  
-   		                type: "POST",  
-   		                url: "logManage/show",
-   		                dataType: "json", 
-   		                data: queryParams, 
-   		                async: false,  
-   		                success:function(data) {
-   		                	$('#log').datagrid('loadData', data);
-   		                }  
-   		         	});
-   		        	
+   		        	reloadLogTable(queryParams);
    		        }
    		    });
 		    
 		    
 		    $("#inquiryBtn").click(function() {
-			    queryParams = { 
-		    		typeId: $("#logType").combobox('getValue'), 
-		    		content: $("[name='logContent']").val(), 
-		    		personName: $("[name='personName']").val(), 
-		    		ip: $("[name='ip']").val(), 
-		    		beginTime: dateParser($('#beginTime').datetimebox('getValue')), 
-		    		endTime: dateParser($('#endTime').datetimebox('getValue')), 
-		    		pageIndex: 1, 
-		    		pageSize: $('#log').datagrid('options').pageSize 
-			    };
-			    
-			    $('#log').datagrid('load', queryParams);
+		    	queryParams["typeId"] = $("#logType").combobox('getValue');
+		    	queryParams["content"] = $("[name='logContent']").val();
+		    	queryParams["personName"] = $("[name='personName']").val();
+		    	queryParams["ip"] = $("[name='ip']").val();
+		    	queryParams["beginTime"] = dateParser($('#beginTime').datetimebox('getValue'));
+		    	queryParams["endTime"] = dateParser($('#endTime').datetimebox('getValue'));
+		    	queryParams["pageIndex"] = 1;
+		    	
+		    	$('#log').datagrid('getPager').pagination('select', 1);
+			    reloadLogTable(queryParams);
 		    });
 		    
 		    $("#deleteBtn").click(function() {
@@ -237,7 +238,7 @@ request.setAttribute("basePath", basePath);
 	                dataType: "json", 
 	                data: { ids: ids }, 
 	                success: function() {
-	                	$('#log').datagrid('load', queryParams);
+	                	reloadLogTable(queryParams);
 	                	// 延迟设置太小还是会同步执行
 	                	setTimeout(function() { alert("删除成功！") }, 50);
 	                }  
@@ -278,7 +279,7 @@ request.setAttribute("basePath", basePath);
 		<table id="log" class="easyui-datagrid" title="日志列表" 
 			style="width: 1000px; height: 380px;" 
 			pagination="true" pageSize="10" singleSelect="false" 
-			multiSort="true" remoteSort="false" sortName="id" sortOrder="asc">
+			multiSort="true" remoteSort="false">
 	        <thead>
 	            <tr>
 	            	<th field='ck' checkbox="true"></th>
