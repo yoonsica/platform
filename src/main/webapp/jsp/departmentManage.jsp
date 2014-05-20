@@ -4,7 +4,6 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 request.setAttribute("basePath", basePath);
 %>
-
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
@@ -23,6 +22,7 @@ request.setAttribute("basePath", basePath);
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.core-3.5.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
   	<script type="text/javascript">
 	  	var setting = {
 				data: {
@@ -61,14 +61,14 @@ request.setAttribute("basePath", basePath);
 	                       zTree.expandNode(node, false, false, true);
 	                       onClick(event, "treeDemo", node, 1);
 	                   }
-	               }  
+	               }
 	        	});
 		}
 
 		$(document).ready(function(){
 			$.ajax({  
                 type: "POST",  
-                url: "department",
+                url: "${basePath}department",
                 async : false,  
                 cache:false,  
                 dataType: "json",

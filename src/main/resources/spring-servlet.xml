@@ -59,12 +59,6 @@
 	<!-- 异常处理 -->
 	<bean id="exceptionResolver"
 		class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
-		<property name="defaultErrorView">
-			<value>/errors/defaultError</value>
-		</property>
-		<property name="defaultStatusCode">
-			<value>500</value>
-		</property>
 		<property name="exceptionMappings">
 			<props>
 				<prop key="com.ceit.vic.platform.exception.SessionTimeoutException">redirect:/jsp/login.jsp</prop>

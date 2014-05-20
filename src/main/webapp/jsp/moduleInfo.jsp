@@ -24,6 +24,8 @@ request.setAttribute("basePath", basePath);
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/icon.css">
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
+	
 	<style type="text/css">
 body {
 	FONT-SIZE: 12px;

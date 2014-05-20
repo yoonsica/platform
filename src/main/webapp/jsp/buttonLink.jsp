@@ -18,6 +18,8 @@ System.out.print(request.getAttribute("resId"));
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+		<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
+	
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/icon.css">
 	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>

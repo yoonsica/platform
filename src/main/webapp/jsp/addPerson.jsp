@@ -17,6 +17,7 @@ request.setAttribute("basePath", basePath);
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
+	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
 	<style type="text/css">
 body {

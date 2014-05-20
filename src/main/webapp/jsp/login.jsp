@@ -4,6 +4,7 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 request.setAttribute("basePath", basePath);
 %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,6 +13,7 @@ request.setAttribute("basePath", basePath);
 	<title>平台登陆</title>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/js/md5.js"></script>
+	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
 	<style type="text/css">
 	<!--
 	html,body {

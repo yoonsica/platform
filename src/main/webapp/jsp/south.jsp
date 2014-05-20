@@ -17,7 +17,7 @@ request.setAttribute("basePath", basePath);
 	<script type="text/javascript" src="static/easyui/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="static/nav/IE-fix.js"></script>
-
+	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
 	<script type="text/javascript">
 	function addTab(title,href,icon){
 		var tt = $('#tt');  

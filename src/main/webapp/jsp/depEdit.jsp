@@ -21,6 +21,7 @@ request.setAttribute("basePath", basePath);
 	<link rel="stylesheet" href="${basePath }static/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.core-3.5.js"></script>
+		<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
 	<style type="text/css">
 body {
 	FONT-SIZE: 12px;

@@ -40,7 +40,7 @@ public class LoginController {
 			if (user.getUserName().equals("test")) {
 				if (user.getUserPassword().equals("c7a6ea7bef62600e3ac4852835cfc7c4")) {
 					System.out.println(user.getUserName());
-					session.setMaxInactiveInterval(600);
+					session.setMaxInactiveInterval(20);
 					System.out.println(user);
 					session.setAttribute("user", user);
 					ModelAndView mav = new ModelAndView("south");

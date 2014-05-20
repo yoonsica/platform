@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.ceit.vic.platform.exception.SessionTimeoutException;
 import com.ceit.vic.platform.models.User;
 
 public class SessionTimeoutInterceptor extends HandlerInterceptorAdapter {
@@ -33,19 +34,27 @@ public class SessionTimeoutInterceptor extends HandlerInterceptorAdapter {
             return true;  //返回true，则这个方面调用后会接着调用postHandle(),  afterCompletion()  
         }else{  
         	 // 未登录   
+        	 if (request.getHeader("x-requested-with") != null  
+                     && request.getHeader("x-requested-with")  
+                             .equalsIgnoreCase("XMLHttpRequest"))//如果是ajax请求响应头会有，x-requested-with；  
+             {  
+                 response.setHeader("sessionstatus", "timeout");//在响应头设置session状态
+                 response.getWriter().print("timeout"); //打印一个返回值，没这一行，在tabs页中无法跳出（导航栏能跳出），具体原因不明  
+                 return false;  
+             }  
         	response.setCharacterEncoding("utf8");
             PrintWriter out = response.getWriter();
             StringBuilder builder = new StringBuilder();  
             builder.append("<script type=\"text/javascript\" charset=\"UTF-8\">");  
             builder.append("alert(\"页面过期，请重新登录\");");  
-            builder.append("window.top.location.href=\"");  
+            builder.append("window.location.href=\"");  
             builder.append("http://localhost:8080/platform");  
             builder.append("/jsp/login.jsp\";</script>");  
             out.print(builder.toString());  
-            out.close();   
+            out.close(); 
+            return false;
             //throw new SessionTimeoutException();//返回到配置文件中定义的路径  
         }
-		return true;
 	}
 
 	@Override
