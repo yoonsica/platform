@@ -65,7 +65,7 @@ request.setAttribute("basePath", basePath);
 			callback: {
    				onClick: function (event, treeId, treeNode, clickFlag) {
    					// 设置按钮显示与否
-   					if(treeNode.level == 3) {
+   					if(treeNode.isParent == false) {
    						$("#addBtn").hide();
    					} else {
    						$("#addBtn").show();
@@ -225,8 +225,7 @@ request.setAttribute("basePath", basePath);
 			$("#addSubmitBtn").click(function(){
 				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 				var selectedNode = zTree.getSelectedNodes()[0];
-				// 数据字典只有四层，因此只有第三层添加的是叶子节点
-				var isParent = selectedNode.level == 2 ? false : true;
+				var isParent = $("[name='type']:checked").val() == 0 ? true : false;
 				var name = $("#addDiv [name='name']").attr("value");
 				var value = $("#addDiv [name='value']").attr("value");
 				$.ajax({  
@@ -301,10 +300,10 @@ request.setAttribute("basePath", basePath);
 			    	</thead>
 			    	<tbody>
 			    		<tr align="center">
-			    			<td width="50%">参数名</td><td width="50%"><span name="name"></span></td>
+			    			<td width="50%">名</td><td width="50%"><span name="name"></span></td>
 			    		</tr>
 			    		<tr align="center">
-			    			<td width="50%">参数值</td><td width="50%"><span name="value"></span></td>
+			    			<td width="50%">值</td><td width="50%"><span name="value"></span></td>
 			    		</tr>
 			    	</tbody>
 			    </table>
@@ -316,10 +315,17 @@ request.setAttribute("basePath", basePath);
 			    	</thead>
 			    	<tbody>
 			    		<tr align="center">
-			    			<td width="50%">参数名</td><td width="50%"><input name="name" type="text" /></td>
+			    			<td width="50%">名</td><td width="50%"><input name="name" type="text" /></td>
 			    		</tr>
 			    		<tr align="center">
-			    			<td width="50%">参数值</td><td width="50%"><input name="value" type="text" /></td>
+			    			<td width="50%">值</td><td width="50%"><input name="value" type="text" /></td>
+			    		</tr>
+			    		<tr align="center">
+			    			<td width="50%">类别</td>
+			    			<td width="50%">
+			    				<input name="type" type="radio" value="0" checked="checked" /><span>分类</span>
+			    				<input name="type" type="radio" value="1" /><span>参数</span>
+			    			</td>
 			    		</tr>
 			    	</tbody>
 			    	<tfoot>
@@ -339,10 +345,10 @@ request.setAttribute("basePath", basePath);
 			    	</thead>
 			    	<tbody>
 			    		<tr align="center">
-			    			<td width="50%">参数名</td><td width="50%"><input name="name" type="text" /></td>
+			    			<td width="50%">名</td><td width="50%"><input name="name" type="text" /></td>
 			    		</tr>
 			    		<tr align="center">
-			    			<td width="50%">参数值</td><td width="50%"><input name="value" type="text" /></td>
+			    			<td width="50%">值</td><td width="50%"><input name="value" type="text" /></td>
 			    		</tr>
 			    	</tbody>
 			    	<tfoot>

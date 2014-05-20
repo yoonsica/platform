@@ -1,15 +1,15 @@
 ﻿/**
- * jQuery EasyUI 1.2.6
+ * jQuery EasyUI 1.3.6
  * 
- * Licensed under the GPL terms
- * To use it on other terms please contact us
+ * Copyright (c) 2009-2014 www.jeasyui.com. All rights reserved.
  *
- * Copyright(c) 2009-2012 stworthy [ stworthy@gmail.com ] 
- * 
+ * Licensed under the GPL license: http://www.gnu.org/licenses/gpl.txt
+ * To use it on other terms please contact us at info@jeasyui.com
+ *
  */
 (function($){
 function _1(_2){
-$(_2).hide();
+$(_2).addClass("searchbox-f").hide();
 var _3=$("<span class=\"searchbox\"></span>").insertAfter(_2);
 var _4=$("<input type=\"text\" class=\"searchbox-text\">").appendTo(_3);
 $("<span><span class=\"searchbox-button\"></span></span>").appendTo(_3);
@@ -28,99 +28,137 @@ _9.width=_8;
 }
 sb.appendTo("body");
 if(isNaN(_9.width)){
-_9.width=sb.outerWidth();
+_9.width=sb._outerWidth();
 }
-sb._outerWidth(_9.width);
-sb.find("input.searchbox-text")._outerWidth(sb.width()-sb.find("a.searchbox-menu").outerWidth()-sb.find("span.searchbox-button").outerWidth());
+var _a=sb.find("span.searchbox-button");
+var _b=sb.find("a.searchbox-menu");
+var _c=sb.find("input.searchbox-text");
+sb._outerWidth(_9.width)._outerHeight(_9.height);
+_c._outerWidth(sb.width()-_b._outerWidth()-_a._outerWidth());
+_c.css({height:sb.height()+"px",lineHeight:sb.height()+"px"});
+_b._outerHeight(sb.height());
+_a._outerHeight(sb.height());
+var _d=_b.find("span.l-btn-left");
+_d._outerHeight(sb.height());
+_d.find("span.l-btn-text").css({height:_d.height()+"px",lineHeight:_d.height()+"px"});
 sb.insertAfter(_7);
 };
-function _a(_b){
-var _c=$.data(_b,"searchbox");
-var _d=_c.options;
-if(_d.menu){
-_c.menu=$(_d.menu).menu({onClick:function(_e){
-_f(_e);
+function _e(_f){
+var _10=$.data(_f,"searchbox");
+var _11=_10.options;
+if(_11.menu){
+_10.menu=$(_11.menu).menu({onClick:function(_12){
+_13(_12);
 }});
-var _10=_c.menu.children("div.menu-item:first[selected]");
-if(!_10.length){
-_10=_c.menu.children("div.menu-item:first");
+var _14=_10.menu.children("div.menu-item:first");
+_10.menu.children("div.menu-item").each(function(){
+var _15=$.extend({},$.parser.parseOptions(this),{selected:($(this).attr("selected")?true:undefined)});
+if(_15.selected){
+_14=$(this);
+return false;
 }
-_10.triggerHandler("click");
+});
+_14.triggerHandler("click");
 }else{
-_c.searchbox.find("a.searchbox-menu").remove();
-_c.menu=null;
+_10.searchbox.find("a.searchbox-menu").remove();
+_10.menu=null;
 }
-function _f(_11){
-_c.searchbox.find("a.searchbox-menu").remove();
-var mb=$("<a class=\"searchbox-menu\" href=\"javascript:void(0)\"></a>").html(_11.text);
-mb.prependTo(_c.searchbox).menubutton({menu:_c.menu,iconCls:_11.iconCls});
-_c.searchbox.find("input.searchbox-text").attr("name",$(_11.target).attr("name")||_11.text);
-_6(_b);
+function _13(_16){
+_10.searchbox.find("a.searchbox-menu").remove();
+var mb=$("<a class=\"searchbox-menu\" href=\"javascript:void(0)\"></a>").html(_16.text);
+mb.prependTo(_10.searchbox).menubutton({menu:_10.menu,iconCls:_16.iconCls});
+_10.searchbox.find("input.searchbox-text").attr("name",_16.name||_16.text);
+_6(_f);
 };
 };
-function _12(_13){
-var _14=$.data(_13,"searchbox");
-var _15=_14.options;
-var _16=_14.searchbox.find("input.searchbox-text");
-var _17=_14.searchbox.find(".searchbox-button");
-_16.unbind(".searchbox").bind("blur.searchbox",function(e){
-_15.value=$(this).val();
-if(_15.value==""){
-$(this).val(_15.prompt);
+function _17(_18){
+var _19=$.data(_18,"searchbox");
+var _1a=_19.options;
+var _1b=_19.searchbox.find("input.searchbox-text");
+var _1c=_19.searchbox.find(".searchbox-button");
+_1b.unbind(".searchbox");
+_1c.unbind(".searchbox");
+if(!_1a.disabled){
+_1b.bind("blur.searchbox",function(e){
+_1a.value=$(this).val();
+if(_1a.value==""){
+$(this).val(_1a.prompt);
 $(this).addClass("searchbox-prompt");
 }else{
 $(this).removeClass("searchbox-prompt");
 }
 }).bind("focus.searchbox",function(e){
-if($(this).val()!=_15.value){
-$(this).val(_15.value);
+if($(this).val()!=_1a.value){
+$(this).val(_1a.value);
 }
 $(this).removeClass("searchbox-prompt");
 }).bind("keydown.searchbox",function(e){
 if(e.keyCode==13){
 e.preventDefault();
-var _18=$.fn.prop?_16.prop("name"):_16.attr("name");
-_15.value=$(this).val();
-_15.searcher.call(_13,_15.value,_18);
+_1a.value=$(this).val();
+_1a.searcher.call(_18,_1a.value,_1b._propAttr("name"));
 return false;
 }
 });
-_17.unbind(".searchbox").bind("click.searchbox",function(){
-var _19=$.fn.prop?_16.prop("name"):_16.attr("name");
-_15.searcher.call(_13,_15.value,_19);
+_1c.bind("click.searchbox",function(){
+_1a.searcher.call(_18,_1a.value,_1b._propAttr("name"));
 }).bind("mouseenter.searchbox",function(){
 $(this).addClass("searchbox-button-hover");
 }).bind("mouseleave.searchbox",function(){
 $(this).removeClass("searchbox-button-hover");
 });
+}
 };
-function _1a(_1b){
-var _1c=$.data(_1b,"searchbox");
-var _1d=_1c.options;
-var _1e=_1c.searchbox.find("input.searchbox-text");
-if(_1d.value==""){
-_1e.val(_1d.prompt);
-_1e.addClass("searchbox-prompt");
+function _1d(_1e,_1f){
+var _20=$.data(_1e,"searchbox");
+var _21=_20.options;
+var _22=_20.searchbox.find("input.searchbox-text");
+var mb=_20.searchbox.find("a.searchbox-menu");
+if(_1f){
+_21.disabled=true;
+$(_1e).attr("disabled",true);
+_22.attr("disabled",true);
+if(mb.length){
+mb.menubutton("disable");
+}
 }else{
-_1e.val(_1d.value);
-_1e.removeClass("searchbox-prompt");
+_21.disabled=false;
+$(_1e).removeAttr("disabled");
+_22.removeAttr("disabled");
+if(mb.length){
+mb.menubutton("enable");
+}
 }
 };
-$.fn.searchbox=function(_1f,_20){
-if(typeof _1f=="string"){
-return $.fn.searchbox.methods[_1f](this,_20);
+function _23(_24){
+var _25=$.data(_24,"searchbox");
+var _26=_25.options;
+var _27=_25.searchbox.find("input.searchbox-text");
+_26.originalValue=_26.value;
+if(_26.value){
+_27.val(_26.value);
+_27.removeClass("searchbox-prompt");
+}else{
+_27.val(_26.prompt);
+_27.addClass("searchbox-prompt");
 }
-_1f=_1f||{};
+};
+$.fn.searchbox=function(_28,_29){
+if(typeof _28=="string"){
+return $.fn.searchbox.methods[_28](this,_29);
+}
+_28=_28||{};
 return this.each(function(){
-var _21=$.data(this,"searchbox");
-if(_21){
-$.extend(_21.options,_1f);
+var _2a=$.data(this,"searchbox");
+if(_2a){
+$.extend(_2a.options,_28);
 }else{
-_21=$.data(this,"searchbox",{options:$.extend({},$.fn.searchbox.defaults,$.fn.searchbox.parseOptions(this),_1f),searchbox:_1(this)});
+_2a=$.data(this,"searchbox",{options:$.extend({},$.fn.searchbox.defaults,$.fn.searchbox.parseOptions(this),_28),searchbox:_1(this)});
 }
-_a(this);
-_1a(this);
-_12(this);
+_e(this);
+_23(this);
+_17(this);
+_1d(this,_2a.options.disabled);
 _6(this);
 });
 };
@@ -132,40 +170,59 @@ return $.data(jq[0],"searchbox").menu;
 return $.data(jq[0],"searchbox").searchbox.find("input.searchbox-text");
 },getValue:function(jq){
 return $.data(jq[0],"searchbox").options.value;
-},setValue:function(jq,_22){
+},setValue:function(jq,_2b){
 return jq.each(function(){
-$(this).searchbox("options").value=_22;
-$(this).searchbox("textbox").val(_22);
+$(this).searchbox("options").value=_2b;
+$(this).searchbox("textbox").val(_2b);
 $(this).searchbox("textbox").blur();
+});
+},clear:function(jq){
+return jq.each(function(){
+$(this).searchbox("setValue","");
+});
+},reset:function(jq){
+return jq.each(function(){
+var _2c=$(this).searchbox("options");
+$(this).searchbox("setValue",_2c.originalValue);
 });
 },getName:function(jq){
 return $.data(jq[0],"searchbox").searchbox.find("input.searchbox-text").attr("name");
-},selectName:function(jq,_23){
+},selectName:function(jq,_2d){
 return jq.each(function(){
-var _24=$.data(this,"searchbox").menu;
-if(_24){
-_24.children("div.menu-item[name=\""+_23+"\"]").triggerHandler("click");
+var _2e=$.data(this,"searchbox").menu;
+if(_2e){
+_2e.children("div.menu-item[name=\""+_2d+"\"]").triggerHandler("click");
 }
 });
 },destroy:function(jq){
 return jq.each(function(){
-var _25=$(this).searchbox("menu");
-if(_25){
-_25.menu("destroy");
+var _2f=$(this).searchbox("menu");
+if(_2f){
+_2f.menu("destroy");
 }
 $.data(this,"searchbox").searchbox.remove();
 $(this).remove();
 });
-},resize:function(jq,_26){
+},resize:function(jq,_30){
 return jq.each(function(){
-_6(this,_26);
+_6(this,_30);
+});
+},disable:function(jq){
+return jq.each(function(){
+_1d(this,true);
+_17(this);
+});
+},enable:function(jq){
+return jq.each(function(){
+_1d(this,false);
+_17(this);
 });
 }};
-$.fn.searchbox.parseOptions=function(_27){
-var t=$(_27);
-return {width:(parseInt(_27.style.width)||undefined),prompt:t.attr("prompt"),value:t.val(),menu:t.attr("menu"),searcher:(t.attr("searcher")?eval(t.attr("searcher")):undefined)};
+$.fn.searchbox.parseOptions=function(_31){
+var t=$(_31);
+return $.extend({},$.parser.parseOptions(_31,["width","height","prompt","menu"]),{value:(t.val()||undefined),disabled:(t.attr("disabled")?true:undefined),searcher:(t.attr("searcher")?eval(t.attr("searcher")):undefined)});
 };
-$.fn.searchbox.defaults={width:"auto",prompt:"",value:"",menu:null,searcher:function(_28,_29){
+$.fn.searchbox.defaults={width:"auto",height:22,prompt:"",value:"",menu:null,disabled:false,searcher:function(_32,_33){
 }};
 })(jQuery);
 

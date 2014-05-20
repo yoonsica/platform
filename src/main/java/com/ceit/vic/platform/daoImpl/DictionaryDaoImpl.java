@@ -52,7 +52,17 @@ public class DictionaryDaoImpl implements DictionaryDao {
 
 	@Override
 	public void delete(int id) {
-		sf.getCurrentSession().delete(findById(id));
+		Query query = null;
+		try {
+			query = sf.getCurrentSession().createSQLQuery("delete Dictionary where id in( " + 
+				"select id from Dictionary " + 
+				"start with id = :id " + 
+				"connect by prior id = parent_id)");
+			query.setParameter("id", id);
+			query.executeUpdate();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
