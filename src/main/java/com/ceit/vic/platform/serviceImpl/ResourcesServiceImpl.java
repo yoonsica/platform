@@ -320,9 +320,11 @@ public class ResourcesServiceImpl implements ResourcesService {
 		List<ZTreeNode> nodeList = new ArrayList<ZTreeNode>();
 		for (Resources resources : resList) {
 			ZTreeNode node = new ZTreeNode(resources.getName(),resources.getId(),resources.getParentId());
-			node.setIcon("static/easyui/themes/icons/"+resources.getIcon());
-			node.setIconCls(resources.getIcon().split("\\.")[0]);
-			if (resources.getType().equals("0")) {
+			if (null!=resources.getIcon()) {
+				node.setIcon("static/easyui/themes/icons/"+resources.getIcon());
+				node.setIconCls(resources.getIcon().split("\\.")[0]);
+			}
+			if(resources.getType().equals("0")) {
 				if (resources.getmType().equals("1")
 						|| resources.getmType().equals("0")) {// 1-目录
 					node.setIsParent("true");
