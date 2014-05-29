@@ -84,7 +84,7 @@ public class RoleServiceImpl implements RoleService {
 			PersonDTO dto = new PersonDTO();
 			dto.setId(person.getId());
 			dto.setCode(person.getCode());
-			Dep_Person dep_Person = dep_PersonDao.getByPersonId(person.getId());
+			Dep_Person dep_Person = dep_PersonDao.getByPersonId(person.getId(),true).get(0);
 			dto.setDepartmentName(departmentDao.getDepartmentById(dep_Person.getDepId()).getName());
 			dto.setState(person.getState().equals("0")?"启用":"停用");
 			dto.setMemo(person.getMemo());
@@ -103,9 +103,9 @@ public class RoleServiceImpl implements RoleService {
 		
 	}
 	@Override
-	public void addPersonRole(int[] roleIds, int[] idArray) {
+	public void addPersonRole(int[] roleIds, int personId) {
+		person_RoleDao.removeUnusedRoles(roleIds,personId);
 		for (int roleId : roleIds) {
-			for (int personId : idArray) {
 				if(person_RoleDao.getPersonRole(roleId,personId).size()!=1){
 					int id = idproviderDao.getCurrentId("PERSONROLE");
 					Person_Role person_Role = new Person_Role();
@@ -115,7 +115,6 @@ public class RoleServiceImpl implements RoleService {
 					person_RoleDao.add(person_Role);
 					idproviderDao.add("PERSONROLE");
 				}
-			}
 		}
 		
 	}
@@ -124,13 +123,38 @@ public class RoleServiceImpl implements RoleService {
 		return roleDao.getRolesTree();
 	}
 	@Override
-	public int getRoleIdByPersonId(int personId) {
-		return person_RoleDao.getPersonRoleByPersonId(personId).getRoleId();
-	}
-	@Override
-	public void updateByPersonId(int id, int roleId) {
-		person_RoleDao.updateByPersonId(id,roleId);
-		
+	public List<Integer> getRoleIdByPersonId(int personId) {
+		List<Person_Role> list = person_RoleDao.getPersonRoleByPersonId(personId);
+		List<Integer> list1 = new ArrayList<Integer>();
+		for (Person_Role person_Role : list) {
+			list1.add(person_Role.getRoleId());
+		}
+		return list1;
 	}
 
+	@Override
+	public List<Role> getRolesByPersonId(int personId) {
+		List<Person_Role> list = person_RoleDao.getPersonRoleByPersonId(personId);
+		List<Integer> list1 = new ArrayList<Integer>();
+		for (Person_Role person_Role : list) {
+			list1.add(person_Role.getRoleId());
+		}
+		return roleDao.getRolesByIds(list1);
+	}
+	@Override
+	public void addPersonRole(int roleId, int[] personIds) {
+		for (int personId : personIds) {
+			List<Person_Role> list = person_RoleDao.getPersonRole(roleId,personId);
+				if(null==list||list.size()==0){
+					int id = idproviderDao.getCurrentId("PERSONROLE");
+					Person_Role person_Role = new Person_Role();
+					person_Role.setPersonId(personId);
+					person_Role.setRoleId(roleId);
+					person_Role.setId(id);
+					person_RoleDao.add(person_Role);
+					idproviderDao.add("PERSONROLE");
+				}
+		}
+		
+	}
 }

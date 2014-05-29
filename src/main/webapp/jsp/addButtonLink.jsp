@@ -47,12 +47,25 @@ request.setAttribute("basePath", basePath);
 			window.parent.window.refreshTree("${resId }");
 				//window.location.href = "${basePath }jsp/buttonLink.jsp";
 			});
+			$("#submitBtn").click(function(){
+				$.ajax({  
+	                type: "POST",  
+	                url: "addButtonLink",
+	                data:$("#buttonLinkForm").serialize(),
+	                async : false,  
+	                cache:false,  
+	                success:function(data){
+	                	alert(data);
+				        window.location.href = "${basePath}moduleInfo/${resId}";;
+	                }  
+	         	});
+			});
 		});
 	</script>
   </head>
   
   <body>
-  	<form action="${basePath }addButtonLink">
+  	<form id="buttonLinkForm">
   		<input type="hidden" name="parent" value="${resId }">
   		<table>
 			<tr>
@@ -68,7 +81,7 @@ request.setAttribute("basePath", basePath);
 				<td>备注</td><td><textarea name="memo"></textarea></td>
 			</tr>
 			<tr>
-				<td colspan="2" style="text-align: center;"><input type="submit" value="确定"><input type="button" id="cancelBtn" value="取消"></td>
+				<td colspan="2" style="text-align: center;"><input id="submitBtn" type="submit" value="确定"><input type="button" id="cancelBtn" value="取消"></td>
 			</tr>
 		</table>
   	</form>

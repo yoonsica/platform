@@ -1,6 +1,7 @@
 package com.ceit.vic.platform.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ceit.vic.platform.models.Department;
 
@@ -15,4 +16,5 @@ public interface DepartmentDao {
 	public Department getDepartmentToDown(int parentId, int dispindex);
 	public Department getDepartmentToUp(int parentId, int dispindex);
 	public List<Department> getDepartmentsByIds(List<Integer> idList);
+	public List<Department> getByParamMap(Map<String, Object> paraMap);
 }

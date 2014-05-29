@@ -93,7 +93,7 @@ request.setAttribute("basePath", basePath);
 					iconCls:'icon-undo',
 					handler:function(){
 						$('#btnsave').linkbutton('enable');
-						window.location.href = "${basePath}jsp/toResAuth.jsp";
+						window.parent.location.href = "${basePath}jsp/toResAuth.jsp";
 					}
 				}
 				]

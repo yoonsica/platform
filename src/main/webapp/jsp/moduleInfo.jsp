@@ -119,7 +119,7 @@ body {
 			});
 			$.ajax({  
                 type: "POST",  
-                url: "moduleManage/1",
+                url: "moduleManage",
                 async : false,  
                 cache:false,  
                 dataType: "json",
@@ -172,10 +172,10 @@ body {
 					]],
 					columns:[[
 						{field:'id',title:'id',width:40,sortable:true,hidden:true},
-						{field:'name',title:'名称',width:80},
-						{field:'type',title:'类型',width:140},
-						{field:'link',title:'请求地址',width:140},
-						{field:'memo',title:'备注',width:140}
+						{field:'name',title:'名称',width:90},
+						{field:'type',title:'类型',width:30},
+						{field:'link',title:'请求地址',width:200},
+						{field:'memo',title:'备注',width:200}
 					]],
 					rownumbers:true,
 					pagination:true,
@@ -189,11 +189,11 @@ body {
 						}
 					},{
 						id:'btnRemove',
-						text:'添加',
+						text:'删除',
 						iconCls:'icon-remove',
 						handler:function(){
 							$('#btnsave').linkbutton('enable');
-							var rows = $('#test').datagrid('getSelections');//获得选中行
+							var rows = $('#buttonLinkTable').datagrid('getSelections');//获得选中行
 							var idArray = new Array();
 							for(var i=0; i<rows.length; i++){
 							    idArray.push(rows[i].id);
@@ -206,7 +206,7 @@ body {
 				               cache: false,  
 				               success:function(data){
 				               		alert(data);
-				               		window.location.href = "${basePath}toAddButtonLink/${moduleId}";;
+				               		window.location.href = "${basePath}moduleInfo/${moduleId}";;
 				               }  
 		        			});
 						}

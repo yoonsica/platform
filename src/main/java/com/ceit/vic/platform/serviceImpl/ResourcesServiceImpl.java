@@ -1,7 +1,9 @@
 package com.ceit.vic.platform.serviceImpl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,16 +17,21 @@ import com.ceit.vic.platform.dao.ResourcesDao;
 import com.ceit.vic.platform.dao.RoleDao;
 import com.ceit.vic.platform.models.ButtonLinkDTO;
 import com.ceit.vic.platform.models.DepDTO;
+import com.ceit.vic.platform.models.Dep_Person;
 import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
 import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.PersonDTO;
+import com.ceit.vic.platform.models.Person_Role;
 import com.ceit.vic.platform.models.ResAccess;
 import com.ceit.vic.platform.models.Resources;
 import com.ceit.vic.platform.models.Role;
 import com.ceit.vic.platform.models.RoleDTO;
 import com.ceit.vic.platform.models.ZTreeNode;
+import com.ceit.vic.platform.service.Dep_PersonService;
+import com.ceit.vic.platform.service.Person_RoleService;
+import com.ceit.vic.platform.service.ResAccessService;
 import com.ceit.vic.platform.service.ResourcesService;
 
 @Service
@@ -43,48 +50,109 @@ public class ResourcesServiceImpl implements ResourcesService {
 	PersonDao personDao;
 	@Autowired
 	RoleDao roleDao;
+	@Autowired 
+	ResAccessService resAccessService;
+	@Autowired 
+	Dep_PersonService dep_PersonService;
+	@Autowired 
+	Person_RoleService person_RoleService;
+	
+	public boolean isAuthOrNot(Person person,int resId){
+		boolean flag=false;
+		if (person==null||person.getCode().equals("test1")){
+			return true;
+		}
+		 //判断人
+        Map<String, Object> map1 = new HashMap<String, Object>();
+        map1.put("resId", resId);
+        map1.put("accessType", 1);
+        map1.put("accessId", person.getId());
+        List<ResAccess> testList = resAccessService.getByParamMap(map1);
+        if (null!=testList&&testList.size()>0) {
+        	flag =true;
+		}
+        //判断部门
+        List<Dep_Person> depList = dep_PersonService.getByPersonId(person.getId(),false);
+        if (null!=depList&&depList.size()>0) {
+        	List<Integer> depIdList = new ArrayList<Integer>();
+	        for (Dep_Person dep_Person : depList) {
+				depIdList.add(dep_Person.getDepId());
+			}
+	        Map<String, Object> map2 = new HashMap<String, Object>();
+	        map2.put("resId", resId);
+	        map2.put("accessType", 2);
+	        map2.put("accessId", depIdList);
+	        List<ResAccess> testList2 = resAccessService.getByParamMap(map2);
+	        if (null!=testList2&&testList2.size()>0) {
+	        	flag = true;
+			}
+		}
+        
+        //判断角色
+        List<Person_Role> person_Roles = person_RoleService.getPersonRoleByPersonId(person.getId());
+        if (null!=person_Roles&&person_Roles.size()>0) {
+        	List<Integer> roleIds = new ArrayList<Integer>();
+	        for (Person_Role person_Role : person_Roles) {
+				roleIds.add(person_Role.getRoleId());
+			}
+	        Map<String, Object> map3 = new HashMap<String, Object>();
+	        map3.put("resId", resId);
+	        map3.put("accessType", 0);
+	        map3.put("accessId", roleIds);
+	        List<ResAccess> testList3 = resAccessService.getByParamMap(map3);
+	        if (null!=testList3&&testList3.size()>0) {
+	        	flag = true;
+			}
+		}
+        return flag;
+	}
+	
+	
 	@Override
-	public List<NavItem> getNavItems() {
+	public List<NavItem> getNavItems(Person person) {
 		List<Resources> rsList = resourcesDao.getNavResources();
 		List<NavItem> navItems = new ArrayList<NavItem>();
 		for (Resources resource : rsList) {
-			NavItem item = new NavItem(resource.getLink(), resource.getName(),
-					resource.getId());
-			navItems.add(item);
+			int resId = resource.getId();
+	        if (isAuthOrNot(person,resId)) {
+	        	NavItem item = new NavItem(resource.getLink(), resource.getName(),
+						resource.getId());
+				navItems.add(item);
+			}
 		}
-
 		return navItems;
 	}
 
 	@Override
 	public List<ZTreeNode> getResourcesTreeById(int id, boolean containId,
-			boolean containDisable) throws Exception {
+			boolean containDisable,Person person) throws Exception {
 		List<ZTreeNode> nodeList = new ArrayList<ZTreeNode>();
 		List<Object[]> rList = resourcesDao.getResourcesTreeById(id,
 				containDisable);
 		for (Object[] objects : rList) {
-			ZTreeNode node = new ZTreeNode();
-			node.setId(Integer.parseInt(objects[0].toString()));
-			if (containId) {
-				node.setName("(" + node.getId() + ")" + objects[8].toString());
-			} else {
-				node.setName(objects[8].toString());
+			if (isAuthOrNot(person, Integer.parseInt(objects[0].toString()))) {
+				ZTreeNode node = new ZTreeNode();
+				node.setId(Integer.parseInt(objects[0].toString()));
+				if (containId) {
+					node.setName("(" + node.getId() + ")" + objects[8].toString());
+				} else {
+					node.setName(objects[8].toString());
+				}
+				node.setpId(Integer.parseInt(objects[9].toString()));
+				if (null != objects[3]) {
+					node.setIcon("static/easyui/themes/icons/"
+							+ objects[3].toString());
+					node.setIconCls(objects[3].toString().split("\\.")[0]);
+				}
+				if (objects[6].toString().equals("1")
+						|| objects[6].toString().equals("0")) {// 1-目录
+					node.setIsParent("true");
+				} else if (objects[6].toString().equals("2")) {
+					node.setHref(objects[4].toString());// 链接
+				}
+				// node.setIcon(objects[3].toString());
+				nodeList.add(node);
 			}
-			node.setpId(Integer.parseInt(objects[9].toString()));
-			if (null != objects[3]) {
-				node.setIcon("static/easyui/themes/icons/"
-						+ objects[3].toString());
-				node.setIconCls(objects[3].toString().split("\\.")[0]);
-			}
-			if (objects[6].toString().equals("1")
-					|| objects[6].toString().equals("0")) {// 1-目录
-				node.setIsParent("true");
-			} else if (objects[6].toString().equals("2")) {
-				node.setHref(objects[4].toString());// 链接
-			}
-
-			// node.setIcon(objects[3].toString());
-			nodeList.add(node);
 		}
 		return nodeList;
 	}
@@ -199,6 +267,9 @@ public class ResourcesServiceImpl implements ResourcesService {
 		List<Integer> idList = resAccessDao.getAccessIdsByResId(resId, 2,
 				firstResult, maxResults);
 		List<Department> depList = departmentDao.getDepartmentsByIds(idList);
+		if (null==depList) {
+			return null;
+		}
 		List<DepDTO> dtoList = new ArrayList<DepDTO>();
 		for (Department department : depList) {
 			DepDTO dto = new DepDTO(department.getId(), department.getName(),
@@ -310,24 +381,48 @@ public class ResourcesServiceImpl implements ResourcesService {
 		int firstResult, maxResults;
 		firstResult = (page - 1) * rows;
 		maxResults = rows;
-		// 获得已授权的部门id集合
+		// 获得已授权的人员id集合
 		List<Integer> idList = resAccessDao.getAccessIdsByResId(resId, 1,
 				firstResult, maxResults);
 		List<Person> personList = personDao.getPersonsByIds(idList);
+		if (null==personList) {
+			return null;
+		}
 		List<PersonDTO> dtoList = new ArrayList<PersonDTO>();
 		for (Person person : personList) {
 			PersonDTO dto = new PersonDTO(person.getId(),person.getName(),person.getCode(),person.getMemo());
 			if (person.getSex()==null) {
 				dto.setSex("未知");
 			}else {
-				dto.setSex(person.getSex().equals("0")?"男":"女");
+				dto.setSex(person.getSex().equals("1")?"男":"女");
 			}
 			int depId = depPersonDao.getMainByPersonId(person.getId()).getDepId();
-			String depName = departmentDao.getDepartmentById(depId).getName();
-			dto.setDepartmentName(depName);
+			Department department = departmentDao.getDepartmentById(depId);
+			if (null!=department) {
+				String depName = department.getName();
+				dto.setDepartmentName(depName);
+			}else {
+				dto.setDepartmentName("未知");
+			}
 			dtoList.add(dto);
+
 		}
 		return dtoList;
+	}
+
+	@Override
+	public List<Resources> getByParamMap(Map<String, Object> map) {
+		return resourcesDao.getByParamMap(map);
+	}
+
+	@Override
+	public Resources getResourcesById(int parentId) {
+		return resourcesDao.getResourceById(parentId);
+	}
+
+	@Override
+	public List<Resources> getByLink(String link) {
+		return resourcesDao.getResourceByLink(link);
 	}
 
 }

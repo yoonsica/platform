@@ -25,9 +25,9 @@ public interface Person_RoleDao {
 
 	public void add(Person_Role person_Role);
 
-	public Person_Role getPersonRoleByPersonId(int personId);
-
-	public void updateByPersonId(int id, int roleId);
+	public List<Person_Role> getPersonRoleByPersonId(int personId);
 
 	public void deleteByPersonIds(int[] idArray);
+
+	public void removeUnusedRoles(int[] roleIds, int personId);
 }

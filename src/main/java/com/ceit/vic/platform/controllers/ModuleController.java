@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import com.ceit.vic.platform.models.ModuleInfoDTO;
+import com.ceit.vic.platform.models.Person;
+import com.ceit.vic.platform.models.Resources;
 import com.ceit.vic.platform.models.ZTreeNode;
 import com.ceit.vic.platform.service.ResourcesService;
 import com.ceit.vic.platform.tools.FileTool;
@@ -21,10 +23,18 @@ public class ModuleController {
 	@Autowired
 	ResourcesService resourcesService;
 	
+	
+	@RequestMapping("/toModuleManage")
+	public ModelAndView toModuleManage(){
+		ModelAndView mav = new ModelAndView("moduleManage");
+		return mav;
+	}
+	
 	@RequestMapping("/moduleChild/{parentId}")
 	@ResponseBody
-	public List<ZTreeNode> moduleChild(@PathVariable int parentId) throws Exception{
-		List<ZTreeNode> childList = resourcesService.getResourcesTreeById(parentId,false,false);
+	public List<ZTreeNode> moduleChild(@PathVariable int parentId,HttpServletRequest request) throws Exception{
+		Person person = (Person) request.getSession().getAttribute("user");
+		List<ZTreeNode> childList = resourcesService.getResourcesTreeById(parentId,false,false,person);
 		return childList;
 	}
 	
@@ -104,7 +114,8 @@ public class ModuleController {
 		ModelAndView mav = new ModelAndView("moduleAddFolder");
 		String dir = request.getSession().getServletContext().getRealPath("/static/images/icons");
 		List<String> iconList = FileTool.getFileNamesByDir(dir);
-		mav.addObject("parent",parentId);
+		Resources resources = resourcesService.getResourcesById(parentId);
+		mav.addObject("parent",resources);
 		mav.addObject("iconList",iconList);
 		return mav;
 	}
@@ -150,11 +161,11 @@ public class ModuleController {
 		return mav;
 	}
 	
-	@RequestMapping("/addButtonLink")
-	public ModelAndView addButtonLink(ModuleInfoDTO dto){
-		ModelAndView mav = new ModelAndView("buttonLink");
+	@RequestMapping(value="/addButtonLink",produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String addButtonLink(ModuleInfoDTO dto){
 		resourcesService.addResource(dto, false);
-		return mav;
+		return "添加成功!";
 	}
 	
 	@RequestMapping("/toDepAuth/{moduleId}")
@@ -218,7 +229,7 @@ public class ModuleController {
 		return map;
 	}
 	
-	@RequestMapping("/deleteButtonLink")
+	@RequestMapping(value="/deleteButtonLink",produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String deleteButtonLink(int[] idArray){
 		resourcesService.remove(idArray);
@@ -244,5 +255,11 @@ public class ModuleController {
 	public String deleteResAuth(int[] idArray,@PathVariable int resId,int accessType){
 		resourcesService.deleteResAccess(idArray,resId,accessType);
 		return "删除成功！";
+	}
+	
+	@RequestMapping("/toResAuth")
+	public ModelAndView toResAuth(){
+		ModelAndView mav = new ModelAndView("toResAuth");
+		return mav;
 	}
 }

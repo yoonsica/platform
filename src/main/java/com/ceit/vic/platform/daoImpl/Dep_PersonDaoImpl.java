@@ -1,5 +1,7 @@
 package com.ceit.vic.platform.daoImpl;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,11 +57,11 @@ public class Dep_PersonDaoImpl implements Dep_PersonDao  {
 	}
 
 	@Override
-	public Dep_Person getByPersonId(int id) {
+	public List<Dep_Person> getByPersonId(int id,boolean mainDep) {
 		Query query = null;
 		try {
 			query = sf.getCurrentSession().createQuery("from Dep_Person t where t.personId = "+id+" and t.mainDep=1");
-			return (Dep_Person) query.uniqueResult();
+			return query.list();
 		} catch (Exception e) {
 			// TODO: handle exception
 		}

@@ -2,6 +2,7 @@ package com.ceit.vic.platform.daoImpl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Repository;
 
 import com.ceit.vic.platform.dao.DepartmentDao;
 import com.ceit.vic.platform.models.Department;
-import com.ceit.vic.platform.models.Resources;
 @Repository
 public class DepartmentDaoImpl implements DepartmentDao{
 	@Autowired
@@ -121,6 +121,37 @@ public class DepartmentDaoImpl implements DepartmentDao{
 			return query.list();
 		} catch (Exception e) {
 			// TODO: handle exception
+		}
+		return null;
+	}
+
+	@Override
+	public List<Department> getByParamMap(Map<String, Object> paraMap) {
+		Query query;
+		StringBuffer sb = new StringBuffer("from Department t ");
+		if (paraMap!=null) {
+			sb.append("where ");
+			for (Map.Entry<String, Object> entry : paraMap.entrySet()) {
+				if(entry.getValue() instanceof List){
+					sb.append("t.").append(entry.getKey()).append("in(");
+					List<Object> list = new ArrayList<Object>();
+					if (null!=list) {
+						for (Object object : list) {
+							sb.append("'").append(object.toString()).append("',");
+						}
+						sb=new StringBuffer(sb.substring(0,sb.length()-1));
+						sb.append(") and ");
+					}
+					
+				}else {
+					sb.append("t.").append(entry.getKey()).append("=").append(entry.getValue().toString()).append(" and ");
+				}
+			}
+		}
+		try {
+			query = sf.getCurrentSession().createQuery(sb.substring(0, sb.length()-4).toString());
+			return query.list();
+		} catch (Exception e) {
 		}
 		return null;
 	}

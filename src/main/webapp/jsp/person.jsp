@@ -19,36 +19,19 @@ request.setAttribute("basePath", basePath);
 	<meta http-equiv="description" content="This is my page">
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="${basePath }static/css/common.css">
 	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
 	
-	<style type="text/css">
-		body {
-	FONT-SIZE: 12px;
-	BACKGROUND: #FFFFFF; 
-	SCROLLBAR-FACE-COLOR: #bfebd2; 
-    SCROLLBAR-HIGHLIGHT-COLOR: #94dc94; 
-   SCROLLBAR-SHADOW-COLOR: #ade2c6; 
-   SCROLLBAR-3DLIGHT-COLOR: #ade2c6; 
-   SCROLLBAR-ARROW-COLOR: #73a790; 
-   SCROLLBAR-TRACK-COLOR: #e9efeb; 
-   SCROLLBAR-DARKSHADOW-COLOR: #8ac7a4; 
-   SCROLLBAR-BASE-COLOR: #168a16; 
-  FONT-FAMILY: "����", "Verdana", "Arial";
-	margin-top: 0px; 
-	margin-left: 2px; 
-	margin-right: 0px; 
-	overflow-y: auto
-}
 	</style>
 	<script>
 		$(function(){
 			$('#test').datagrid({
 				title:'人员列表',
 				iconCls:'icon-save',
-				width:600,
-				height:'auto',
+				width:894,
+				height:525,
 				fitColumns: true,
 				url:"persons/${depId}",
 				frozenColumns:[[
@@ -161,10 +144,11 @@ request.setAttribute("basePath", basePath);
 						$('#btnauthorize').linkbutton('enable');
 						var rows = $('#test').datagrid('getSelections');//获得选中行
 						var idArray = new Array();
-						for(var i=0; i<rows.length; i++){
-						    idArray.push(rows[i].id);
+						if(rows.length>1){ 
+							alert("不能多选！");
+							return false;
 						}
-						window.parent.location.href = "${basePath}person/toAuthorizeRole?idArray="+idArray;
+						window.parent.location.href = "${basePath}person/toAuthorizeRole/"+rows[0].id;
 					}
 				},{
 					id:'btnresetPassword',

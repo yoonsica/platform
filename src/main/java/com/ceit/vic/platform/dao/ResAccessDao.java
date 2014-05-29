@@ -1,6 +1,7 @@
 package com.ceit.vic.platform.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ceit.vic.platform.models.ResAccess;
 
@@ -15,6 +16,9 @@ public interface ResAccessDao {
 	 * @return
 	 */
 	public List<Integer> getAccessIdsByResId(int resId,int accessType, int firstResult, int maxResults);
+	
+	
+	public List<ResAccess> getByParamMap(Map<String, Object> paraMap);
 
 	public void add(ResAccess resAccess);
 

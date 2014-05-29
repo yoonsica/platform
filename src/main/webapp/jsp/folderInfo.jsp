@@ -124,7 +124,7 @@ tr{
 			});
 			$.ajax({  
                 type: "POST",  
-                url: "moduleManage/1",
+                url: "moduleManage",
                 async : false,  
                 cache:false,  
                 dataType: "json",

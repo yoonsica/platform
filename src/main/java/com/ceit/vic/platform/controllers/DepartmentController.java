@@ -23,6 +23,10 @@ public class DepartmentController {
 	@Autowired
 	DepartmentService departmentService;
 	
+	@RequestMapping(value="/departmentManage")
+	public ModelAndView departmentManage() {
+		return new ModelAndView("departmentManage");
+	}
 	
 	@RequestMapping(value="/department")
 	@ResponseBody

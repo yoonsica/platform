@@ -198,17 +198,18 @@ request.setAttribute("basePath", basePath);
 				var nodeId = nodes[0].id;
 				$.ajax({  
 	                type: "POST",  
-	                url: "moduleManage/remove/"+nodeId,
-	                async : false,  
-	                cache:false,  
+	                url: "${basePath}moduleManage/remove/"+nodeId,
 	                success:function(data){
 	                	alert(data);
-	                	refreshTree(parentNode.id);
-	                	window.parent.window.refreshWestDiv(null);
-	                	if(parentNode.id==1){
-	                		alert("更改了菜单项，菜单项将刷新");
-	                		window.parent.window.navInit();
+	                	if(data!='您没有该项权限！'){
+	                		refreshTree(parentNode.id);
+		                	window.parent.window.refreshWestDiv(null);
+		                	if(parentNode.id==1){
+		                		alert("更改了菜单项，菜单项将刷新");
+		                		window.parent.window.navInit();
+		                	}
 	                	}
+	                	
 	                }  
 	         	});
 			});

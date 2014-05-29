@@ -1,6 +1,7 @@
 package com.ceit.vic.platform.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
@@ -8,7 +9,9 @@ import com.ceit.vic.platform.models.ButtonLinkDTO;
 import com.ceit.vic.platform.models.DepDTO;
 import com.ceit.vic.platform.models.ModuleInfoDTO;
 import com.ceit.vic.platform.models.NavItem;
+import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.PersonDTO;
+import com.ceit.vic.platform.models.Resources;
 import com.ceit.vic.platform.models.RoleDTO;
 import com.ceit.vic.platform.models.ZTreeNode;
 
@@ -18,7 +21,7 @@ public interface ResourcesService {
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public List<NavItem> getNavItems();
+	public List<NavItem> getNavItems(Person person);
 	/**
 	 * 根据id获得其子节点构成的树
 	 * @param parentId
@@ -27,7 +30,7 @@ public interface ResourcesService {
 	 * @return
 	 */
 	@Transactional(readOnly=true)
-	public List<ZTreeNode> getResourcesTreeById(int id,boolean containId,boolean containDisable) throws Exception;
+	public List<ZTreeNode> getResourcesTreeById(int id,boolean containId,boolean containDisable,Person person) throws Exception;
 	/**
 	 * 获得资源列表
 	 * @param id
@@ -90,4 +93,10 @@ public interface ResourcesService {
 	public List<RoleDTO> getRoleAuthList(int resId, int page, int rows);
 	@Transactional
 	public List<PersonDTO> getPersonAuthList(int resId, int page, int rows);
+	@Transactional
+	public List<Resources> getByParamMap(Map<String, Object> map);
+	@Transactional
+	public Resources getResourcesById(int parentId);
+	@Transactional
+	public List<Resources> getByLink(String link);
 }

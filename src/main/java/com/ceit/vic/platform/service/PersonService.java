@@ -49,4 +49,12 @@ public interface PersonService {
 	public List<Person> getPersonsByIds(int[] idArray);
 	@Transactional
 	public void resetPassword(int[] idArray);
+	
+	/**
+	 * 通过用户名查找用户对象
+	 * @param code
+	 * @return
+	 */
+	@Transactional
+	public List<Person> getPersonsByCodeName(String code);
 }

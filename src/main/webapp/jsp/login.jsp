@@ -29,6 +29,9 @@ request.setAttribute("basePath", basePath);
 		function init(){
 			var str=document.getElementById("form1:textfield");		
 			str.focus();
+			if("${errorMsg==null}"=='false'){
+				alert("${errorMsg}");
+			}
 		}
 		$(function(){
 			$("#submitBtn").click(function(){
@@ -47,9 +50,6 @@ request.setAttribute("basePath", basePath);
 				<tr>
 					<td height="538" align="left" valign="top">
 						<div style="height: 350px; width: 100%;">
-
-
-
 						</div>
 						<div style="height: 188px;; width: 100%;">
 							<table width="100%" height="188px;" border="0" cellspacing="0"
@@ -61,7 +61,7 @@ request.setAttribute("basePath", basePath);
 									<td width="50%" align="left" valign="top"
 										style="padding-left: 150px;">
 										
-	<form id="form1" name="form1" method="post" action="${basePath }login">
+	<form id="form1" name="form1" method="post" action="${basePath }valid">
 
 											<table width="200" border="0" cellspacing="0" cellpadding="0"
 												style="font-size: 15px; font-weight: bold;">
@@ -70,7 +70,7 @@ request.setAttribute("basePath", basePath);
 														用户名&nbsp;
 													</td>
 													<td height="40" align="left" valign="middle">
-														<input id="form1:textfield" type="text" name="userName" style="width:100px;" tabindex="1" />
+														<input id="form1:textfield" type="text" name="code" style="width:100px;" tabindex="1" />
 													</td>
 												</tr>
 												<tr>
@@ -78,7 +78,7 @@ request.setAttribute("basePath", basePath);
 														密&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;
 													</td>
 													<td height="40" align="left" valign="middle">
-														<input id="form1:password" type="password" name="userPassword" value="" style="width: 100px;" tabindex="2" />
+														<input id="form1:password" type="password" name="password" value="" style="width: 100px;" tabindex="2" />
 													</td>													
 												</tr>
 												<tr>	

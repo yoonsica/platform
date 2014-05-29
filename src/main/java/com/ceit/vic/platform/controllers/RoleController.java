@@ -139,9 +139,13 @@ public class RoleController {
 	@RequestMapping(value="/addPersonRole/{roleId}", produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String addPersonRole(@PathVariable int roleId,int[] idArray){
-		int[] roleIds = new int[1];
-		roleIds[0] = roleId;
-		roleService.addPersonRole(roleIds,idArray);
+		roleService.addPersonRole(roleId,idArray);
 		return "添加成功！";
 	}
+	@RequestMapping(value="/toRoleManage")
+	public ModelAndView toRoleManage(){
+		ModelAndView mv = new ModelAndView("role");
+		return mv;
+	}
+	
 }

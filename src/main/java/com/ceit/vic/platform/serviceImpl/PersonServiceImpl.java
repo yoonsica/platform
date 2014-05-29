@@ -44,7 +44,7 @@ public class PersonServiceImpl implements PersonService {
 			if (person.getSex()==null) {
 				dto.setSex("未知");
 			}else {
-				dto.setSex(person.getSex().equals("0")?"男":"女");
+				dto.setSex(person.getSex().equals("1")?"男":"女");
 			}
 			dto.setId(person.getId());
 			dto.setName(person.getName());
@@ -155,6 +155,10 @@ public class PersonServiceImpl implements PersonService {
 	public void resetPassword(int[] idArray) {
 		personDao.resetPassword(idArray);
 		
+	}
+	@Override
+	public List<Person> getPersonsByCodeName(String code) {
+		return personDao.getPersonsByCode(code);
 	}
 
 }

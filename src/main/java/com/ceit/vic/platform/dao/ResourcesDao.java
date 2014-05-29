@@ -1,10 +1,12 @@
 package com.ceit.vic.platform.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.ceit.vic.platform.models.Resources;
 
 public interface ResourcesDao {
+	public List<Resources> getByParamMap(Map<String, Object> paraMap);
 	/**
 	 * 获得导航栏菜单项
 	 * @return
@@ -50,4 +52,5 @@ public interface ResourcesDao {
 			int maxResults);
 	public int getButtonLinkAmount(int resId);
 	public void remove(int[] idArray);
+	public List<Resources> getResourceByLink(String link);
 }

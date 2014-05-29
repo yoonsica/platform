@@ -1,6 +1,5 @@
 package com.ceit.vic.platform.controllers;
 
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -10,8 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.ceit.vic.platform.models.Log;
 import com.ceit.vic.platform.models.LogType;
 import com.ceit.vic.platform.service.LogService;
 
@@ -21,6 +20,12 @@ public class LogController {
 	@Autowired
 	LogService logService;
 
+	@RequestMapping("/toLogManage")
+	public ModelAndView toLogManage(){
+		ModelAndView mav = new ModelAndView("logManage/index");
+		return mav;
+	}
+	
 	@RequestMapping("/logManage/show")
 	@ResponseBody
 	public Map<String, Object> showLogs(

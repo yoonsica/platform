@@ -2,6 +2,7 @@ package com.ceit.vic.platform.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
@@ -13,7 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.ceit.vic.platform.models.NavItem;
-import com.ceit.vic.platform.models.User;
+import com.ceit.vic.platform.models.Person;
+import com.ceit.vic.platform.service.PersonService;
 import com.ceit.vic.platform.service.ResourcesService;
 
 
@@ -22,41 +24,50 @@ public class LoginController {
 	static Logger logger = Logger.getLogger(LoginController.class);
 	@Autowired
 	ResourcesService resourcesService;
-	@RequestMapping(value="/login",method=RequestMethod.POST)
-	public ModelAndView login(User user,HttpSession session) {
-		/*HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder
-				.getRequestAttributes()).getRequest();*/
-		logger.debug("login");
-		try {
-			System.out.println(user.getUserName()+"pp:"+user.getUserPassword());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		if (user.getUserName()==null&&user.getUserPassword()==null) {
+	@Autowired
+	PersonService personService;
+	
+	@RequestMapping("/toLogin")
+	public ModelAndView toLogin(){
+		ModelAndView mav = new ModelAndView("login");
+		//mav.addObject("errorMsg","");
+		return mav;
+		
+	}
+	
+	@RequestMapping(value="/valid",method=RequestMethod.POST)
+	public ModelAndView valid(Person person,HttpSession session) {
+		if (person.getCode()==null&&person.getPassword()==null) {
 			System.out.println("null");
 			return new ModelAndView("login");
 		}else {
 			//连接数据库验证
-			if (user.getUserName().equals("test")) {
-				if (user.getUserPassword().equals("c7a6ea7bef62600e3ac4852835cfc7c4")) {
-					System.out.println(user.getUserName());
-					session.setMaxInactiveInterval(20);
-					System.out.println(user);
-					session.setAttribute("user", user);
-					ModelAndView mav = new ModelAndView("south");
-					/*List<NavItem> menuList = resourcesService.getNavItems();
-					mav.addObject("menuList",menuList);*/
-					return mav;
+			List<Person> personList = personService.getPersonsByCodeName(person.getCode());
+			if (null==personList||personList.size()==0) {
+				ModelAndView mav = new ModelAndView("login");
+				mav.addObject("errorMsg","用户名不存在");
+				return mav;
+			}else {
+				for (Person person1 : personList) {
+					if (person1.getPassword().toLowerCase().equals(person.getPassword().toLowerCase())) {
+						session.setMaxInactiveInterval(600);
+						session.setAttribute("user", person1);
+						ModelAndView mav = new ModelAndView("south");
+						return mav;
+					}
 				}
+				ModelAndView mav = new ModelAndView("login");
+				mav.addObject("errorMsg","密码错误");
+				return mav;
 			}
 		}
-		return new ModelAndView("login");
 	}
 	
 	@RequestMapping("/nav")
 	@ResponseBody
-	public List<NavItem> navInit(){
-		List<NavItem> menuList = resourcesService.getNavItems();
+	public List<NavItem> navInit(HttpServletRequest request){
+		Person person = (Person) request.getSession().getAttribute("user");
+		List<NavItem> menuList = resourcesService.getNavItems(person);
 		return menuList;
 	}
 }

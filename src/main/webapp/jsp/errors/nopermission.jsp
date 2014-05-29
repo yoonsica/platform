@@ -24,6 +24,6 @@ request.setAttribute("basePath", basePath);
   </head>
   
   <body>
-   ${basePath}
+   对不起，您没有该项权限！
   </body>
 </html>

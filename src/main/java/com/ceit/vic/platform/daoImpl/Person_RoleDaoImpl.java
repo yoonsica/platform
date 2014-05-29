@@ -97,25 +97,19 @@ public class Person_RoleDaoImpl implements Person_RoleDao{
 	}
 
 	@Override
-	public Person_Role getPersonRoleByPersonId(int personId) {
+	public List<Person_Role> getPersonRoleByPersonId(int personId) {
 		Query query = null;
 		StringBuffer sb = new StringBuffer("from Person_Role t where t.personId=");
 		sb.append(personId);
 		try {
 			query = sf.getCurrentSession().createQuery(sb.toString());
-			return (Person_Role) query.list().get(0);
+			return query.list();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
 
-	@Override
-	public void updateByPersonId(int id, int roleId) {
-		Person_Role person_Role = getPersonRoleByPersonId(id);
-		person_Role.setRoleId(roleId);
-		sf.getCurrentSession().update(person_Role);
-	}
 
 	@Override
 	public void deleteByPersonIds(int[] idArray) {
@@ -125,6 +119,20 @@ public class Person_RoleDaoImpl implements Person_RoleDao{
 				sb.append(idArray[i]).append(",");
 			}
 			sb.append(idArray[idArray.length-1]).append(")");
+			sf.getCurrentSession().createQuery(sb.toString()).executeUpdate();
+		}
+		
+	}
+
+	@Override
+	public void removeUnusedRoles(int[] roleIds, int personId) {
+		if (roleIds!=null) {
+			StringBuffer sb = new StringBuffer("delete Person_Role t where t.personId=");
+			sb.append(personId).append(" and t.roleId not in(");
+			for (int i = 0; i < roleIds.length-1; i++) {
+				sb.append(roleIds[i]).append(",");
+			}
+			sb.append(roleIds[roleIds.length-1]).append(")");
 			sf.getCurrentSession().createQuery(sb.toString()).executeUpdate();
 		}
 		

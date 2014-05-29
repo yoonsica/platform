@@ -1,6 +1,9 @@
 package com.ceit.vic.platform.daoImpl;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -132,7 +135,6 @@ public class ResourcesDaoImpl implements ResourcesDao {
 			try {
 				sf.getCurrentSession().createQuery(sb.toString()).executeUpdate();
 			} catch (HibernateException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -150,6 +152,52 @@ public class ResourcesDaoImpl implements ResourcesDao {
 			query = sf.getCurrentSession().createQuery(sb.toString());return query.list();
 		} catch (HibernateException e) {
 			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Resources> getByParamMap(Map<String, Object> paraMap) {
+		Query query;
+		StringBuffer sb = new StringBuffer("from Resources t ");
+		if (paraMap!=null) {
+			sb.append("where ");
+			for (Map.Entry<String, Object> entry : paraMap.entrySet()) {
+				if(entry.getValue() instanceof List){
+					sb.append("t.").append(entry.getKey()).append("in(");
+					List<Object> list = new ArrayList<Object>();
+					if (null!=list) {
+						for (Object object : list) {
+							sb.append("'").append(object.toString()).append("',");
+						}
+						sb=new StringBuffer(sb.substring(0,sb.length()-1));
+						sb.append(") and ");
+					}
+					
+				}else {
+					sb.append("t.").append(entry.getKey()).append("='").append(entry.getValue().toString()).append("' and ");
+				}
+			}
+			try {
+				String sql = sb.substring(0, sb.length()-4).toString();
+				query = sf.getCurrentSession().createQuery(sql);
+				return query.list();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public List<Resources> getResourceByLink(String link) {
+		try {
+			StringBuffer sb = new StringBuffer("from Resources t where instr('");
+			sb.append(link).append("',t.link )>0");
+			Query query = sf.getCurrentSession().createQuery(sb.toString());
+			return query.list();
+		} catch (Exception e) {
+			// TODO: handle exception
 		}
 		return null;
 	}

@@ -48,17 +48,19 @@ public interface RoleService {
 	/**
 	 * 批量添加角色授权
 	 * @param roleId 角色id数组
-	 * @param idArray 人员id数组
+	 * @param personId 人员id
 	 */
 	@Transactional
-	public void addPersonRole(int[] roleId, int[] idArray);
+	public void addPersonRole(int[] roleIds, int personId);
+	
+	@Transactional
+	public void addPersonRole(int roleId, int[] personIds);
+	
 	@Transactional
 	public List<Role> getAllRoles();
 	@Transactional
-	public int getRoleIdByPersonId(int personId);
-	
+	public List<Integer> getRoleIdByPersonId(int personId);
 	@Transactional
-	public void updateByPersonId(int id, int roleId);
-	
+	List<Role> getRolesByPersonId(int personId);
 	
 }

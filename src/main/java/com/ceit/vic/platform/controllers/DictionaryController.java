@@ -7,9 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.ceit.vic.platform.dao.IDPROVIDERDao;
-import com.ceit.vic.platform.models.Dictionary;
 import com.ceit.vic.platform.models.ZTreeNode;
 import com.ceit.vic.platform.service.DictionaryService;
 
@@ -18,6 +17,12 @@ public class DictionaryController {
 	
 	@Autowired
 	DictionaryService dictionaryService;
+	
+	@RequestMapping("/toDictionaryManage")
+	public ModelAndView toLogManage(){
+		ModelAndView mav = new ModelAndView("dictionaryManage/index");
+		return mav;
+	}
 	
 	@RequestMapping("/dictionaryManage/show")
 	@ResponseBody

@@ -1,5 +1,6 @@
 package com.ceit.vic.platform.controllers;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.Role;
+import com.ceit.vic.platform.models.RoleDTO;
 import com.ceit.vic.platform.service.DepartmentService;
 import com.ceit.vic.platform.service.PersonService;
 import com.ceit.vic.platform.service.RoleService;
@@ -30,6 +33,8 @@ public class PersonController {
 	DepartmentService departmentService;
 	@Autowired
 	RoleService roleService;
+	
+	
 	@RequestMapping(value="/personByDepId/{depId}")
 	public ModelAndView personByDepId(@PathVariable String depId){
 		logger.debug("depId:"+depId);//暂时用来跳转到person.jsp，然后ajax获得json数据
@@ -109,10 +114,6 @@ public class PersonController {
 		ModelAndView mav = new ModelAndView("editPerson");
 		Department department = departmentService.getDepartmentById(depId);
 		Person person = personService.getPersonById(personId);
-		int roleId = roleService.getRoleIdByPersonId(personId);
-		List<Role> roleList = roleService.getAllRoles();
-		mav.addObject("roleList",roleList);
-		mav.addObject("roleId",roleId);
 		mav.addObject("department",department);
 		mav.addObject("person",person);
 		return mav;
@@ -121,7 +122,6 @@ public class PersonController {
 	@RequestMapping("/editPerson")
 	@ResponseBody
 	public String editPerson(HttpServletRequest request){
-		int roleId = Integer.valueOf(request.getParameter("roleId"));
 		int depId = Integer.valueOf(request.getParameter("depId"));
 		Person person = new Person();
 		person.setId(Integer.valueOf(request.getParameter("personId")));
@@ -131,7 +131,6 @@ public class PersonController {
 		person.setState(request.getParameter("state"));
 		person.setMemo(request.getParameter("memo"));
 		personService.update(person);
-		roleService.updateByPersonId(person.getId(),roleId);
 		personService.updateDepartment(person.getId(),depId);
 		return "编辑成功！";
 	}
@@ -145,28 +144,33 @@ public class PersonController {
 		return "删除成功！";
 	}
 	
-	@RequestMapping("/person/toAuthorizeRole")
-	public ModelAndView toAuthorizeRole(int[] idArray){
-		List<Person> personList = personService.getPersonsByIds(idArray);
+	@RequestMapping("/person/toAuthorizeRole/{personId}")
+	public ModelAndView toAuthorizeRole(@PathVariable int personId){
+		Person person = personService.getPersonById(personId);
 		ModelAndView mav = new ModelAndView("toAuthorizeRole");
-		mav.addObject("personList",personList);
+		mav.addObject("person",person);
 		return mav;
 	}
+
+	@RequestMapping(value="/roleListByPersonId/{personId}")
+	@ResponseBody
+	public List<RoleDTO> roleListByPersonId(@PathVariable int personId){
+		List<Role> roleList = roleService.getRolesByPersonId(personId);
+		List<RoleDTO> dtos = new ArrayList<RoleDTO>();
+		for (Role role : roleList) {
+			RoleDTO dto = new RoleDTO(role.getId(), role.getName(), role.getMemo());
+			dtos.add(dto);
+		}
+		return dtos;
+	}
+	
 	
 	@RequestMapping(value="/authorizeRole",produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String authorizeRole(int[] roleIds,String personIds){
+	public String authorizeRole(int[] roleIds,int personId){
 		System.out.println(roleIds);
-		if (personIds!=null) {
-			String[] idStrings = personIds.split(",");
-			int[] persons = new int[idStrings.length];
-			for (int i = 0; i < idStrings.length; i++) {
-				persons[i] = Integer.valueOf(idStrings[i]).intValue();
-			}
-			roleService.addPersonRole(roleIds, persons);
-			return "添加成功！";
-		}
-		return null;
+		roleService.addPersonRole(roleIds, personId);
+		return "添加成功！";
 	}
 	
 	@RequestMapping(value="/resetPassword",produces="text/plain;charset=UTF-8")

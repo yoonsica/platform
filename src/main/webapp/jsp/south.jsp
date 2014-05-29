@@ -105,7 +105,7 @@ request.setAttribute("basePath", basePath);
 	$(function() {
 		navInit();
 		var myDate = new Date();
-		$("#southDiv").html("${user.userName }&nbsp;"+myDate.toLocaleDateString());
+		$("#southDiv").html("${user.code }&nbsp;"+myDate.toLocaleDateString());
 		$("#nav_slim a").click(function(){
 			addTab("欢迎使用","jsp/welcome.jsp");
 			//addTab($(this).text(),$(this).attr("href"));//调用south.jsp页面的addTab()方法，直接在这里添加tab会报错“option对象为空”
@@ -113,13 +113,21 @@ request.setAttribute("basePath", basePath);
 			refreshWestDiv("${basePath}moduleIdPass/"+$(this).attr("id"));
 			return false;
 		});
+		
+		$("#logout").click(function(){
+			top.window.location.href = "${basePath}toLogin";
+		});
+		
+		$("#changePassword").click(function(){
+			top.window.location.href = "${basePath}jsp/changePassword.jsp";
+		});
 	})
 	</script>
 
 </head>
 <body class="easyui-layout">
 	<div region="north"  style="height:91px;overflow: hidden;">
-		<div style="height:59px;width:100%;background:url('static/images/banner3.jpg') no-repeat;"><a style="position:absolute ;left:1280px ;top:35px; color: white;font-weight:800 ;font-size:18px ; text-decoration: none;" href="?">注销</a></div>
+		<div style="height:59px;width:100%;background:url('static/images/banner3.jpg') no-repeat;"><a id="logout" style="position:absolute ;left:1280px ;top:35px; color: white;font-weight:800 ;font-size:18px ; text-decoration: none;" href="javascript:void(0);">注销</a></div>
 		<div id="container">
 			<div id="nav_slim">
 				<ul>

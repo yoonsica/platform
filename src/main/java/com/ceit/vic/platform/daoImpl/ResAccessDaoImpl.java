@@ -1,6 +1,8 @@
 package com.ceit.vic.platform.daoImpl;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
@@ -76,5 +78,37 @@ public class ResAccessDaoImpl implements ResAccessDao {
 		}
 		return 0;
 		
+	}
+
+	@Override
+	public List<ResAccess> getByParamMap(Map<String, Object> paraMap) {
+		Query query;
+		StringBuffer sb = new StringBuffer("from ResAccess t ");
+		if (paraMap!=null) {
+			sb.append("where ");
+			for (Map.Entry<String, Object> entry : paraMap.entrySet()) {
+				if(entry.getValue() instanceof List){
+					List<Object> list = (List<Object>) entry.getValue();
+					if (null!=list&&list.size()>0) {
+						sb.append("t.").append(entry.getKey()).append(" in(");
+						for (Object object : list) {
+							sb.append("'").append(object.toString()).append("',");
+						}
+						sb=new StringBuffer(sb.substring(0,sb.length()-1));
+						sb.append(") and ");
+					}
+					
+				}else{
+					sb.append("t.").append(entry.getKey()).append("=").append(entry.getValue().toString()).append(" and ");
+				}
+			}
+		}
+		try {
+			query = sf.getCurrentSession().createQuery(sb.substring(0, sb.length()-4).toString());
+			return query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

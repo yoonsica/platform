@@ -44,15 +44,30 @@
 	<!-- session timeout interceptor -->
 	<mvc:interceptors>  
 	    <mvc:interceptor>  
-	    <mvc:mapping path="/*" /> 
+	    	<mvc:mapping path="/**" /> 
+	    	<mvc:exclude-mapping path="/static/**"/>
 	        <bean class="com.ceit.vic.platform.interceptor.SessionTimeoutInterceptor" >  
 	            <property name="allowUrls">    
 	               <list>
-	                  <value>/login</value>    
+	                  <value>/toLogin</value>
+	                  <value>/valid</value>    
 	                </list> 
 	            </property>    
-	        </bean>  
+	        </bean>
 	    </mvc:interceptor>  
+	     <mvc:interceptor>  
+	   		 <mvc:mapping path="/**" /> 
+	   		 <mvc:exclude-mapping path="/static/**"/>
+	        <bean class="com.ceit.vic.platform.interceptor.UserResourceInterceptor">
+	        	<property name="allowUrls">    
+	               <list>
+	                  <value>/toLogin</value>
+	                  <value>/valid</value> 
+	                  <value>/nav</value>   
+	                </list> 
+	            </property> 
+	        </bean>  
+	    </mvc:interceptor> 
 	</mvc:interceptors>
 	
 	
@@ -62,6 +77,7 @@
 		<property name="exceptionMappings">
 			<props>
 				<prop key="com.ceit.vic.platform.exception.SessionTimeoutException">redirect:/jsp/login.jsp</prop>
+				<prop key="com.ceit.vic.platform.exception.NoPermissionException">redirect:/jsp/errors/nopermission.jsp</prop>
 			</props>
 		</property>
 	</bean>
