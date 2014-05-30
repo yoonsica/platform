@@ -324,6 +324,9 @@ public class ResourcesServiceImpl implements ResourcesService {
 				node.setIcon("static/easyui/themes/icons/"+resources.getIcon());
 				node.setIconCls(resources.getIcon().split("\\.")[0]);
 			}
+			if (containBtnLink) {
+				node.setTitle(null==resources.getMemo()?resources.getName():resources.getMemo());
+			}
 			if(resources.getType().equals("0")) {
 				if (resources.getmType().equals("1")
 						|| resources.getmType().equals("0")) {// 1-目录

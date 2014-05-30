@@ -17,4 +17,5 @@ public interface DepartmentDao {
 	public Department getDepartmentToUp(int parentId, int dispindex);
 	public List<Department> getDepartmentsByIds(List<Integer> idList);
 	public List<Department> getByParamMap(Map<String, Object> paraMap);
+	public String getDepPathNameById(int depId);
 }

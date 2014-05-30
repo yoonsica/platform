@@ -22,6 +22,7 @@ request.setAttribute("basePath", basePath);
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/icon.css">
 	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
+		<script type="text/javascript" src="${basePath }static/easyui/locale/easyui-lang-zh_CN.js"></script>
 	<style type="text/css">
 		body {
 	FONT-SIZE: 12px;
@@ -46,8 +47,8 @@ request.setAttribute("basePath", basePath);
 			$('#test').datagrid({
 				title:'授权部门列表',
 				iconCls:'icon-save',
-				width:600,
-				height:'auto',
+				width:870,
+				height:500,
 				fitColumns: true,
 				url:"resAuth/2/${resId}",
 				frozenColumns:[[

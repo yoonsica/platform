@@ -126,7 +126,8 @@ public class ModuleController {
 		ModelAndView mav = new ModelAndView("moduleAddFunction");
 		String dir = request.getSession().getServletContext().getRealPath("/static/images/icons");
 		List<String> iconList = FileTool.getFileNamesByDir(dir);
-		mav.addObject("parent",parentId);
+		Resources resources = resourcesService.getResourcesById(parentId);
+		mav.addObject("parent",resources);
 		mav.addObject("iconList",iconList);
 		return mav;
 	}

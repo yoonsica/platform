@@ -22,6 +22,7 @@ request.setAttribute("basePath", basePath);
 	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
+	<script type="text/javascript" src="${basePath }static/easyui/locale/easyui-lang-zh_CN.js"></script>
 
 	<style type="text/css">
 		body {
@@ -47,8 +48,8 @@ request.setAttribute("basePath", basePath);
 			$('#test').datagrid({
 				title:'供选人员列表',
 				iconCls:'icon-save',
-				width:600,
-				height:'auto',
+				width:870,
+				height:533,
 				fitColumns: true,
 				url:"persons/${depId}",
 				frozenColumns:[[

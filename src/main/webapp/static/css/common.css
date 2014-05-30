@@ -1,17 +1,45 @@
 @CHARSET "UTF-8";
+
 body {
 	FONT-SIZE: 12px;
-	BACKGROUND: #FFFFFF; 
-	SCROLLBAR-FACE-COLOR: #bfebd2; 
-    SCROLLBAR-HIGHLIGHT-COLOR: #94dc94; 
-	SCROLLBAR-SHADOW-COLOR: #ade2c6; 
-	SCROLLBAR-3DLIGHT-COLOR: #ade2c6; 
-	SCROLLBAR-ARROW-COLOR: #73a790; 
-	SCROLLBAR-TRACK-COLOR: #e9efeb; 
-	SCROLLBAR-DARKSHADOW-COLOR: #8ac7a4; 
-	SCROLLBAR-BASE-COLOR: #168a16; 
-	margin-top: 0px; 
-	margin-left: 2px; 
-	margin-right: 0px; 
+	BACKGROUND: #FFFFFF;
+	SCROLLBAR-FACE-COLOR: #bfebd2;
+	SCROLLBAR-HIGHLIGHT-COLOR: #94dc94;
+	SCROLLBAR-SHADOW-COLOR: #ade2c6;
+	SCROLLBAR-3DLIGHT-COLOR: #ade2c6;
+	SCROLLBAR-ARROW-COLOR: #73a790;
+	SCROLLBAR-TRACK-COLOR: #e9efeb;
+	SCROLLBAR-DARKSHADOW-COLOR: #8ac7a4;
+	SCROLLBAR-BASE-COLOR: #168a16;
+	margin-top: 0px;
+	margin-left: 2px;
+	margin-right: 0px;
 	overflow-y: auto
+}
+
+.container {
+	min-width: 1400px;
+}
+
+.leftDiv {
+	width: 330px;
+	float: left;
+}
+
+.leftMenuDiv {
+	width: 330px;
+	height: 20px;
+	padding: 5px;
+	background: #E8F1FF;
+}
+
+.treeDiv {
+	width: 330px;
+	height: 500px;
+	overflow: auto;
+	margin-top: 1px;
+}
+
+.rightDiv{
+	width:800;float: left;
 }

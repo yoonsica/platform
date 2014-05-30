@@ -25,7 +25,7 @@ request.setAttribute("basePath", basePath);
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/icon.css">
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
-	
+		<script type="text/javascript" src="${basePath }static/easyui/locale/easyui-lang-zh_CN.js"></script>
 	<style type="text/css">
 body {
 	FONT-SIZE: 12px;
@@ -163,8 +163,8 @@ body {
 			$('#buttonLinkTable').datagrid({
 					title:'按钮和链接列表',
 					iconCls:'icon-save',
-					width:'100%',
-					height:'auto',
+					width:870,
+					height:400,
 					fitColumns: true,
 					url:"buttonLinkList/${moduleId}",
 					frozenColumns:[[
@@ -224,7 +224,7 @@ body {
 	</script>
   </head>
   <body style="margin: 0;padding: 0;">
-    <table border="0" bgcolor="#cccccc" cellspacing="1" cellpadding="5" width="100%" id="infoTable" class="toptablebg">
+    <table border="0" bgcolor="#cccccc" cellspacing="1" cellpadding="5" width="870px" id="infoTable" class="toptablebg">
     	<thead>
     		<tr><td colspan="2" align="center" style="font-weight: bolder;">当前选中模块信息</td></tr>
     	</thead>

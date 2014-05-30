@@ -20,6 +20,7 @@ request.setAttribute("basePath", basePath);
 		<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/icon.css">
 	<link rel="stylesheet" href="${basePath }static/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
+			<link rel="stylesheet" type="text/css" href="${basePath }static/css/common.css">
 	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery-1.4.4.min.js"></script>
@@ -44,6 +45,9 @@ request.setAttribute("basePath", basePath);
 		}
 		
 		function onClick(event, treeId, treeNode, clickFlag) {
+			if(treeNode.isParent){
+					return false;
+			}
 			var url = "${basePath}personByRoleId/"+treeNode.id;
 			$("#roleInfoFrame").attr("src",url);
 		}
@@ -130,19 +134,19 @@ request.setAttribute("basePath", basePath);
   </head>
   
   <body>
-    <div class="ceshi" style="position:relative;">
-    	<div id="roleMenuDiv" style="width: 320px;position:absolute;height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
-			<a href="javascript:void(0)" id="addBtn" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
-	  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
-			<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
-		</div>
-	  	<div id="treeDiv" style="width: 320px;height: 500px;overflow: scroll;position:absolute;top:37px;">
-  			<ul id="treeDemo" class="ztree"></ul>
+    <div class="container">
+    	<div class="leftDiv">
+	    	<div class="leftMenuDiv" >
+				<a href="javascript:void(0)" id="addBtn" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
+		  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
+				<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
+			</div>
+		  	<div class="treeDiv">
+	  			<ul id="treeDemo" class="ztree"></ul>
+	  		</div>
   		</div>
-	  	<div id="personDiv" style="position:absolute;left: 400px;height: 700px;width:700px;">
-			<div id="roleInfoDiv" style="height: 600px;">
-		  		<iframe id="roleInfoFrame" name="roleInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="600px"></iframe>
-		  	</div>
+	  	<div class="rightDiv">
+	  		<iframe id="roleInfoFrame" name="roleInfoFrame" src="" frameborder="0" scrolling="auto" width="894px" height="700px"></iframe>
   		</div>
   	</div>
   </body>

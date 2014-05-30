@@ -13,6 +13,7 @@ import com.ceit.vic.platform.dao.IDPROVIDERDao;
 import com.ceit.vic.platform.dao.PersonDao;
 import com.ceit.vic.platform.dao.Person_RoleDao;
 import com.ceit.vic.platform.models.Dep_Person;
+import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.PersonDTO;
 import com.ceit.vic.platform.models.Person_Role;
@@ -38,10 +39,21 @@ public class PersonServiceImpl implements PersonService {
 		maxResults = rows;
 		List<Person> personList = depPersonDao.getPersonsByDepId(depId,firstResult,maxResults);
 		List<PersonDTO> dtoList = new ArrayList<PersonDTO>();
-		String departmentName = departmentDao.getDepartmentById(depId).getName();
+		//Department department = departmentDao.getDepartmentById(depId);
+		String departmentName = departmentDao.getDepPathNameById(depId);
+		
+		/*if (null!=department.getMemo()) {
+			departmentName = department.getMemo();
+		}else {
+			if (null!=department.getName()) {
+				departmentName = department.getName();
+			}else {
+				departmentName = "未知";
+			}
+		}*/
 		for (Person person : personList) {
 			PersonDTO dto = new PersonDTO();
-			if (person.getSex()==null) {
+			if (null==person.getSex()) {
 				dto.setSex("未知");
 			}else {
 				dto.setSex(person.getSex().equals("1")?"男":"女");
