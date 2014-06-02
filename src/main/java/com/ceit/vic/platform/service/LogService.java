@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ceit.vic.platform.models.Log;
@@ -22,4 +24,9 @@ public interface LogService {
 	@Transactional
 	List<LogType> getLogTypes();
 	
+	@Transactional
+	void addLog(Log log);
+	
+	@Transactional
+	public String getRemoteAddress(HttpServletRequest request);
 }

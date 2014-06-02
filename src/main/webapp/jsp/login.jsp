@@ -24,8 +24,10 @@ request.setAttribute("basePath", basePath);
 	}
 	-->
 	</style>
-	 
 	<script type="text/javascript">
+	if (window.top != window.self) {
+        window.top.location = window.location.href;
+    }
 		function init(){
 			var str=document.getElementById("form1:textfield");		
 			str.focus();

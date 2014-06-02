@@ -115,7 +115,7 @@ request.setAttribute("basePath", basePath);
 		});
 		
 		$("#logout").click(function(){
-			top.window.location.href = "${basePath}toLogin";
+			top.window.location.href = "${basePath}logout";
 		});
 		
 		$("#changePassword").click(function(){

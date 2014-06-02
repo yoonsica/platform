@@ -25,8 +25,6 @@ request.setAttribute("basePath", basePath);
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.core-3.5.js"></script>
-  	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.excheck-3.5.js"></script>
-	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.exedit-3.5.js"></script>
   	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
   
   	<script type="text/javascript">
@@ -46,6 +44,9 @@ request.setAttribute("basePath", basePath);
 		}
 		function onClick(event, treeId, treeNode, clickFlag) {
 			$("#menuDiv").show();
+			if(treeNode.id==1){
+				return false;
+			}
 			var url = "${basePath}toDepAuth/"+treeNode.id;//部门授权情况
 			//$("#moduleInfoDiv").load(url);
 			$("#moduleInfoFrame").attr("src",url);

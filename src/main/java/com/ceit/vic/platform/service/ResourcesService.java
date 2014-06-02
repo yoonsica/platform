@@ -99,4 +99,12 @@ public interface ResourcesService {
 	public Resources getResourcesById(int parentId);
 	@Transactional
 	public List<Resources> getByLink(String link);
+	/**
+	 * 判断person对于id为resid的资源是否有授权
+	 * @param person
+	 * @param resId
+	 * @return
+	 */
+	@Transactional
+	public boolean isAuthOrNot(Person person,int resId);
 }

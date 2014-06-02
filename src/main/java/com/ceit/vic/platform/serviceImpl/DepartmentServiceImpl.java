@@ -54,7 +54,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 				node.setId(Integer.valueOf(department[0].toString()));
 				node.setpId(Integer.valueOf(department[4].toString()));
 				node.setName(department[3].toString());
-				node.setIsParent("true");
+				//node.setIsParent("true");
 				node.setOpen(node.getId()==4);
 				nodeList.add(node);
 			}
