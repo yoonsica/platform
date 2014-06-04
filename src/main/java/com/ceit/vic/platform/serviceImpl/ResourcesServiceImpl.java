@@ -373,6 +373,9 @@ public class ResourcesServiceImpl implements ResourcesService {
 		List<Integer> idList = resAccessDao.getAccessIdsByResId(resId, 0,
 				firstResult, maxResults);
 		List<Role> roleList = roleDao.getRolesByIds(idList);
+		if (roleList==null) {
+			return null;
+		}
 		List<RoleDTO> dtoList = new ArrayList<RoleDTO>();
 		for (Role role : roleList) {
 			RoleDTO dto = new RoleDTO(role.getId(), role.getName(), role.getMemo());

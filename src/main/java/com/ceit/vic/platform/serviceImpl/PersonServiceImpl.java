@@ -73,7 +73,7 @@ public class PersonServiceImpl implements PersonService {
 		return depPersonDao.getTotalPersonByDepId(depId);
 	}
 	@Override
-	public void add(Person person, int roleId, int depId) {
+	public int add(Person person, int roleId, int depId) {
 		//添加人员
 		int personId = idproviderDao.getCurrentId("PERSON");
 		person.setId(personId);
@@ -97,7 +97,7 @@ public class PersonServiceImpl implements PersonService {
 		dep_Person.setMainDep(1);
 		dep_PersonDao.add(dep_Person);
 		idproviderDao.add("DEP_PERSON");
-		
+		return personId;
 	}
 	@Override
 	public String up(int depId,int personId) {

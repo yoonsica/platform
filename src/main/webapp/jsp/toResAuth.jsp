@@ -124,13 +124,13 @@ request.setAttribute("basePath", basePath);
 	  	</div>
 	  </div>
 	<div class="rightDiv">
-	  	<div id="menuDiv" style="width:870px;height: 20px;background:#E8F1FF;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
+	  	<div id="menuDiv" style="width:800px;height: 20px;background:#E8F1FF;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
 	  		<a href="javascript:void(0)" id="depBtn" class="easyui-linkbutton" plain="true" iconCls="icon-folder" >授权部门</a>
 			<a href="javascript:void(0)"  id="personBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >授权人员</a>
 			<a href="javascript:void(0)" id="roleBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >授权角色</a>
 		</div>
-	  	<div id="moduleInfoDiv" style="height: 600px;width:900px;">
-	  		<iframe id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="no" width="900px" height="600px"></iframe>
+	  	<div id="moduleInfoDiv" style="height: 600px;width:800px;">
+	  		<iframe id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="auto" width="900px" height="600px"></iframe>
 	  	</div>
   	</div>
   	</div>

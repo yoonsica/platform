@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ceit.vic.platform.models.Log;
+import com.ceit.vic.platform.models.LogType;
+import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.Role;
 import com.ceit.vic.platform.models.ZTreeNode;
+import com.ceit.vic.platform.service.LogService;
 import com.ceit.vic.platform.service.RoleService;
 
 @Controller
@@ -23,6 +27,8 @@ public class RoleController {
 	static Logger logger = Logger.getLogger(RoleController.class);
 	@Autowired
 	RoleService roleService;
+	@Autowired
+	LogService logService;
 	
 	@RequestMapping("roleManage")
 	@ResponseBody
@@ -50,8 +56,20 @@ public class RoleController {
 	 */
 	@RequestMapping(value="/roleUpdate",produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String roleUpdate(Role role){
+	public String roleUpdate(Role role,HttpServletRequest request){
 		roleService.update(role);
+		Log log = new Log();
+		log.setIp(logService.getRemoteAddress(request));
+		Person person1 = (Person) request.getSession().getAttribute("user");
+		log.setPerson(person1);
+		StringBuffer sb = new StringBuffer();
+		sb.append(person1.getCode()).append("(ip:")
+		.append(log.getIp()).append(")")
+		.append("编辑了角色信息，角色id:")
+		.append(role.getId());
+		log.setContent(sb.toString());
+		log.setType(new LogType(3));
+		logService.addLog(log);
 		return "更新成功！";
 	}
 	
@@ -62,8 +80,20 @@ public class RoleController {
 	 */
 	@RequestMapping(value="/roleRemove/{id}",produces="text/plain;charset=UTF-8")
 	@ResponseBody
-	public String roleRemove(@PathVariable int id){
+	public String roleRemove(@PathVariable int id,HttpServletRequest request){
 		roleService.delete(id);
+		Log log = new Log();
+		log.setIp(logService.getRemoteAddress(request));
+		Person person1 = (Person) request.getSession().getAttribute("user");
+		log.setPerson(person1);
+		StringBuffer sb = new StringBuffer();
+		sb.append(person1.getCode()).append("(ip:")
+		.append(log.getIp()).append(")")
+		.append("删除了角色，角色id:")
+		.append(id);
+		log.setContent(sb.toString());
+		log.setType(new LogType(3));
+		logService.addLog(log);
 		return "删除成功!";
 	}
 	
@@ -89,7 +119,19 @@ public class RoleController {
 	 */
 	@RequestMapping("/addRole")
 	@ResponseBody
-	public int addRole(Role role){
+	public int addRole(Role role,HttpServletRequest request){
+		Log log = new Log();
+		log.setIp(logService.getRemoteAddress(request));
+		Person person1 = (Person) request.getSession().getAttribute("user");
+		log.setPerson(person1);
+		StringBuffer sb = new StringBuffer();
+		sb.append(person1.getCode()).append("(ip:")
+		.append(log.getIp()).append(")")
+		.append("增加了角色，角色id:")
+		.append(role.getId());
+		log.setContent(sb.toString());
+		log.setType(new LogType(3));
+		logService.addLog(log);
 		return roleService.add(role);
 	}
 	

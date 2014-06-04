@@ -22,33 +22,16 @@ request.setAttribute("basePath", basePath);
 	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
 		<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
+		<script type="text/javascript" src="${basePath }static/easyui/locale/easyui-lang-zh_CN.js"></script>
+			<link rel="stylesheet" type="text/css" href="${basePath }static/css/common.css">
 	
-	<style type="text/css">
-		body {
-	FONT-SIZE: 12px;
-	BACKGROUND: #FFFFFF; 
-	SCROLLBAR-FACE-COLOR: #bfebd2; 
-    SCROLLBAR-HIGHLIGHT-COLOR: #94dc94; 
-   SCROLLBAR-SHADOW-COLOR: #ade2c6; 
-   SCROLLBAR-3DLIGHT-COLOR: #ade2c6; 
-   SCROLLBAR-ARROW-COLOR: #73a790; 
-   SCROLLBAR-TRACK-COLOR: #e9efeb; 
-   SCROLLBAR-DARKSHADOW-COLOR: #8ac7a4; 
-   SCROLLBAR-BASE-COLOR: #168a16; 
-  FONT-FAMILY: "����", "Verdana", "Arial";
-	margin-top: 0px; 
-	margin-left: 2px; 
-	margin-right: 0px; 
-	overflow-y: auto
-}
-	</style>
 	<script>
 		$(function(){
 			$('#test').datagrid({
 				title:'授权角色列表',
 				iconCls:'icon-save',
-				width:600,
-				height:'auto',
+				width:870,
+				height:500,
 				fitColumns: true,
 				url:"resAuth/0/${resId}",
 				frozenColumns:[[
@@ -94,14 +77,6 @@ request.setAttribute("basePath", basePath);
 					}
 				}
 				]
-			});
-			var p = $('#test').datagrid('getPager');
-			$(p).pagination({
-				total:100,
-				pageSize:10,
-				onBeforeRefresh:function(){
-					alert('before refresh');
-				}
 			});
 		});
 	</script>

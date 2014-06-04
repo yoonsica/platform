@@ -3,18 +3,10 @@
 body {
 	FONT-SIZE: 12px;
 	BACKGROUND: #FFFFFF;
-	SCROLLBAR-FACE-COLOR: #bfebd2;
-	SCROLLBAR-HIGHLIGHT-COLOR: #94dc94;
-	SCROLLBAR-SHADOW-COLOR: #ade2c6;
-	SCROLLBAR-3DLIGHT-COLOR: #ade2c6;
-	SCROLLBAR-ARROW-COLOR: #73a790;
-	SCROLLBAR-TRACK-COLOR: #e9efeb;
-	SCROLLBAR-DARKSHADOW-COLOR: #8ac7a4;
-	SCROLLBAR-BASE-COLOR: #168a16;
 	margin-top: 0px;
 	margin-left: 2px;
 	margin-right: 0px;
-	overflow-y: auto
+	overflow:auto;
 }
 
 .container {
@@ -23,11 +15,13 @@ body {
 
 .leftDiv {
 	width: 330px;
+	height:573px;
 	float: left;
+	overflow: scroll;
 }
 
 .leftMenuDiv {
-	width: 330px;
+	width: 322px;
 	height: 20px;
 	padding: 5px;
 	background: #E8F1FF;
