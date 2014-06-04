@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import com.ceit.vic.platform.dao.ResourcesDao;
 import com.ceit.vic.platform.models.Resources;
+import com.ceit.vic.platform.models.Role;
 
 @Repository
 public class ResourcesDaoImpl implements ResourcesDao {
@@ -200,6 +201,52 @@ public class ResourcesDaoImpl implements ResourcesDao {
 			// TODO: handle exception
 		}
 		return null;
+	}
+
+	@Override
+	public List<Resources> getResourcesByAccessId(int accessId, int accessType,
+			int pageIndex, int pageSize) {
+		Query query;
+		StringBuffer sb = new StringBuffer();
+		sb.append("select r.id, r.name, r.memo, r.state from ResAccess t, Resources r where t.resId = r.id and t.accessType=")
+				.append(accessType).append(" and t.accessId=").append(accessId)
+				.append(" order by t.accessId");
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());
+			query.setFirstResult((pageIndex - 1) * pageSize);
+			query.setMaxResults(pageSize);
+			List<Object[]> resourceObjs = query.list();
+			List<Resources> resources = new ArrayList<Resources>();
+			for(Object[] resourceObj : resourceObjs) {
+				Resources r = new Resources();
+				r.setId(Integer.parseInt(String.valueOf(resourceObj[0])));
+				r.setName((String) resourceObj[1]);
+				r.setMemo((String) resourceObj[2]);
+				r.setState((String) resourceObj[3]);
+				
+				resources.add(r);
+			}
+			
+			return resources;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int getResourcesCountByAccessId(int accessId, int accessType) {
+		Query query;
+		StringBuffer sb = new StringBuffer();
+		sb.append("select count(*) from ResAccess t where t.accessType=")
+				.append(accessType).append(" and t.accessId=").append(accessId)
+				.append(" order by t.accessId");
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());
+			return Integer.parseInt(String.valueOf(query.uniqueResult()));
+		} catch (Exception e) {
+		}
+		return 0;
 	}
 
 }

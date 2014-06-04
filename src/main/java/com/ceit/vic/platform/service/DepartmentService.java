@@ -26,6 +26,8 @@ public interface DepartmentService {
 	@Transactional(readOnly=true)
 	public Department getDepartmentById(int id);
 	@Transactional
+	public Department getDepartmentByPersonId(int personId);
+	@Transactional
 	public void remove(int depId);
 	@Transactional
 	public void update(Department department);
@@ -33,4 +35,8 @@ public interface DepartmentService {
 	public void up(int depId);
 	@Transactional
 	public void down(int depId);
+	@Transactional
+	public int getDepartmentCountByResourceId(int id);
+	@Transactional
+	public List<Department> getDepartmentsByResourceId(int id, int pageIndex, int pageSize);
 }

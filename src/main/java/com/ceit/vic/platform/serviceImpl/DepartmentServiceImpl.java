@@ -103,5 +103,20 @@ public class DepartmentServiceImpl implements DepartmentService {
 		
 	}
 
+	@Override
+	public Department getDepartmentByPersonId(int personId) {
+		return departmentDao.getDepartmentByPersonId(personId);
+	}
+
+	@Override
+	public int getDepartmentCountByResourceId(int id) {
+		return departmentDao.getDepartmentCountByResourceId(id);
+	}
+
+	@Override
+	public List<Department> getDepartmentsByResourceId(int id, int pageIndex, int pageSize) {
+		return departmentDao.getDepartmentsByResourceId(id, pageIndex, pageSize);
+	}
+
 
 }

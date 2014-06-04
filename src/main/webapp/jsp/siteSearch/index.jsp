@@ -45,32 +45,66 @@ request.setAttribute("basePath", basePath);
 	
 	label { margin-left: 8px; }
 	
+	.align-center { text-align: center; }
+	
     .base-div { 
-    	width: 1000px; 
+    	width: 800px; 
     	height: 600px; 
     	left: 50%; 
-    	margin: 0 0 0 -500px; 
+    	margin: 0 0 0 -400px; 
     	position: absolute; 
     }
 	</style>
   	<script type="text/javascript">
     	
-    	function typeFormatter(type) {
-    		return type;
+  		var searchTypes = [ "全部", "部门", "角色", "资源", "人员" ];
+  		var urls = [ "", "showDepartmentInfo", "showRoleInfo", "showResourceInfo", "showPersonInfo" ];
+  		
+    	function typeFormatter(typeId) {
+    		return searchTypes[typeId];
+    	}
+    	
+    	function reloadSearchTable(searchTypeId, searchText, pageIndex, pageSize) {
+    		$.ajax({  
+                type: "POST",  
+                url: "SiteSearch/showSearchResults",
+                async: true, 
+                dataType: "json", 
+                data: { searchTypeId: searchTypeId, searchText: searchText, pageIndex: pageIndex, pageSize: pageSize }, 
+                success: function(searchResults) {
+                	$('#searchResult').datagrid('loadData', searchResults)
+                }  
+         	});
     	}
     	
 		$(document).ready(function(){
+		    $('#searchResult').datagrid({
+		    	onClickRow: function(rowIndex, rowData) {
+		    		window.location.href = "SiteSearch/" + urls[rowData.typeId] + "?id=" + rowData.id;
+			    }
+		    });
+		    
 		    $('#searchResult').datagrid('getPager').pagination({
    		        onSelectPage: function(pageIndex, pageSize) {
-   		        	alert(pageIndex + "-" + pageSize);
+   		        	var searchTypeId = $("#searchType").val();
+   			    	var searchText = $("#searchText").val();
+   			    	if(searchText == "") {
+   			    		alert("请输入要查找的内容！");
+   			    		return;
+   			    	}
+   		        	reloadSearchTable(searchTypeId, searchText, pageIndex, pageSize);
    		        }
    		    });
 		    
 		    
 		    $("#searchBtn").click(function() {
-		    	var searchType = $("#searchType").val();
+		    	var searchTypeId = $("#searchType").val();
 		    	var searchText = $("#searchText").val();
-		    	alert(searchType + "-" + searchText);
+		    	if(searchText == "") {
+		    		alert("请输入要查找的内容！");
+		    		return;
+		    	}
+		    	reloadSearchTable(searchTypeId, searchText, 1, 10);
 		    });
 		    
 		});
@@ -80,11 +114,9 @@ request.setAttribute("basePath", basePath);
   <body>
 	<div class="base-div">
 		<form>
-			<fieldset>
-				<legend>站内搜索</legend>
-				<label for="searchType">查询类型</label>
+			<fieldset class="align-center">
 				<select id="searchType" name="searchType">
-					<option value="0">全部</option>
+					<!-- <option value="0">全部</option> -->
 					<option value="1">部门</option>
 					<option value="2">角色</option>
 					<option value="3">资源</option>
@@ -96,13 +128,13 @@ request.setAttribute("basePath", basePath);
 			</fieldset>
 		</form>
 		<table id="searchResult" class="easyui-datagrid" title="日志列表" 
-			style="width: 1000px; height: 380px;" 
+			style="width: 800px; height: 380px;" 
 			pagination="true" pageSize="10" singleSelect="true">
 	        <thead>
 	            <tr>
-	                <th field="id" width="50">ID</th>
-	                <th field="result" width="400">结果</th>
-	                <th field="type" width="100" formatter="typeFormatter">类型</th>
+	                <th field="id" width="100">ID</th>
+	                <th field="result" width="600">结果</th>
+	                <th field="typeId" width="95" formatter="typeFormatter">类型</th>
 	            </tr>
 	        </thead>
 	    </table>

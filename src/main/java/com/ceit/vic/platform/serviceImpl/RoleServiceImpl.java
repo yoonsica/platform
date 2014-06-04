@@ -157,4 +157,21 @@ public class RoleServiceImpl implements RoleService {
 		}
 		
 	}
+	@Override
+	public int getRoleCountByPersonId(int personId) {
+		return roleDao.getRoleCountByPersonId(personId);
+	}
+	@Override
+	public List<Role> getRolesByPersonId(int personId, int pageIndex,
+			int pageSize) {
+		return roleDao.getRolesByPersonId(personId, pageIndex, pageSize);
+	}
+	@Override
+	public List<Role> getRolesByResourceId(int id, int pageIndex, int pageSize) {
+		return roleDao.getRolesByResourceId(id, pageIndex, pageSize);
+	}
+	@Override
+	public int getRoleCountByResourceId(int id) {
+		return roleDao.getRoleCountByResourceId(id);
+	}
 }

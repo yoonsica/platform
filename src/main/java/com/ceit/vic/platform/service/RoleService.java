@@ -62,5 +62,12 @@ public interface RoleService {
 	public List<Integer> getRoleIdByPersonId(int personId);
 	@Transactional
 	List<Role> getRolesByPersonId(int personId);
-	
+	@Transactional
+	int getRoleCountByPersonId(int personId);
+	@Transactional
+	List<Role> getRolesByPersonId(int personId, int pageIndex, int pageSize);
+	@Transactional
+	public List<Role> getRolesByResourceId(int id, int pageIndex, int pageSize);
+	@Transactional
+	public int getRoleCountByResourceId(int id);
 }

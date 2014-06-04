@@ -427,4 +427,17 @@ public class ResourcesServiceImpl implements ResourcesService {
 		return resourcesDao.getResourceByLink(link);
 	}
 
+
+	@Override
+	public List<Resources> getResources(int accessId, int accessType,
+			int pageIndex, int pageSize) {
+		return resourcesDao.getResourcesByAccessId(accessId, accessType, pageIndex, pageSize);
+	}
+
+
+	@Override
+	public int getResourceCount(int accessId, int accessType) {
+		return resourcesDao.getResourcesCountByAccessId(accessId, accessType);
+	}
+
 }

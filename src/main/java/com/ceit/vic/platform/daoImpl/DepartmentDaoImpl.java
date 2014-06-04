@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.ceit.vic.platform.dao.DepartmentDao;
 import com.ceit.vic.platform.models.Department;
+import com.ceit.vic.platform.models.Role;
 @Repository
 public class DepartmentDaoImpl implements DepartmentDao{
 	@Autowired
@@ -152,6 +153,58 @@ public class DepartmentDaoImpl implements DepartmentDao{
 			query = sf.getCurrentSession().createQuery(sb.substring(0, sb.length()-4).toString());
 			return query.list();
 		} catch (Exception e) {
+		}
+		return null;
+	}
+
+	@Override
+	public Department getDepartmentByPersonId(int personId) {
+		Query query = null;
+		Department department = null;
+		try {
+			query = sf.getCurrentSession().createQuery("select t from Department t, Dep_Person t1 where t.id = t1.depId and t1.personId="+personId);
+			department = (Department) query.uniqueResult();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return department;
+	}
+
+	@Override
+	public int getDepartmentCountByResourceId(int id) {
+		Query query = null;
+		StringBuffer sb = new StringBuffer("select count(*) from ResAccess t where t.accessType = 2 and t.resId=" + id);
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());
+			return Integer.parseInt(String.valueOf(query.uniqueResult()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	@Override
+	public List<Department> getDepartmentsByResourceId(int id, int pageIndex, int pageSize) {
+		Query query = null;
+		StringBuffer sb = new StringBuffer("select t1 from ResAccess t, Department t1 where t1.id = t.accessId and t.resId=" + id);
+		try {
+			query = sf.getCurrentSession().createQuery(sb.toString());
+			query.setFirstResult((pageIndex - 1) * pageSize);
+			query.setMaxResults(pageSize);
+			/*List<Object[]> roleObjs = query.list();
+			List<Role> roles = new ArrayList<Role>();
+			for(Object[] roleObj : roleObjs) {
+				Role r = new Role();
+				r.setId(Integer.parseInt(String.valueOf(roleObj[0])));
+				r.setName((String) roleObj[1]);
+				r.setMemo((String) roleObj[2]);
+				
+				roles.add(r);
+			}
+			return roles;*/
+			return query.list();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

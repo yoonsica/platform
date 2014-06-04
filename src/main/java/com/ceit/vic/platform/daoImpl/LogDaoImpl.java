@@ -93,6 +93,31 @@ public class LogDaoImpl implements LogDao {
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public Map<String, Object> find(int personId, int pageIndex, int pageSize) {
+		StringBuffer sqlCondition = new StringBuffer();
+		sqlCondition.append("where person.id = :personId order by id");
+		Map<String, Object> logResult = new HashMap<String, Object>();
+		try {
+			Query query = sf.getCurrentSession().createQuery("from Log " + sqlCondition.toString());
+			query.setParameter("personId", personId);
+			query.setFirstResult((pageIndex - 1) * pageSize);
+			query.setMaxResults(pageSize);
+			List<Log> logs = query.list();
+			
+			query = sf.getCurrentSession().createQuery("select count(*) from Log " + sqlCondition.toString());
+			query.setParameter("personId", personId);
+			int logCount = Integer.parseInt(String.valueOf(query.uniqueResult()));
+			
+			logResult.put("rows", logs);
+			logResult.put("total", logCount);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return logResult;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<LogType> findAllTypes() {
 		List<LogType> logs = new ArrayList<LogType>();
 		try {

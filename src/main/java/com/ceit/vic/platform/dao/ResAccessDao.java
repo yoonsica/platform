@@ -25,4 +25,5 @@ public interface ResAccessDao {
 	public void deleteResAccess(int[] idArray, int resId, int accessType);
 
 	public int getAccessIdTotalByResId(int resId,int accessType);
+	
 }

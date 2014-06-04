@@ -42,4 +42,9 @@ public class LogServiceImpl implements LogService {
 		return logTypes;
 	}
 
+	@Override
+	public Map<String, Object> getLogs(int personId, int pageIndex, int pageSize) {
+		return logDao.find(personId, pageIndex, pageSize);
+	}
+
 }

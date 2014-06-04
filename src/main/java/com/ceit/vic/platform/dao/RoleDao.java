@@ -2,6 +2,7 @@ package com.ceit.vic.platform.dao;
 
 import java.util.List;
 
+import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.Role;
 
 public interface RoleDao {
@@ -25,5 +26,9 @@ public interface RoleDao {
 	
 	public void update(Role role);
 	public List<Role> getRolesByIds(List<Integer> idList);
+	List<Role> getRolesByPersonId(int personId, int pageIndex, int pageSize);
+	int getRoleCountByPersonId(int personId);
+	public List<Role> getRolesByResourceId(int id, int pageIndex, int pageSize);
+	public int getRoleCountByResourceId(int id);
 	
 }

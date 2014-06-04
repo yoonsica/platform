@@ -289,7 +289,7 @@ request.setAttribute("basePath", basePath);
 	 		<a href="javascript:void(0)"  id="upBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >上调</a>
 	 		<a href="javascript:void(0)"  id="downBtn" plain="true" class="easyui-linkbutton" iconCls="icon-down" >下调</a>
 		</div>
-		 	<div id="treeDiv" style="width: 320px;height: 500px;overflow: auto;position: absolute;top: 37px;">
+		<div id="treeDiv" style="width: 320px;height: 500px;overflow: auto;position: absolute;top: 37px;">
 			<ul id="treeDemo" class="ztree"></ul>
 		</div>
 		<div id="dataDiv" style="position:absolute;left: 400px;height: 700px;width: 400px; top: 30px;">

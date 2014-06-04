@@ -99,4 +99,8 @@ public interface ResourcesService {
 	public Resources getResourcesById(int parentId);
 	@Transactional
 	public List<Resources> getByLink(String link);
+	@Transactional
+	List<Resources> getResources(int accessId, int accessType, int pageIndex, int pageSize);
+	@Transactional
+	int getResourceCount(int accessId, int accessType);
 }

@@ -21,5 +21,8 @@ public interface LogService {
 
 	@Transactional
 	List<LogType> getLogTypes();
+
+	@Transactional
+	Map<String, Object> getLogs(int personId, int pageIndex, int pageSize);
 	
 }

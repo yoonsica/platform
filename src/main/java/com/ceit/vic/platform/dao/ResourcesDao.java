@@ -53,4 +53,7 @@ public interface ResourcesDao {
 	public int getButtonLinkAmount(int resId);
 	public void remove(int[] idArray);
 	public List<Resources> getResourceByLink(String link);
+	
+	List<Resources> getResourcesByAccessId(int accessId, int accessType, int pageIndex, int pageSize);
+	int getResourcesCountByAccessId(int accessId, int accessType);
 }
