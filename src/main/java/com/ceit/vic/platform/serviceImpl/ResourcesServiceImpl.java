@@ -324,6 +324,9 @@ public class ResourcesServiceImpl implements ResourcesService {
 				node.setIcon("static/easyui/themes/icons/"+resources.getIcon());
 				node.setIconCls(resources.getIcon().split("\\.")[0]);
 			}
+			if (containBtnLink) {
+				node.setTitle(null==resources.getMemo()?resources.getName():resources.getMemo());
+			}
 			if(resources.getType().equals("0")) {
 				if (resources.getmType().equals("1")
 						|| resources.getmType().equals("0")) {// 1-目录
@@ -370,6 +373,9 @@ public class ResourcesServiceImpl implements ResourcesService {
 		List<Integer> idList = resAccessDao.getAccessIdsByResId(resId, 0,
 				firstResult, maxResults);
 		List<Role> roleList = roleDao.getRolesByIds(idList);
+		if (roleList==null) {
+			return null;
+		}
 		List<RoleDTO> dtoList = new ArrayList<RoleDTO>();
 		for (Role role : roleList) {
 			RoleDTO dto = new RoleDTO(role.getId(), role.getName(), role.getMemo());

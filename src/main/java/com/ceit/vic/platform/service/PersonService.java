@@ -26,7 +26,7 @@ public interface PersonService {
 	 * @param depId 所属部门
 	 */
 	@Transactional
-	public void add(Person person, int roleId, int depId);
+	public int add(Person person, int roleId, int depId);
 	
 	@Transactional
 	public String up(int depId,int personId);

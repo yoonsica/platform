@@ -1,6 +1,5 @@
 package com.ceit.vic.platform.interceptor;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,28 +12,19 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.ceit.vic.platform.exception.NoPermissionException;
-import com.ceit.vic.platform.exception.SessionTimeoutException;
-import com.ceit.vic.platform.models.Dep_Person;
+import com.ceit.vic.platform.models.Log;
+import com.ceit.vic.platform.models.LogType;
 import com.ceit.vic.platform.models.Person;
-import com.ceit.vic.platform.models.Person_Role;
-import com.ceit.vic.platform.models.ResAccess;
 import com.ceit.vic.platform.models.Resources;
-import com.ceit.vic.platform.service.Dep_PersonService;
-import com.ceit.vic.platform.service.Person_RoleService;
-import com.ceit.vic.platform.service.ResAccessService;
+import com.ceit.vic.platform.service.LogService;
 import com.ceit.vic.platform.service.ResourcesService;
 
 
 public class UserResourceInterceptor extends HandlerInterceptorAdapter {
 	@Autowired
-	ResAccessService resAccessService ;
-	@Autowired
 	ResourcesService resourcesService;
 	@Autowired
-	Person_RoleService person_RoleService;
-	@Autowired 
-	Dep_PersonService dep_PersonService;
-	
+	LogService logService;
 	public String[] allowUrls;  
     
     public void setAllowUrls(String[] allowUrls) {  
@@ -51,7 +41,7 @@ public class UserResourceInterceptor extends HandlerInterceptorAdapter {
 	                }    
 	            }
 	        }
-			Person person = (Person) request.getSession().getAttribute("user");
+		Person person = (Person) request.getSession().getAttribute("user");
 		if (null!=person) {
 			if (person.getCode().equals("test1")) {
 				return true;
@@ -60,56 +50,28 @@ public class UserResourceInterceptor extends HandlerInterceptorAdapter {
 	        Map<String, Object> map = new HashMap<String, Object>();
 	        map.put("link", requestUrl.substring(1));
 	        //List<Resources> resources = resourcesService.getByParamMap(map);
-	        List<Resources> resources = resourcesService.getByLink(requestUrl.substring(1));
-	        if (null==resources) {
+	        List<Resources> resList = resourcesService.getByLink(requestUrl.substring(1));
+	        if (null==resList||resList.size()==0) {
 				return true;
 			}
-	        List<Integer> resIdList = new ArrayList<Integer>();
-	        for (Resources resources2 : resources) {
-	        	resIdList.add(resources2.getId());
+	        for (Resources resources : resList) {
+	        	if(resourcesService.isAuthOrNot(person, resources.getId())){
+	        		Log log = new Log();
+	        		log.setIp(logService.getRemoteAddress(request));
+	        		log.setPerson(person);
+	        		StringBuffer sb = new StringBuffer();
+	        		sb.append(person.getCode()).append("(ip:")
+	        		.append(log.getIp()).append(")")
+	        		.append("访问了")
+	        		.append(resources.getName())
+	        		.append(",访问地址:").append(resources.getLink());
+	        		log.setContent(sb.toString());
+	        		log.setType(new LogType(2));
+	        		logService.addLog(log);
+	        		return true;
+	        	};
 			}
-	      //判断人
-	        Map<String, Object> map1 = new HashMap<String, Object>();
-	        map1.put("resId", resIdList);
-	        map1.put("accessType", 1);
-	        map1.put("accessId", person.getId());
-	        List<ResAccess> testList = resAccessService.getByParamMap(map1);
-	        if (null!=testList&&testList.size()>0) {
-				return true;
-			}
-	        //判断部门
-	        List<Dep_Person> depList = dep_PersonService.getByPersonId(person.getId(),false);
-	        if (null!=depList&&depList.size()>0) {
-	        	List<Integer> depIdList = new ArrayList<Integer>();
-		        for (Dep_Person dep_Person : depList) {
-					depIdList.add(dep_Person.getDepId());
-				}
-		        Map<String, Object> map2 = new HashMap<String, Object>();
-		        map2.put("resId", resIdList);
-		        map2.put("accessType", 2);
-		        map2.put("accessId", depIdList);
-		        List<ResAccess> testList2 = resAccessService.getByParamMap(map2);
-		        if (null!=testList2&&testList2.size()>0) {
-					return true;
-				}
-			}
-	        
-	        //判断角色
-	        List<Person_Role> person_Roles = person_RoleService.getPersonRoleByPersonId(person.getId());
-	        if (null!=person_Roles&&person_Roles.size()>0) {
-	        	List<Integer> roleIds = new ArrayList<Integer>();
-		        for (Person_Role person_Role : person_Roles) {
-					roleIds.add(person_Role.getRoleId());
-				}
-		        Map<String, Object> map3 = new HashMap<String, Object>();
-		        map3.put("resId", resIdList);
-		        map3.put("accessType", 0);
-		        map3.put("accessId", roleIds);
-		        List<ResAccess> testList3 = resAccessService.getByParamMap(map3);
-		        if (null!=testList3&&testList3.size()>0) {
-					return true;
-				}
-			}
+	     
 	        if (request.getHeader("x-requested-with") != null  
                     && request.getHeader("x-requested-with")  
                             .equalsIgnoreCase("XMLHttpRequest"))//如果是ajax请求响应头会有，x-requested-with；  

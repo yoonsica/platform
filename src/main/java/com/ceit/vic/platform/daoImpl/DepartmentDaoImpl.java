@@ -97,11 +97,16 @@ public class DepartmentDaoImpl implements DepartmentDao{
 
 	@Override
 	public Department getDepartmentToUp(int parentId, int dispindex) {
-		StringBuffer sb = new StringBuffer("from Department t where t.parentId=");
-		sb.append(parentId).append(" and t.dispindex>").append(dispindex)
-		.append(" order by t.dispindex");
-		Query query = sf.getCurrentSession().createQuery(sb.toString());
-		return (Department) query.list().get(0);
+		try {
+			StringBuffer sb = new StringBuffer("from Department t where t.parentId=");
+			sb.append(parentId).append(" and t.dispindex>").append(dispindex)
+			.append(" order by t.dispindex");
+			Query query = sf.getCurrentSession().createQuery(sb.toString());
+			return (Department) query.list().get(0);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	@Override
@@ -158,6 +163,7 @@ public class DepartmentDaoImpl implements DepartmentDao{
 	}
 
 	@Override
+<<<<<<< HEAD
 	public Department getDepartmentByPersonId(int personId) {
 		Query query = null;
 		Department department = null;
@@ -203,6 +209,22 @@ public class DepartmentDaoImpl implements DepartmentDao{
 			}
 			return roles;*/
 			return query.list();
+=======
+	public String getDepPathNameById(int depId) {
+		try {
+			StringBuffer sb = new StringBuffer("select * from DEPARTMENT t where t.parentid!=0 start with t.id=");
+			sb.append(depId).append(" connect by t.id = prior t.parentid");
+			Query query = sf.getCurrentSession().createSQLQuery(sb.toString());
+			List<Object[]> list = query.list();
+			if (null!=list) {
+				StringBuffer pathName=new StringBuffer();
+				for (int i = list.size()-1; i >=0; i--) {
+					pathName.append(list.get(i)[3]).append("-");
+				}
+				return pathName.substring(0,pathName.length()-1);
+			}
+			
+>>>>>>> refs/remotes/origin/master
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

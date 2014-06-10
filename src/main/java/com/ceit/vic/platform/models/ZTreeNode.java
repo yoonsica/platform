@@ -7,6 +7,7 @@ package com.ceit.vic.platform.models;
  */
 public class ZTreeNode {
 	String name;
+	String title;
 	int id;
 	int pId;
 	boolean open=false;
@@ -26,6 +27,12 @@ public class ZTreeNode {
 	}
 	public String getIconCls() {
 		return iconCls;
+	}
+	public String getTitle() {
+		return title;
+	}
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	public void setIconCls(String iconCls) {
 		this.iconCls = iconCls;

@@ -13,8 +13,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ceit.vic.platform.models.Log;
+import com.ceit.vic.platform.models.LogType;
 import com.ceit.vic.platform.models.NavItem;
 import com.ceit.vic.platform.models.Person;
+import com.ceit.vic.platform.service.LogService;
 import com.ceit.vic.platform.service.PersonService;
 import com.ceit.vic.platform.service.ResourcesService;
 
@@ -26,6 +29,8 @@ public class LoginController {
 	ResourcesService resourcesService;
 	@Autowired
 	PersonService personService;
+	@Autowired
+	LogService logService;
 	
 	@RequestMapping("/toLogin")
 	public ModelAndView toLogin(){
@@ -36,7 +41,7 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/valid",method=RequestMethod.POST)
-	public ModelAndView valid(Person person,HttpSession session) {
+	public ModelAndView valid(Person person,HttpSession session,HttpServletRequest request) {
 		if (person.getCode()==null&&person.getPassword()==null) {
 			System.out.println("null");
 			return new ModelAndView("login");
@@ -50,14 +55,26 @@ public class LoginController {
 			}else {
 				for (Person person1 : personList) {
 					if (person1.getPassword().toLowerCase().equals(person.getPassword().toLowerCase())) {
-						session.setMaxInactiveInterval(600);
+						session.setMaxInactiveInterval(3600);
 						session.setAttribute("user", person1);
 						ModelAndView mav = new ModelAndView("south");
+						Log log = new Log();
+						log.setContent(person1.getCode()+"用户登陆成功");
+						log.setPerson(person1);
+						log.setType(new LogType(1));
+						log.setIp(logService.getRemoteAddress(request));
+						logService.addLog(log);
 						return mav;
 					}
 				}
 				ModelAndView mav = new ModelAndView("login");
 				mav.addObject("errorMsg","密码错误");
+				Log log = new Log();
+				log.setContent(person.getCode()+"用户登陆失败：密码错误");
+				log.setPerson(person);
+				log.setType(new LogType(1));
+				log.setIp(logService.getRemoteAddress(request));
+				//logService.addLog(log);
 				return mav;
 			}
 		}
@@ -69,5 +86,21 @@ public class LoginController {
 		Person person = (Person) request.getSession().getAttribute("user");
 		List<NavItem> menuList = resourcesService.getNavItems(person);
 		return menuList;
+	}
+	
+	
+	
+	
+	@RequestMapping("/logout")
+	public String logout(HttpServletRequest request){
+		Person person = (Person) request.getSession().getAttribute("user");
+		Log log = new Log();
+		log.setType(new LogType(1));
+		log.setIp(logService.getRemoteAddress(request));
+		log.setPerson(person);
+		log.setContent(person.getCode()+"用户注销成功");
+		logService.addLog(log);
+		request.getSession().removeAttribute("user");
+		return "redirect:/toLogin";
 	}
 }

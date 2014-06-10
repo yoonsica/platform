@@ -115,7 +115,7 @@ request.setAttribute("basePath", basePath);
 		});
 		
 		$("#logout").click(function(){
-			top.window.location.href = "${basePath}toLogin";
+			top.window.location.href = "${basePath}logout";
 		});
 		
 		$("#changePassword").click(function(){
@@ -127,7 +127,7 @@ request.setAttribute("basePath", basePath);
 </head>
 <body class="easyui-layout">
 	<div region="north"  style="height:91px;overflow: hidden;">
-		<div style="height:59px;width:100%;background:url('static/images/banner3.jpg') no-repeat;"><a id="logout" style="position:absolute ;left:1280px ;top:35px; color: white;font-weight:800 ;font-size:18px ; text-decoration: none;" href="javascript:void(0);">注销</a></div>
+		<div style="height:59px;width:100%;background:url('static/images/banner3.jpg') no-repeat;"><a id="logout" style="position:absolute ;left:1200px ;top:35px; color: white;font-weight:800 ;font-size:18px ; text-decoration: none;" href="javascript:void(0);">注销</a><a id="changePassword" style="position:absolute ;left:1280px ;top:35px; color: white;font-weight:800 ;font-size:18px ; text-decoration: none;" href="javascript:void(0);">修改密码</a></div>
 		<div id="container">
 			<div id="nav_slim">
 				<ul>

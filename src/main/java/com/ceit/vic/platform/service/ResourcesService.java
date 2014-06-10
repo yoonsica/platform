@@ -99,8 +99,19 @@ public interface ResourcesService {
 	public Resources getResourcesById(int parentId);
 	@Transactional
 	public List<Resources> getByLink(String link);
+<<<<<<< HEAD
 	@Transactional
 	List<Resources> getResources(int accessId, int accessType, int pageIndex, int pageSize);
 	@Transactional
 	int getResourceCount(int accessId, int accessType);
+=======
+	/**
+	 * 判断person对于id为resid的资源是否有授权
+	 * @param person
+	 * @param resId
+	 * @return
+	 */
+	@Transactional
+	public boolean isAuthOrNot(Person person,int resId);
+>>>>>>> refs/remotes/origin/master
 }

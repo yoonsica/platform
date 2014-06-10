@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,15 +20,15 @@ public class LogServiceImpl implements LogService {
 
 	@Autowired
 	LogDao logDao;
-	
+
 	@Autowired
 	IDPROVIDERDao idproviderDao;
-	
+
 	@Override
-	public Map<String, Object> getLogs(int typeId, String content, String personName,
-			String ip, Date beginTime, Date endTime, int pageIndex, int pageSize,
-			String[] sortNames, String[] sortOrders) {
-		return logDao.find(typeId, content, personName, ip, beginTime, endTime, 
+	public Map<String, Object> getLogs(int typeId, String content,
+			String personName, String ip, Date beginTime, Date endTime,
+			int pageIndex, int pageSize, String[] sortNames, String[] sortOrders) {
+		return logDao.find(typeId, content, personName, ip, beginTime, endTime,
 				pageIndex, pageSize, sortNames, sortOrders);
 	}
 
@@ -43,8 +45,30 @@ public class LogServiceImpl implements LogService {
 	}
 
 	@Override
+<<<<<<< HEAD
 	public Map<String, Object> getLogs(int personId, int pageIndex, int pageSize) {
 		return logDao.find(personId, pageIndex, pageSize);
 	}
 
+=======
+	public void addLog(Log log) {
+		log.setId(idproviderDao.generateId(Log.class));
+		logDao.add(log);
+	}
+
+	
+	public String getRemoteAddress(HttpServletRequest request) {
+		String ip = request.getHeader("x-forwarded-for");
+		if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {
+			ip = request.getHeader("Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {
+			ip = request.getHeader("WL-Proxy-Client-IP");
+		}
+		if (ip == null || ip.length() == 0 || ip.equalsIgnoreCase("unknown")) {
+			ip = request.getRemoteAddr();
+		}
+		return ip;
+	}
+>>>>>>> refs/remotes/origin/master
 }

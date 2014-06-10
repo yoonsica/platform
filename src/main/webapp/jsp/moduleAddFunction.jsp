@@ -45,7 +45,7 @@ body {
 	<script type="text/javascript">
 		$(function(){
 			$("#cancleBtn").click(function(){
-				window.location.href = "${basePath}moduleInfo/${parent }";
+				window.location.href = "${basePath}moduleInfo/${parent.id }";
 			});
 			$("#submitBtn").click(function(){
 				$.ajax({  
@@ -74,13 +74,14 @@ body {
   <body style="margin: 0;padding: 0;">
       <div id="moduleEditDiv" style="background:#fafafa;padding:10px;">
   		<form id="moduleInfoForm" method="post" >
+  		  	<input type="hidden" name="parent" value="${parent.id }"/>
 	        <div>
 	            <label for="name">名称</label>
 	            <input type="text" name="name"/>
 	        </div>
 	        <div >
 	            <label for="parent">类别</label>
-	            <input type="text" name="parent" id="parent" value="${parent }" readonly="readonly"/>
+        	    <input type="text" name="parentName" id="parentName" value="${parent.name }" disabled="disabled"/>
 	        </div>
 	        <div style="line-height: 60px;height: 60px;float:left;">
 	          	 <label for="link">链接</label>

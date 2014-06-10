@@ -19,7 +19,7 @@ request.setAttribute("basePath", basePath);
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/icon.css">
 	<link rel="stylesheet" href="${basePath }static/ztree/css/zTreeStyle/zTreeStyle.css" type="text/css">
-		<link rel="stylesheet" type="text/css" href="${basePath }static/css/common.css">
+	<link rel="stylesheet" type="text/css" href="${basePath }static/css/common.css">
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery-1.4.4.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.core-3.5.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
@@ -157,33 +157,23 @@ request.setAttribute("basePath", basePath);
   </head>
   
   <body>
- <!--  <div id="depMenuDiv" style="width: 310px;position:absolute;height: 20px;background:#C9EDCC;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
-		<a href="javascript:void(0)" id="addFolder" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
-  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
-		<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
-		<a href="javascript:void(0)" id="upBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >上调</a>
-		<a href="javascript:void(0)" id="downBtn" plain="true" class="easyui-linkbutton" iconCls="icon-down" >下调</a>
-	</div>
-  	<div id="treeDiv" style="width: 320px;height: 500px;overflow: scroll;position:absolute;top:37px;">
-  		<ul id="treeDemo" class="ztree"></ul>
-  	</div> -->
-  	<div class="container" style="min-width: 1000px;">
-  		<div id="leftDiv" style="width: 320px;float:left;">
-  		 <div id="leftMenuDiv" style="width: 320px;height: 20px;padding:5px;background:#C9EDCC;">
-			<a href="javascript:void(0)" id="addFolder" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
-	  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
-			<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
-			<a href="javascript:void(0)" id="upBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >上调</a>
-			<a href="javascript:void(0)" id="downBtn" plain="true" class="easyui-linkbutton" iconCls="icon-down" >下调</a>
-		</div>
-	  	<div id="treeDiv" style="width: 320px;height: 500px;overflow: scroll;">
-	  		<ul id="treeDemo" class="ztree"></ul>
-	  	</div>
+  	<div class="container">
+  		<div class="leftDiv">
+	  		 <div class="leftMenuDiv">
+				<a href="javascript:void(0)" id="addFolder" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
+		  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
+				<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
+				<a href="javascript:void(0)" id="upBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >上调</a>
+				<a href="javascript:void(0)" id="downBtn" plain="true" class="easyui-linkbutton" iconCls="icon-down" >下调</a>
+			</div>
+		  	<div class="treeDiv">
+		  		<ul id="treeDemo" class="ztree"></ul>
+		  	</div>
 	  	</div>
 	  	 
-	  	<div id="rightDiv" style="width:200px;float: left;">
-		  		<iframe id="depInfoFrame" name="depInfoFrame" src="" frameborder="0" scrolling="auto" width="500px" height="700px"></iframe>
+	  	<div class="rightDiv">
+  			<iframe id="depInfoFrame" name="depInfoFrame" src="" frameborder="0" scrolling="auto" width="894px" height="700px"></iframe>
 	  	</div>
-	  	</div>
+  	</div>
   </body>
 </html>

@@ -22,16 +22,16 @@ request.setAttribute("basePath", basePath);
 	<link rel="stylesheet" type="text/css" href="${basePath }static/css/common.css">
 	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
+	<script type="text/javascript" src="${basePath }static/easyui/locale/easyui-lang-zh_CN.js"></script>
 	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
-	
 	</style>
 	<script>
 		$(function(){
 			$('#test').datagrid({
 				title:'人员列表',
 				iconCls:'icon-save',
-				width:894,
-				height:525,
+				width:870,
+				height:533,
 				fitColumns: true,
 				url:"persons/${depId}",
 				frozenColumns:[[
@@ -39,9 +39,9 @@ request.setAttribute("basePath", basePath);
 				]],
 				columns:[[
 					{field:'id',title:'id',width:40,sortable:true,hidden:true},
-					{field:'name',title:'姓名',width:60},
+					{field:'name',title:'姓名',width:65},
 					{field:'sex',title:'性别',width:35},
-					{field:'departmentName',title:'所在部门',width:130},
+					{field:'departmentName',title:'所在部门',width:250},
 					{field:'code',title:'用户名',width:80},
 					{field:'state',title:'状态',width:30},
 					{field:'memo',title:'备注',width:140}
