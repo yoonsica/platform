@@ -3,10 +3,9 @@
 body {
 	FONT-SIZE: 12px;
 	BACKGROUND: #FFFFFF;
-	margin-top: 0px;
-	margin-left: 2px;
-	margin-right: 0px;
+	margin:0;
 	overflow:auto;
+	padding:0;
 }
 
 .container {
@@ -35,5 +34,6 @@ body {
 }
 
 .rightDiv{
-	width:800;float: left;
+	width:865px;float: left;
+	height: 573px;
 }

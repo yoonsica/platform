@@ -80,7 +80,7 @@ body {
   					<td><label for="sex">性别</label></td><td><input type="radio" name="sex" checked="checked" value="1"/>男 <input type="radio" name="sex"  value="0"/>女  </td>
   				</tr>
   				<tr>
-  					<td><label for="state">状态</label></td><td><input type="radio" name="state" checked="checked" value="0"/>正常 <input type="radio" name="sex" value="1"/>停用  </td>
+  					<td><label for="state">状态</label></td><td><input type="radio" name="state" checked="checked" value="0"/>正常 <input type="radio" name="state" value="1"/>停用  </td>
   				</tr>
   				<tr>
   					<td>

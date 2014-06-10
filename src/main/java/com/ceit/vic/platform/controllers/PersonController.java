@@ -112,13 +112,13 @@ public class PersonController {
 		return "添加成功！";
 	}
 	
-	@RequestMapping("/upPerson/{depId}/{personId}")
+	@RequestMapping(value="/upPerson/{depId}/{personId}",produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String upPerson(@PathVariable int depId,@PathVariable int personId){
 		return personService.up(depId,personId);
 	}
 	
-	@RequestMapping("/downPerson/{depId}/{personId}")
+	@RequestMapping(value="/downPerson/{depId}/{personId}",produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String downPerson(@PathVariable int depId,@PathVariable int personId){
 		return personService.down(depId,personId);

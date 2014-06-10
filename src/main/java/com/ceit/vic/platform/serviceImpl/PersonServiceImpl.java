@@ -125,7 +125,7 @@ public class PersonServiceImpl implements PersonService {
 		person1.setDispIndex(tmp);
 		personDao.update(person1);
 		personDao.update(person2);
-		return "上调成功！";
+		return "下调成功！";
 	}
 	@Override
 	public Person getPersonById(int personId) {

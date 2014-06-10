@@ -58,8 +58,6 @@ request.setAttribute("basePath", basePath);
 	                   if(nodeId!=null){
 	                   	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 	                       var node = zTree.getNodeByParam("id", nodeId, null);
-	                       zTree.selectNode(node);
-	                       zTree.expandNode(node, false, false, true);
 	                       onClick(event, "treeDemo", node, 1);
 	                   }
 	               }
@@ -172,7 +170,7 @@ request.setAttribute("basePath", basePath);
 	  	</div>
 	  	 
 	  	<div class="rightDiv">
-  			<iframe id="depInfoFrame" name="depInfoFrame" src="" frameborder="0" scrolling="auto" width="894px" height="700px"></iframe>
+  			<iframe id="depInfoFrame" name="depInfoFrame" src="" frameborder="0" scrolling="auto" width="100%" height="100%"></iframe>
 	  	</div>
   	</div>
   </body>

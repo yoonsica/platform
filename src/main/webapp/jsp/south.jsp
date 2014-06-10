@@ -148,7 +148,7 @@ request.setAttribute("basePath", basePath);
 	</div>
 	
 	<div region="center">
-		<div id="tt" class="easyui-tabs" fit="true" border="false" style="width:1335px;height:566px;">
+		<div id="tt" class="easyui-tabs" fit="true" border="false" style="width:100%;height:566px;">
 			
 		</div>
 	</div>

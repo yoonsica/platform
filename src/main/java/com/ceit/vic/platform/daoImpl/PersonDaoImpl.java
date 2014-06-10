@@ -75,12 +75,12 @@ public class PersonDaoImpl implements PersonDao {
 	@Override
 	public Person getPersonToDown(int depId,int dispIndex) {
 		Query query;
-		List<String> personIdList;
+		List<Integer> personIdList;
 		try {
-			query = sf.getCurrentSession().createQuery("select t.personId from Dep_Person t where t.depId=");
+			query = sf.getCurrentSession().createQuery("select t.personId from Dep_Person t where t.depId="+depId);
 			personIdList = query.list();
 			StringBuffer sb = new StringBuffer("from Person t where t.id in(");
-			for (String id : personIdList) {
+			for (int id : personIdList) {
 				sb.append(id).append(",");
 			}
 			sb = new StringBuffer(sb.substring(0, sb.length()-1));
@@ -91,6 +91,7 @@ public class PersonDaoImpl implements PersonDao {
 				return (Person) query.list().get(0);
 			}
 		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return null;
 	}
@@ -98,12 +99,12 @@ public class PersonDaoImpl implements PersonDao {
 	@Override
 	public Person getPersonToUp(int depId, int dispIndex) {
 		Query query;
-		List<String> personIdList;
+		List<Integer> personIdList;
 		try {
-			query = sf.getCurrentSession().createQuery("select t.personId from Dep_Person t where t.depId=");
+			query = sf.getCurrentSession().createQuery("select t.personId from Dep_Person t where t.depId="+depId);
 			personIdList = query.list();
 			StringBuffer sb = new StringBuffer("from Person t where t.id in(");
-			for (String id : personIdList) {
+			for (int id : personIdList) {
 				sb.append(id).append(",");
 			}
 			sb = new StringBuffer(sb.substring(0, sb.length()-1));

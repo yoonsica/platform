@@ -55,7 +55,7 @@ body {
 	                async : false,  
 	                cache:false,  
 	                success:function(data){
-	                	alert("添加成功！"+data);
+	                	alert("添加成功！");
 	                	//window.location.href = "${basePath}personByDepId/${parentId }";
 	                	window.parent.window.refreshTree(data);
 	                }  
