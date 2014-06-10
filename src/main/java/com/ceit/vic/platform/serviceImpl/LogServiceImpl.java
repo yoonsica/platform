@@ -45,12 +45,10 @@ public class LogServiceImpl implements LogService {
 	}
 
 	@Override
-<<<<<<< HEAD
 	public Map<String, Object> getLogs(int personId, int pageIndex, int pageSize) {
 		return logDao.find(personId, pageIndex, pageSize);
 	}
 
-=======
 	public void addLog(Log log) {
 		log.setId(idproviderDao.generateId(Log.class));
 		logDao.add(log);
@@ -70,5 +68,4 @@ public class LogServiceImpl implements LogService {
 		}
 		return ip;
 	}
->>>>>>> refs/remotes/origin/master
 }

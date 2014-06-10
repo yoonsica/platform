@@ -18,11 +18,8 @@ public interface DepartmentDao {
 	public Department getDepartmentToUp(int parentId, int dispindex);
 	public List<Department> getDepartmentsByIds(List<Integer> idList);
 	public List<Department> getByParamMap(Map<String, Object> paraMap);
-<<<<<<< HEAD
 	public int getDepartmentCountByResourceId(int id);
 	public List<Department> getDepartmentsByResourceId(int id, int pageIndex, int pageSize);
 	
-=======
 	public String getDepPathNameById(int depId);
->>>>>>> refs/remotes/origin/master
 }

@@ -163,7 +163,6 @@ public class DepartmentDaoImpl implements DepartmentDao{
 	}
 
 	@Override
-<<<<<<< HEAD
 	public Department getDepartmentByPersonId(int personId) {
 		Query query = null;
 		Department department = null;
@@ -208,8 +207,12 @@ public class DepartmentDaoImpl implements DepartmentDao{
 				roles.add(r);
 			}
 			return roles;*/
-			return query.list();
-=======
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return query.list();
+	}
+		
 	public String getDepPathNameById(int depId) {
 		try {
 			StringBuffer sb = new StringBuffer("select * from DEPARTMENT t where t.parentid!=0 start with t.id=");
@@ -224,7 +227,6 @@ public class DepartmentDaoImpl implements DepartmentDao{
 				return pathName.substring(0,pathName.length()-1);
 			}
 			
->>>>>>> refs/remotes/origin/master
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
