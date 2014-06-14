@@ -58,6 +58,8 @@ request.setAttribute("basePath", basePath);
 	                   if(nodeId!=null){
 	                   	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 	                       var node = zTree.getNodeByParam("id", nodeId, null);
+	                       zTree.selectNode(node);
+                    		zTree.expandNode(node, true, true, true);
 	                       onClick(event, "treeDemo", node, 1);
 	                   }
 	               }
@@ -73,6 +75,10 @@ request.setAttribute("basePath", basePath);
                 dataType: "json",
                 success:function(data){
                     $.fn.zTree.init($("#treeDemo"), setting, data);
+                    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+	                var node = zTree.getNodeByParam("id", 4, null);
+	                zTree.selectNode(node);
+                    onClick(event, "treeDemo", node, 1);
                 }  
          	});
          	$("#addFolder").click(function(){

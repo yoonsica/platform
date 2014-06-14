@@ -44,9 +44,7 @@ request.setAttribute("basePath", basePath);
 		}
 		function onClick(event, treeId, treeNode, clickFlag) {
 			$("#menuDiv").show();
-			if(treeNode.id==1){
-				return false;
-			}
+			
 			var url = "${basePath}toDepAuth/"+treeNode.id;//部门授权情况
 			//$("#moduleInfoDiv").load(url);
 			$("#moduleInfoFrame").attr("src",url);
@@ -90,25 +88,33 @@ request.setAttribute("basePath", basePath);
                 success:function(data){
                     $.fn.zTree.init($("#treeDemo"), setting, data);
                     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-                    var node = zTree.getNodeByParam("id", 1, null);
+                    var node = zTree.getNodeByParam("id", "${nodeId}", null);
                     zTree.selectNode(node);
+                    //onClick(event, "treeDemo", node, 1);
+                    var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+					$("#depBtn").click(function(){
+					//获得当前点击的节点
+						var nodes = treeObj.getSelectedNodes();
+						$("#moduleInfoFrame").attr("src","${basePath}toDepAuth/"+nodes[0].id);
+					});
+					$("#personBtn").click(function(){
+						var nodes = treeObj.getSelectedNodes();
+						$("#moduleInfoFrame").attr("src","${basePath}toPersonAuth/"+nodes[0].id);
+					});
+					$("#roleBtn").click(function(){
+						var nodes = treeObj.getSelectedNodes();
+						$("#moduleInfoFrame").attr("src","${basePath}toRoleAuth/"+nodes[0].id);
+					});
+                    if("${accessType==1}"){
+                    	$("#personBtn").trigger("click");
+                    }else if("${accessType==2}"){
+                    	$("#depBtn").trigger("click");
+                    }else if("${accessType==0}"){
+                    	$("#roleBtn").trigger("click");
+                    }
                     zTree.expandNode(node, true, true, true);
                 }  
          	});
-			var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
-			$("#depBtn").click(function(){
-			//获得当前点击的节点
-				var nodes = treeObj.getSelectedNodes();
-				$("#moduleInfoFrame").attr("src","${basePath}toDepAuth/"+nodes[0].id);
-			});
-			$("#personBtn").click(function(){
-				var nodes = treeObj.getSelectedNodes();
-				$("#moduleInfoFrame").attr("src","${basePath}toPersonAuth/"+nodes[0].id);
-			});
-			$("#roleBtn").click(function(){
-				var nodes = treeObj.getSelectedNodes();
-				$("#moduleInfoFrame").attr("src","${basePath}toRoleAuth/"+nodes[0].id);
-			});
 		});
     </script>
     <style type="text/css">
@@ -118,18 +124,18 @@ request.setAttribute("basePath", basePath);
   
   <body>
   <div class="container">
-	  <div class="leftDiv">
+	  <div class="leftDiv" style="width: 330px;">
 		<div class="treeDiv">
 	  		<ul id="treeDemo" class="ztree"></ul>
 	  	</div>
 	  </div>
-	<div class="rightDiv">
-	  	<div id="menuDiv" style="width:800px;height: 20px;background:#E8F1FF;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
+	<div class="rightDiv" style="width: 870px;">
+	  	<div id="menuDiv" style="width:870px;height: 20px;background:#E8F1FF;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
 	  		<a href="javascript:void(0)" id="depBtn" class="easyui-linkbutton" plain="true" iconCls="icon-folder" >授权部门</a>
 			<a href="javascript:void(0)"  id="personBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >授权人员</a>
 			<a href="javascript:void(0)" id="roleBtn" plain="true" class="easyui-linkbutton" iconCls="icon-up" >授权角色</a>
 		</div>
-	  	<div id="moduleInfoDiv" style="height: 600px;width:800px;">
+	  	<div id="moduleInfoDiv" style="height: 600px;width:870px;">
 	  		<iframe id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="auto" width="900px" height="600px"></iframe>
 	  	</div>
   	</div>

@@ -4,36 +4,34 @@ body {
 	FONT-SIZE: 12px;
 	BACKGROUND: #FFFFFF;
 	margin:0;
-	overflow:auto;
 	padding:0;
 }
 
 .container {
-	min-width: 1400px;
+	min-width: 1200px;
 }
 
 .leftDiv {
-	width: 330px;
-	height:573px;
+	width: 445px;
+	height:530px;
 	float: left;
-	overflow: scroll;
 }
 
 .leftMenuDiv {
-	width: 322px;
+	width: 435px;
 	height: 20px;
 	padding: 5px;
 	background: #E8F1FF;
 }
 
 .treeDiv {
-	width: 330px;
+	width: 445px;
 	height: 500px;
 	overflow: auto;
 	margin-top: 1px;
 }
 
 .rightDiv{
-	width:865px;float: left;
-	height: 573px;
+	width:755px;float: left;
+	height: 530px;
 }

@@ -65,7 +65,7 @@ request.setAttribute("basePath", basePath);
 			                cache:false,  
 			                success:function(data){
 			                	alert(data);
-			                	window.parent.location.href = "${basePath}jsp/toResAuth.jsp";
+			                	window.parent.location.href = "${basePath}toResAuth/${resId}/1";
 			                }  
 			         	});
 					}
@@ -75,7 +75,7 @@ request.setAttribute("basePath", basePath);
 					iconCls:'icon-undo',
 					handler:function(){
 						$('#btnsave').linkbutton('enable');
-						window.parent.location.href = "${basePath}jsp/toResAuth.jsp";
+						window.parent.location.href = "${basePath}toResAuth/${resId}/1";
 					}
 				}
 				]

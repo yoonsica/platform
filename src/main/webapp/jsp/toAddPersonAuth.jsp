@@ -57,6 +57,10 @@ request.setAttribute("basePath", basePath);
                 dataType: "json",
                 success:function(data){
                     $.fn.zTree.init($("#treeDemo"), setting, data);
+                    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+	                var node = zTree.getNodeByParam("id", 4, null);
+	                zTree.selectNode(node);
+                    onClick(event, "treeDemo", node, 1);
                 }  
          	});
 		});

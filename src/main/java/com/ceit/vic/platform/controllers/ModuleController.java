@@ -258,9 +258,11 @@ public class ModuleController {
 		return "删除成功！";
 	}
 	
-	@RequestMapping("/toResAuth")
-	public ModelAndView toResAuth(){
+	@RequestMapping("/toResAuth/{nodeId}/{accessType}")
+	public ModelAndView toResAuth(@PathVariable int nodeId,@PathVariable int accessType){
 		ModelAndView mav = new ModelAndView("toResAuth");
+		mav.addObject("nodeId",nodeId);
+		mav.addObject("accessType",accessType);
 		return mav;
 	}
 }

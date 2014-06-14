@@ -57,4 +57,6 @@ public interface PersonService {
 	 */
 	@Transactional
 	public List<Person> getPersonsByCodeName(String code);
+	@Transactional
+	public boolean changePassword(String oldPasswordMd5, String newPassword,Person person);
 }

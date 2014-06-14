@@ -30,7 +30,7 @@ request.setAttribute("basePath", basePath);
 				title:'人员列表',
 				iconCls:'icon-save',
 				width:870,
-				height:533,
+				height:530,
 				fitColumns: true,
 				url:"getPersonsByRoleId/${roleId}",
 				frozenColumns:[[
@@ -48,7 +48,7 @@ request.setAttribute("basePath", basePath);
 				pagination:true,
 				toolbar:[{
 					id:'btnadd',
-					text:'添加',
+					text:'添加人员',
 					iconCls:'icon-add',
 					handler:function(){
 						$('#btnsave').linkbutton('enable');

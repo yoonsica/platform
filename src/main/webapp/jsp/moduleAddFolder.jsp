@@ -74,7 +74,7 @@ body {
   <body style="margin: 0;padding: 0;">
       <div id="moduleEditDiv" style="background:#fafafa;padding:10px;">
   		<form id="moduleInfoForm" method="post" >
-  		      <input type="hidden" name="parent" value="${parent.id }"/>
+  		      <input type="hidden" name="parent" id="parent" value="${parent.id }"/>
 	        <div>
 	            <label for="name">名称</label>
 	            <input type="text" name="name"/>

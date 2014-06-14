@@ -219,7 +219,7 @@ public class DepartmentDaoImpl implements DepartmentDao{
 			sb.append(depId).append(" connect by t.id = prior t.parentid");
 			Query query = sf.getCurrentSession().createSQLQuery(sb.toString());
 			List<Object[]> list = query.list();
-			if (null!=list) {
+			if (null!=list&&list.size()>0) {
 				StringBuffer pathName=new StringBuffer();
 				for (int i = list.size()-1; i >=0; i--) {
 					pathName.append(list.get(i)[3]).append("-");

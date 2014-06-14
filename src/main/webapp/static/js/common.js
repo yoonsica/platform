@@ -3,7 +3,7 @@ $.ajaxSetup({
          complete:function(XMLHttpRequest,textStatus){
         	 var sessionstatus=XMLHttpRequest.getResponseHeader("sessionstatus"); 
         	 if(sessionstatus=='timeout'){   
-        		 	alert("页面过期，请重新登录");
+        		 	//alert("页面过期，请重新登录");
         		 	var location = (window.location+'').split('/'); 
         		 	var basePath = location[0]+'//'+location[2]+'/'+location[3]; 
         		      var topWindow = getTopWinow();  
@@ -13,7 +13,6 @@ $.ajaxSetup({
    }); 
 
 function getTopWinow(){  
-	alert(window.location);
     var p = window;  
     while(p != p.parent){  
         p = p.parent;  

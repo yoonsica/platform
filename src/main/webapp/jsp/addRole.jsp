@@ -75,7 +75,7 @@ tr{
 	                cache:false,  
 	                success:function(data){
 	                	//刷新整个页面
-	                	alert("添加成功！"+data);
+	                	alert("添加成功！");
         		        window.location.href = "${basePath}personByRoleId/"+data;
 	                	window.parent.window.refreshTree(data);//刷新树
 	                }  

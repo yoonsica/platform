@@ -39,8 +39,7 @@ request.setAttribute("basePath", basePath);
 			$("#submitBtn").click(function(){
 				//alert(document.getElementById("form1:password").value);
 				var hash=hex_md5(document.getElementById("form1:password").value);  
-				document.getElementById("form1:password").value=hash;
-				//alert(document.getElementById("form1:password").value);
+				document.getElementById("passwordInput").value=hash;
 				$("#form1").submit();
 			});
 		})
@@ -80,12 +79,13 @@ request.setAttribute("basePath", basePath);
 														密&nbsp;&nbsp;&nbsp;&nbsp;码&nbsp;
 													</td>
 													<td height="40" align="left" valign="middle">
-														<input id="form1:password" type="password" name="password" value="" style="width: 100px;" tabindex="2" />
+														<input id="form1:password" type="password" name="password1" value="" style="width: 100px;" tabindex="2" />
+														<input type="hidden" name="password" id="passwordInput"/>
 													</td>													
 												</tr>
 												<tr>	
 													<td height="40" colspan="2" align="center" valign="middle" style="padding-left:10px;">
-														<input type="submit"  id="submitBtn" value="&#25552; &#20132;" style="background:none; border:none; width:60px; height:23px; background:url('static/images/butn.jpg'); color:#ffffff; cursor:pointer;" tabindex="3" />
+														<input type="button"  id="submitBtn" value="&#25552; &#20132;" style="background:none; border:none; width:60px; height:23px; background:url('static/images/butn.jpg'); color:#ffffff; cursor:pointer;" tabindex="3" />
 														&nbsp;
 														<input type="reset" id="resetBtn" value="&#37325; &#32622;" style="background:none; border:none; width:60px; height:23px; background:url('static/images/butn.jpg'); color:#ffffff; cursor:pointer;" tabindex="4" />
 													</td>

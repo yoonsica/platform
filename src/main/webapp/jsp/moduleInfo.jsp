@@ -163,8 +163,8 @@ body {
 			$('#buttonLinkTable').datagrid({
 					title:'按钮和链接列表',
 					iconCls:'icon-save',
-					width:870,
-					height:400,
+					width:755,
+					height:397,
 					fitColumns: true,
 					url:"buttonLinkList/${moduleId}",
 					frozenColumns:[[
@@ -224,7 +224,7 @@ body {
 	</script>
   </head>
   <body style="margin: 0;padding: 0;">
-    <table border="0" bgcolor="#cccccc" cellspacing="1" cellpadding="5" width="870px" id="infoTable" class="toptablebg">
+    <table border="0" bgcolor="#cccccc" cellspacing="1" cellpadding="5" width="755px" id="infoTable" class="toptablebg">
     	<thead>
     		<tr><td colspan="2" align="center" style="font-weight: bolder;">当前选中模块信息</td></tr>
     	</thead>
@@ -246,7 +246,7 @@ body {
     		</tr>
     	</tbody>
     </table>
-    <div id="buttonLinkDiv"><table id="buttonLinkTable"></table></div>
+    <div id="buttonLinkDiv" style="height: 397px;"><table id="buttonLinkTable"></table></div>
       <div id="moduleEditDiv" style="display:none;background:#fafafa;padding:10px;">
   		<form id="moduleInfoForm" method="post" >
             <input type="hidden" name="id"  value="${moduleInfo.id }" ></input>

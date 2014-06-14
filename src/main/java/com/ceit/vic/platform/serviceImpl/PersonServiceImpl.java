@@ -13,7 +13,6 @@ import com.ceit.vic.platform.dao.IDPROVIDERDao;
 import com.ceit.vic.platform.dao.PersonDao;
 import com.ceit.vic.platform.dao.Person_RoleDao;
 import com.ceit.vic.platform.models.Dep_Person;
-import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.PersonDTO;
 import com.ceit.vic.platform.models.Person_Role;
@@ -171,6 +170,15 @@ public class PersonServiceImpl implements PersonService {
 	@Override
 	public List<Person> getPersonsByCodeName(String code) {
 		return personDao.getPersonsByCode(code);
+	}
+	@Override
+	public boolean changePassword(String oldPasswordMd5, String newPassword,Person person) {
+		if (oldPasswordMd5.equals(person.getPassword())) {
+			person.setPassword(newPassword);
+			personDao.update(person);
+			return true;
+		}
+		return false;
 	}
 
 }

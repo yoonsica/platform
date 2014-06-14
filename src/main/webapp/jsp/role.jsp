@@ -45,10 +45,11 @@ request.setAttribute("basePath", basePath);
 		}
 		
 		function onClick(event, treeId, treeNode, clickFlag) {
+			var url;
 			if(treeNode.isParent){
-					return false;
+				url = "";
 			}
-			var url = "${basePath}personByRoleId/"+treeNode.id;
+			url = "${basePath}personByRoleId/"+treeNode.id;
 			$("#roleInfoFrame").attr("src",url);
 		}
 		
@@ -64,8 +65,7 @@ request.setAttribute("basePath", basePath);
 	                   if(nodeId!=null){
 	                   	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 	                       var node = zTree.getNodeByParam("id", nodeId, null);
-	                       zTree.selectNode(node);
-	                       zTree.expandNode(node, false, false, true);
+	                       zTree.selectNode(node,false);
 	                       onClick(event, "treeDemo", node, 1);
 	                   }
 	               }  
@@ -85,6 +85,7 @@ request.setAttribute("basePath", basePath);
                     var node = zTree.getNodeByParam("id", 0, null);
                     zTree.selectNode(node);
                     zTree.expandNode(node, true, true, true);
+                    onClick(event, "treeDemo", node, 1);
                 }  
          	});
          	
@@ -135,14 +136,14 @@ request.setAttribute("basePath", basePath);
   
   <body>
     <div class="container">
-    	<div class="leftDiv">
+    	<div class="leftDiv" style="width: 330px;">
 	    	<div class="leftMenuDiv" >
-				<a href="javascript:void(0)" id="addBtn" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
-		  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
-				<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
+				<a href="javascript:void(0)" id="addBtn" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加角色</a>
+		  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除角色</a>
+				<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑角色</a>
 			</div>
-		  	<div class="treeDiv">
-	  			<ul id="treeDemo" class="ztree"></ul>
+		  	<div class="treeDiv" style="width: 330px;">
+	  			<ul id="treeDemo" class="ztree" ></ul>
 	  		</div>
   		</div>
 	  	<div class="rightDiv">

@@ -56,7 +56,7 @@ request.setAttribute("basePath", basePath);
 	                cache:false,  
 	                success:function(data){
 	                	alert(data);
-				        window.location.href = "${basePath}moduleInfo/${resId}";;
+				        window.parent.window.refreshTree("${resId }");
 	                }  
 	         	});
 			});

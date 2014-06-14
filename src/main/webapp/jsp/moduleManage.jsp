@@ -47,7 +47,7 @@ request.setAttribute("basePath", basePath);
 		function onClick(event, treeId, treeNode, clickFlag) {
 			$("#menuDiv").show();
 			if (treeNode.isParent) {
-				/*var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				/*var zTree = $.fn.zTree.getZTreeObj("moduleTree");
 				zTree.expandNode(treeNode);*/
 				if(treeNode.children==undefined){
 					$("#deleteBtn").show();
@@ -101,13 +101,12 @@ request.setAttribute("basePath", basePath);
                 cache:false,  
                 dataType: "json",
                 success:function(data){
-                    $.fn.zTree.init($("#treeDemo"), setting, data);
+                    $.fn.zTree.init($("#moduleTree"), setting, data);
                     if(nodeId!=null){
-                    	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                    	var zTree = $.fn.zTree.getZTreeObj("moduleTree");
                         var node = zTree.getNodeByParam("id", nodeId, null);
                         zTree.selectNode(node);
-                        zTree.expandNode(node, true, true, true);
-                        onClick(event, "treeDemo", node, 1);
+                        onClick(event, "moduleTree", node, 1);
                     }
                 }  
          	});
@@ -121,11 +120,12 @@ request.setAttribute("basePath", basePath);
                 cache:false,  
                 dataType: "json",
                 success:function(data){
-                    $.fn.zTree.init($("#treeDemo"), setting, data);
-                    var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                    $.fn.zTree.init($("#moduleTree"), setting, data);
+                    var zTree = $.fn.zTree.getZTreeObj("moduleTree");
                     var node = zTree.getNodeByParam("id", 1, null);
                     zTree.selectNode(node);
                     zTree.expandNode(node, true, true, true);
+                    onClick(event, "moduleTree", node, 1);
                 }  
          	});
 			$("#editBtn").click(function(){
@@ -135,7 +135,7 @@ request.setAttribute("basePath", basePath);
 				$(moduleEditDiv).show();
 			});
 			$("#upBtn").click(function(){
-				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var zTree = $.fn.zTree.getZTreeObj("moduleTree");
 				var nodes = zTree.getSelectedNodes();
 				var parentNode = nodes[0].getParentNode();
 				var nodeId = nodes[0].id;
@@ -157,7 +157,7 @@ request.setAttribute("basePath", basePath);
 			});
 			
 			$("#downBtn").click(function(){
-				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var zTree = $.fn.zTree.getZTreeObj("moduleTree");
 				var nodes = zTree.getSelectedNodes();
 				var parentNode = nodes[0].getParentNode();
 				var nodeId = nodes[0].id;
@@ -179,21 +179,21 @@ request.setAttribute("basePath", basePath);
 			});
 			
 			$("#addFolder").click(function(){
-				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var zTree = $.fn.zTree.getZTreeObj("moduleTree");
 				var nodes = zTree.getSelectedNodes();
 				var nodeId = nodes[0].id;
 				$("#moduleInfoFrame").attr("src","${basePath}moduleManage/toAddFolder/"+nodeId);
 			});
 			
 			$("#addFunction").click(function(){
-				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var zTree = $.fn.zTree.getZTreeObj("moduleTree");
 				var nodes = zTree.getSelectedNodes();
 				var nodeId = nodes[0].id;
 				$("#moduleInfoFrame").attr("src","${basePath}moduleManage/toAddFunction/"+nodeId);
 			});
 			
 			$("#deleteBtn").click(function(){
-				var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+				var zTree = $.fn.zTree.getZTreeObj("moduleTree");
 				var nodes = zTree.getSelectedNodes();
 				var parentNode = nodes[0].getParentNode();
 				var nodeId = nodes[0].id;
@@ -234,12 +234,12 @@ request.setAttribute("basePath", basePath);
 				<a href="javascript:void(0)" id="addFunction" plain="true" class="easyui-linkbutton" iconCls="icon-addFunction" >添加链接</a>
 			</div>
 		  	<div class="treeDiv">
-		  		<ul id="treeDemo" class="ztree"></ul>
+		  		<ul id="moduleTree" class="ztree"></ul>
 		  	</div>
 	  	</div>
-	  	<div class="rightDiv">
-	  		<iframe onload="test_onload()" id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="auto" width="894px" height="700px"></iframe>
-	  	</div>
+	  	 <div class="rightDiv">
+	  		<iframe onload="test_onload()" id="moduleInfoFrame" name="moduleInfoFrame" src="" frameborder="0" scrolling="auto" width="100%" height="100%"></iframe>
+	  	</div> 
   	</div>
   </body>
 </html>

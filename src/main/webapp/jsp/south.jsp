@@ -20,12 +20,17 @@ request.setAttribute("basePath", basePath);
 	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
 	<script type="text/javascript">
 	function addTab(title,href,icon){
+		if(getSelectedHref()=="${basePath}jsp/welcome.jsp"){
+			var tab = $('#tt').tabs('getSelected');
+			var index = $('#tt').tabs('getTabIndex',tab);
+			$('#tt').tabs('close',index);
+		}
 		var tt = $('#tt');  
 	    if (tt.tabs('exists', title)){//如果tab已经存在,则选中并刷新该tab          
 	        tt.tabs('select', title);  
 	        refreshTab({tabTitle:title,url:href});  
 	    } else { 
-			var content = '<iframe scrolling="no" frameborder="0"  src="'+href+'" style="width:100%;height:100%;"></iframe>'; 
+			var content = '<iframe scrolling="no" frameborder="0"  src="'+href+'" style="width:1200px;height:530px;"></iframe>'; 
 			tt.tabs('add',{
 				title:title ,
 				content:content,
@@ -36,7 +41,20 @@ request.setAttribute("basePath", basePath);
 	}
 	function getSelectedTitle(){
 		var tab = $('#tt').tabs('getSelected');
-		return tab.panel('options').title;
+		if(null!=tab){
+			return tab.panel('options').title;
+		}else{
+			return null;
+		}
+	}
+	
+	function getSelectedHref(){
+		var tab = $('#tt').tabs('getSelected');
+		if(null!=tab){
+			return tab.find('iframe')[0].src;
+		}else{
+			return null;
+		}
 	}
 	
 	function update(title,href){
@@ -107,7 +125,7 @@ request.setAttribute("basePath", basePath);
 		var myDate = new Date();
 		$("#southDiv").html("${user.code }&nbsp;"+myDate.toLocaleDateString());
 		$("#nav_slim a").click(function(){
-			addTab("欢迎使用","jsp/welcome.jsp");
+			addTab("欢迎使用","jsp/welcome.jsp","129");
 			//addTab($(this).text(),$(this).attr("href"));//调用south.jsp页面的addTab()方法，直接在这里添加tab会报错“option对象为空”
 		//refreshWestDiv("${basePath}moduleChild/"+$(this).attr("id"));
 			refreshWestDiv("${basePath}moduleIdPass/"+$(this).attr("id"));
@@ -119,7 +137,7 @@ request.setAttribute("basePath", basePath);
 		});
 		
 		$("#changePassword").click(function(){
-			top.window.location.href = "${basePath}jsp/changePassword.jsp";
+			addTab("修改密码","${basePath}jsp/changePassword.jsp");
 		});
 	})
 	</script>
