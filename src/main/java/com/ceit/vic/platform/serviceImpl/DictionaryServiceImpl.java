@@ -75,4 +75,9 @@ public class DictionaryServiceImpl implements DictionaryService {
 		dictionaryDao.down(currentId, downId);
 	}
 
+	@Override
+	public List<Dictionary> getByName(String name) {
+		return dictionaryDao.findByName(name);
+	}
+
 }

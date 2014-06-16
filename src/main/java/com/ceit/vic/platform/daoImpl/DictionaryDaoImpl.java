@@ -89,4 +89,18 @@ public class DictionaryDaoImpl implements DictionaryDao {
 		//sf.getCurrentSession().update(nextDictionary);
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Dictionary> findByName(String name) {
+		Query query = null;
+		try {
+			query = sf.getCurrentSession().createQuery("from Dictionary where name = :name"); 
+			query.setParameter("name", name);
+			return query.list();
+		} catch (HibernateException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 }

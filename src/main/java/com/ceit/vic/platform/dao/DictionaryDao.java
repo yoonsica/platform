@@ -19,5 +19,7 @@ public interface DictionaryDao {
 	void up(int currentId, int prevId);
 
 	void down(int currentId, int nextId);
+	
+	List<Dictionary> findByName(String name);
 
 }

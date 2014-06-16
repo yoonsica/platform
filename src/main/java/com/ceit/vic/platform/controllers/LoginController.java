@@ -17,6 +17,7 @@ import com.ceit.vic.platform.models.Log;
 import com.ceit.vic.platform.models.LogType;
 import com.ceit.vic.platform.models.NavItem;
 import com.ceit.vic.platform.models.Person;
+import com.ceit.vic.platform.service.DictionaryService;
 import com.ceit.vic.platform.service.LogService;
 import com.ceit.vic.platform.service.PersonService;
 import com.ceit.vic.platform.service.ResourcesService;
@@ -31,6 +32,8 @@ public class LoginController {
 	PersonService personService;
 	@Autowired
 	LogService logService;
+	@Autowired 
+	DictionaryService dictionaryService;
 	
 	@RequestMapping("/toLogin")
 	public ModelAndView toLogin(){
@@ -55,7 +58,7 @@ public class LoginController {
 			}else {
 				for (Person person1 : personList) {
 					if (person1.getPassword().toLowerCase().equals(person.getPassword().toLowerCase())) {
-						session.setMaxInactiveInterval(3600);
+						session.setMaxInactiveInterval(Integer.valueOf(dictionaryService.getByName("MAXINACTIVEINTERVAL").get(0).getValue().toString()));
 						session.setAttribute("user", person1);
 						ModelAndView mav = new ModelAndView("south");
 						Log log = new Log();

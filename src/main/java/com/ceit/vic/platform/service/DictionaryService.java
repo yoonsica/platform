@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ceit.vic.platform.models.Dictionary;
 import com.ceit.vic.platform.models.ZTreeNode;
 
 public interface DictionaryService {
@@ -19,4 +20,6 @@ public interface DictionaryService {
 	void upDictionaryElement(int currentId, int prevId);
 	@Transactional
 	void downDictionaryElement(int currentId, int downId);
+	@Transactional
+	List<Dictionary> getByName(String name);
 }

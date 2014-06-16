@@ -113,6 +113,7 @@ request.setAttribute("basePath", basePath);
                     	$("#roleBtn").trigger("click");
                     }
                     zTree.expandNode(node, true, true, true);
+                    onClick(event, "treeDemo", node, 1);
                 }  
          	});
 		});
