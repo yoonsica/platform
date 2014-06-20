@@ -69,6 +69,7 @@ request.setAttribute("basePath", basePath);
 				id: treeNode.id,
 				name:path
 			});
+			
 		}
 		
 		$(document).ready(function(){
@@ -93,7 +94,7 @@ request.setAttribute("basePath", basePath);
 				]],
 				columns:[[
 					{field:'id',title:'id',width:40,sortable:true,hidden:true},
-					{field:'name',title:'角色名称',width:80}
+					{field:'name',title:'部门名称',width:80}
 				]],
 				rownumbers:true,
 				toolbar:[{
@@ -124,14 +125,13 @@ request.setAttribute("basePath", basePath);
 						}
 						$.ajax({  
 			                type: "POST",  
-			                url: "addResAuth",
-			                data:"idArray="+idArray+"&resId=${resId}&accessType=2",
+			                url: "addDepRole/${roleId}",
+			                data:"idArray="+idArray,
 			                async : false,  
 			                cache:false,  
 			                success:function(data){
 			                	alert(data);
-			                	window.location.href = "${basePath}toResAuth/${resId}/2";
-			                }  
+								window.location.href = "${basePath}jsp/role.jsp";			                }  
 			         	});
 					}
 				},{
@@ -140,7 +140,7 @@ request.setAttribute("basePath", basePath);
 					iconCls:'icon-undo',
 					handler:function(){
 						$('#btnsave').linkbutton('enable');
-						window.location.href = "${basePath}toResAuth/${resId}/2";
+						window.location.href = "${basePath}jsp/role.jsp";
 					}
 				}]
 			});

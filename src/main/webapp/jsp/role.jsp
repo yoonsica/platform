@@ -83,7 +83,19 @@ request.setAttribute("basePath", basePath);
                     $.fn.zTree.init($("#treeDemo"), setting, data);
                     var zTree = $.fn.zTree.getZTreeObj("treeDemo");
                     var node = zTree.getNodeByParam("id", 0, null);
-                    zTree.selectNode(node);
+                    
+                     var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
+					$("#depBtn").click(function(){
+					//获得当前点击的节点
+						var nodes = treeObj.getSelectedNodes();
+						$("#roleInfoFrame").attr("src","${basePath}depByRoleId/"+nodes[0].id);
+					});
+					$("#personBtn").click(function(){
+						var nodes = treeObj.getSelectedNodes();
+						$("#roleInfoFrame").attr("src","${basePath}personByRoleId/"+nodes[0].id);
+					});
+					
+					zTree.selectNode(node);
                     zTree.expandNode(node, true, true, true);
                     onClick(event, "treeDemo", node, 1);
                 }  
@@ -147,6 +159,10 @@ request.setAttribute("basePath", basePath);
 	  		</div>
   		</div>
 	  	<div class="rightDiv">
+		  	<div id="menuDiv" style="width:870px;height: 20px;background:#E8F1FF;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
+		  		<a href="javascript:void(0)" id="depBtn" class="easyui-linkbutton" plain="true" iconCls="icon-folder" >授权部门</a>
+				<a href="javascript:void(0)"  id="personBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >授权人员</a>
+			</div>
 	  		<iframe id="roleInfoFrame" name="roleInfoFrame" src="" frameborder="0" scrolling="auto" width="894px" height="700px"></iframe>
   		</div>
   	</div>

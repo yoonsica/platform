@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.ceit.vic.platform.dao.DepartmentDao;
+import com.ceit.vic.platform.models.DepDTO;
 import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.Role;
 @Repository
@@ -229,6 +230,28 @@ public class DepartmentDaoImpl implements DepartmentDao{
 			
 		} catch (Exception e) {
 			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public List<Department> getDepartmentByIds(List<Integer> depIds) {
+		if (null!=depIds&&depIds.size()>0) {
+			StringBuffer sb = new StringBuffer();
+			sb.append("from Department t ");
+			sb.append("where t.id in(");
+			for (Integer id : depIds) {
+				sb.append(id).append(",");
+			}
+			sb = new StringBuffer(sb.substring(0, sb.length()-1));
+			sb.append(") order by t.dispindex");
+			Query query;
+			try {
+				query = sf.getCurrentSession().createQuery(sb.toString());
+				return query.list();
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
 		return null;
 	}

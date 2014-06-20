@@ -7,12 +7,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.ceit.vic.platform.dao.Dep_PersonDao;
+import com.ceit.vic.platform.dao.Dep_RoleDao;
 import com.ceit.vic.platform.dao.DepartmentDao;
 import com.ceit.vic.platform.dao.IDPROVIDERDao;
 import com.ceit.vic.platform.dao.PersonDao;
 import com.ceit.vic.platform.dao.Person_RoleDao;
 import com.ceit.vic.platform.dao.RoleDao;
+import com.ceit.vic.platform.models.DepDTO;
 import com.ceit.vic.platform.models.Dep_Person;
+import com.ceit.vic.platform.models.Dep_Role;
+import com.ceit.vic.platform.models.Department;
 import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.PersonDTO;
 import com.ceit.vic.platform.models.Person_Role;
@@ -31,6 +35,8 @@ public class RoleServiceImpl implements RoleService {
 	Dep_PersonDao dep_PersonDao;
 	@Autowired
 	Person_RoleDao person_RoleDao;
+	@Autowired
+	Dep_RoleDao dep_RoleDao;
 	@Autowired
 	PersonDao personDao;
 	@Override
@@ -97,6 +103,12 @@ public class RoleServiceImpl implements RoleService {
 	public int getPersonsAmountByRoleId(int roleId) {
 		return person_RoleDao.getPersonAmountByRoleId(roleId);
 	}
+	
+	@Override
+	public int getDepsAmountByRoleId(int roleId) {
+		return dep_RoleDao.getDepAmountByRoleId(roleId);
+	}
+	
 	@Override
 	public void canclePersonRole(int roleId, String[] personId) {
 		person_RoleDao.removeByRoleIdPersonId(roleId,personId);
@@ -173,5 +185,38 @@ public class RoleServiceImpl implements RoleService {
 	@Override
 	public int getRoleCountByResourceId(int id) {
 		return roleDao.getRoleCountByResourceId(id);
+	}
+	@Override
+	public void addDepRole(int roleId, int[] idArray) {
+		for (int depId : idArray) {
+			List<Dep_Role> list = dep_RoleDao.getDepRole(roleId, depId);
+				if(null==list||list.size()==0){
+					int id = idproviderDao.getCurrentId("DEPROLE");
+					Dep_Role dep_Role = new Dep_Role();
+					dep_Role.setDepId(depId);
+					dep_Role.setRoleId(roleId);
+					dep_Role.setId(id);
+					dep_RoleDao.add(dep_Role);
+					idproviderDao.add("DEPROLE");
+				}
+		}
+		
+	}
+	@Override
+	public List<DepDTO> getDepsByRoleId(int roleId, int page, int rows) {
+		int firstResult,maxResults;
+		firstResult = (page-1)*rows;
+		maxResults = rows;
+		List<Integer> depIds = dep_RoleDao.getDepIdsByRoleId(roleId, firstResult, maxResults);
+		List<Department> list1 =  departmentDao.getDepartmentByIds(depIds);
+		List<DepDTO> list2 = new ArrayList<DepDTO>();
+		for (Department department : list1) {
+			DepDTO dto = new DepDTO();
+			dto.setId(department.getId());
+			dto.setName(department.getName());
+			dto.setMemo(department.getMemo());
+			list2.add(dto);
+		}
+		return list2;
 	}
 }

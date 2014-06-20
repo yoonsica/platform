@@ -142,11 +142,32 @@ public class RoleController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/depByRoleId/{roleId}")
+	public ModelAndView depByRoleId(@PathVariable String roleId){
+		ModelAndView mav = new ModelAndView("depByRole");
+		mav.addObject("roleId",roleId);
+		return mav;
+	}
+	
+	@RequestMapping("/getDepsByRoleId/{roleId}")
+	@ResponseBody
+	public Map<String,Object> getDepsByRoleId(@PathVariable int roleId,int page,int rows){
+		logger.debug("depId:"+roleId);
+		System.out.println(page+"**********************");
+		logger.debug("rows:"+rows);
+		int total = roleService.getDepsAmountByRoleId(roleId);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put("total",total);
+		if (total>0) {
+			map.put("rows", roleService.getDepsByRoleId(roleId, page, rows));
+		}
+		return map;
+	}
 	
 	@RequestMapping("/getPersonsByRoleId/{roleId}")
 	@ResponseBody
 	public Map<String,Object> persons(@PathVariable int roleId,int page,int rows){
-		logger.debug("depId:"+roleId);
+		logger.debug("roleId:"+roleId);
 		System.out.println(page+"**********************");
 		logger.debug("rows:"+rows);
 		int total = roleService.getPersonsAmountByRoleId(roleId);
@@ -157,7 +178,6 @@ public class RoleController {
 		}
 		return map;
 	}
-	
 	/**
 	 * 对person取消授权
 	 * @return
@@ -178,10 +198,25 @@ public class RoleController {
 		return mav;
 	}
 	
+	@RequestMapping("/toAddDepRole/{roleId}")
+	public ModelAndView toAddDepRole(@PathVariable int roleId){
+		ModelAndView mav = new ModelAndView("toAddDepRole");
+		Role role = roleService.getRoleById(roleId);
+		mav.addObject("role",role);
+		return mav;
+	}
+	
 	@RequestMapping(value="/addPersonRole/{roleId}", produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String addPersonRole(@PathVariable int roleId,int[] idArray){
 		roleService.addPersonRole(roleId,idArray);
+		return "添加成功！";
+	}
+	
+	@RequestMapping(value="/addDepRole/{roleId}", produces="text/plain;charset=UTF-8")
+	@ResponseBody
+	public String addDepRole(@PathVariable int roleId,int[] idArray){
+		roleService.addDepRole(roleId,idArray);
 		return "添加成功！";
 	}
 	@RequestMapping(value="/toRoleManage")
@@ -190,4 +225,9 @@ public class RoleController {
 		return mv;
 	}
 	
+	@RequestMapping(value="/toAddDepRole")
+	public ModelAndView toAddDepRole(){
+		ModelAndView mv = new ModelAndView("toAddDepRole");
+		return mv;
+	}
 }

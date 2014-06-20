@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ceit.vic.platform.models.DepDTO;
 import com.ceit.vic.platform.models.PersonDTO;
 import com.ceit.vic.platform.models.Role;
 import com.ceit.vic.platform.models.ZTreeNode;
@@ -30,6 +31,9 @@ public interface RoleService {
 	 */
 	@Transactional
 	public List<PersonDTO> getPersonsByRoleId(int roleId,int page,int rows);
+	
+	@Transactional
+	public List<DepDTO> getDepsByRoleId(int roleId,int page,int rows);
 	/**
 	 * 获取该角色下的人数
 	 * @param roleId
@@ -37,6 +41,9 @@ public interface RoleService {
 	 */
 	@Transactional
 	public int getPersonsAmountByRoleId(int roleId);
+	
+	@Transactional
+	public int getDepsAmountByRoleId(int roleId);
 	/**
 	 * 取消指定人员的角色授权
 	 * @param roleId
@@ -70,4 +77,6 @@ public interface RoleService {
 	public List<Role> getRolesByResourceId(int id, int pageIndex, int pageSize);
 	@Transactional
 	public int getRoleCountByResourceId(int id);
+	@Transactional
+	public void addDepRole(int roleId, int[] idArray);
 }

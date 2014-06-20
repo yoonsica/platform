@@ -10,7 +10,7 @@ request.setAttribute("basePath", basePath);
   <head>
     <base href="<%=basePath%>">
     
-    <title>给人员添加角色</title>
+    <title>部门列表</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -19,59 +19,44 @@ request.setAttribute("basePath", basePath);
 	<meta http-equiv="description" content="This is my page">
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/default/easyui.css">
 	<link rel="stylesheet" type="text/css" href="${basePath }static/easyui/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="${basePath }static/css/common.css">
 	<script type="text/javascript" src="${basePath }static/easyui/jquery-1.7.2.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
-	
-	<style type="text/css">
-		body {
-	FONT-SIZE: 12px;
-	BACKGROUND: #FFFFFF; 
-	SCROLLBAR-FACE-COLOR: #bfebd2; 
-    SCROLLBAR-HIGHLIGHT-COLOR: #94dc94; 
-   SCROLLBAR-SHADOW-COLOR: #ade2c6; 
-   SCROLLBAR-3DLIGHT-COLOR: #ade2c6; 
-   SCROLLBAR-ARROW-COLOR: #73a790; 
-   SCROLLBAR-TRACK-COLOR: #e9efeb; 
-   SCROLLBAR-DARKSHADOW-COLOR: #8ac7a4; 
-   SCROLLBAR-BASE-COLOR: #168a16; 
-  FONT-FAMILY: "����", "Verdana", "Arial";
-	margin-top: 0px; 
-	margin-left: 2px; 
-	margin-right: 0px; 
-	overflow-y: auto
-}
-	</style>
+	<script type="text/javascript" src="${basePath }static/easyui/locale/easyui-lang-zh_CN.js"></script>
 	<script>
 		$(function(){
-			$("#backBtn").click(function(){
-				window.parent.location.href = "${basePath}jsp/role.jsp";
-			});
 			$('#test').datagrid({
-				title:'人员列表',
+				title:'部门列表',
 				iconCls:'icon-save',
-				width:800,
+				width:870,
+				height:530,
 				fitColumns: true,
-				url:"persons/${depId}",
+				url:"getDepsByRoleId/${roleId}",
 				frozenColumns:[[
 	                {field:'ck',checkbox:true}
 				]],
 				columns:[[
 					{field:'id',title:'id',width:40,sortable:true,hidden:true},
-					{field:'name',title:'姓名',width:60},
-					{field:'departmentName',title:'所在部门',width:300},
-					{field:'code',title:'用户名',width:80},
-					{field:'state',title:'状态',width:30},
-					{field:'memo',title:'备注',width:100}
+					{field:'name',title:'所在部门',width:130},
+					{field:'memo',title:'备注',width:140}
 				]],
 				rownumbers:true,
 				pagination:true,
 				toolbar:[{
-					id:'btnauthorize',
-					text:'授权角色',
-					iconCls:'icon-202',
+					id:'btnadd',
+					text:'添加部门',
+					iconCls:'icon-add',
 					handler:function(){
-						$('#btnauthorize').linkbutton('enable');
+						$('#btnsave').linkbutton('enable');
+						window.parent.location.href="${basePath}toAddDepRole/${roleId}";
+					}
+				},'-',{
+					id:'btndelete',
+					text:'取消授权',
+					iconCls:'icon-remove',
+					handler:function(){
+						$('#btndelete').linkbutton('enable');
 						var rows = $('#test').datagrid('getSelections');//获得选中行
 						var idArray = new Array();
 						for(var i=0; i<rows.length; i++){
@@ -79,17 +64,19 @@ request.setAttribute("basePath", basePath);
 						}
 						$.ajax({  
 			               type: "POST",  
-			               url: "addPersonRole/${roleId}",
-        	               contentType: "application/x-www-form-urlencoded; charset=utf-8",
+			               url: "cancleRole/${roleId}",
+		               	   contentType: "application/x-www-form-urlencoded; charset=utf-8",
 			               data:"idArray="+idArray,
 			               async: false,  
 			               cache: false,  
 			               success:function(data){
-			                   alert(data);
+			               	alert(data);
+			                   window.location.reload();
 			               }  
 	        			});
 					}
-				}]
+				}
+				]
 			});
 			var p = $('#test').datagrid('getPager');
 			$(p).pagination({
@@ -104,14 +91,8 @@ request.setAttribute("basePath", basePath);
 	</script>
   </head>
   
-  <body class="easyui-layout">
-  	<div region="center" style="padding:5px;" border="false">
-  
-  	<table>
-  		<tr><td><table id="test"></table></td></tr>
-  		<tr><td align="center"><input type="button" id="backBtn" value="返回角色管理"></td></tr>
-  	</table>
-  	</div>
-  	
+  <body>
+	<table id="test"></table>
+	
   </body>
 </html>

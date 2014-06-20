@@ -24,7 +24,7 @@ request.setAttribute("basePath", basePath);
 	<script type="text/javascript" src="${basePath }static/ztree/js/jquery.ztree.core-3.5.js"></script>
 	<script type="text/javascript" src="${basePath }static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="${basePath }static/js/common.js"  charset="gb2312"></script>
- 			<link rel="stylesheet" type="text/css" href="${basePath }static/css/common.css">
+ 	<link rel="stylesheet" type="text/css" href="${basePath }static/css/common.css">
  
   	<script type="text/javascript">
 	  	var setting = {
@@ -64,13 +64,15 @@ request.setAttribute("basePath", basePath);
   </head>
   
   <body>
-  <div class="ceshi" style="position:relative;">
-  	<div id="treeDiv" style="width: 320px;height: 500px;overflow: scroll;position:absolute;top:5px;">
-  		<ul id="treeDemo" class="ztree"></ul>
-  	</div>
-  	<div id="personDiv" style="position:absolute;left: 400px;height: 700px;width:700px;">
+  <div class="container">
+  	<div class="leftDiv" style="width: 320px;">
+		<div class="treeDiv" style="width: 320px;">
+	  		<ul id="treeDemo" class="ztree"></ul>
+	  	</div>
+	  </div>
+	 <div class="rightDiv" style="width:800px;">
 		<div style="width:700px;font-size: 20px;font-weight: bold;text-align: center;">给${role.name }添加人员</div>
-		<div id="depInfoDiv" style="height: 600px;width:700px;">
+		<div id="depInfoDiv" style="height: 600px;width:900px;">
 	  		<iframe id="depInfoFrame" name="depInfoFrame" src="" frameborder="0" scrolling="no" width="100%" height="600px"></iframe>
 	  	</div>
   	</div>

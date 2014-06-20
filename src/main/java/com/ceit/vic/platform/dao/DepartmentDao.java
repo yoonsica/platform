@@ -3,6 +3,7 @@ package com.ceit.vic.platform.dao;
 import java.util.List;
 import java.util.Map;
 
+import com.ceit.vic.platform.models.DepDTO;
 import com.ceit.vic.platform.models.Department;
 
 public interface DepartmentDao {
@@ -22,4 +23,5 @@ public interface DepartmentDao {
 	public List<Department> getDepartmentsByResourceId(int id, int pageIndex, int pageSize);
 	
 	public String getDepPathNameById(int depId);
+	public List<Department> getDepartmentByIds(List<Integer> depIds);
 }
