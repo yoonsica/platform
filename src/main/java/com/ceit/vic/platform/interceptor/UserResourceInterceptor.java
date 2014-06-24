@@ -18,6 +18,7 @@ import com.ceit.vic.platform.models.Person;
 import com.ceit.vic.platform.models.Resources;
 import com.ceit.vic.platform.service.LogService;
 import com.ceit.vic.platform.service.ResourcesService;
+import com.ceit.vic.platform.service.RoleService;
 
 
 public class UserResourceInterceptor extends HandlerInterceptorAdapter {
@@ -25,6 +26,8 @@ public class UserResourceInterceptor extends HandlerInterceptorAdapter {
 	ResourcesService resourcesService;
 	@Autowired
 	LogService logService;
+	@Autowired
+	RoleService roleService;
 	public String[] allowUrls;  
     
     public void setAllowUrls(String[] allowUrls) {  
@@ -43,7 +46,7 @@ public class UserResourceInterceptor extends HandlerInterceptorAdapter {
 	        }
 		Person person = (Person) request.getSession().getAttribute("user");
 		if (null!=person) {
-			if (person.getCode().equals("test1")) {
+			if (roleService.getRoleIdByPersonId(person.getId()).contains(0)==true) {
 				return true;
 			}
 	        System.out.println(requestUrl);

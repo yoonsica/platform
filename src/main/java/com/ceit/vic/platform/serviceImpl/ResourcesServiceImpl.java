@@ -33,6 +33,7 @@ import com.ceit.vic.platform.service.Dep_PersonService;
 import com.ceit.vic.platform.service.Person_RoleService;
 import com.ceit.vic.platform.service.ResAccessService;
 import com.ceit.vic.platform.service.ResourcesService;
+import com.ceit.vic.platform.service.RoleService;
 
 @Service
 public class ResourcesServiceImpl implements ResourcesService {
@@ -56,10 +57,11 @@ public class ResourcesServiceImpl implements ResourcesService {
 	Dep_PersonService dep_PersonService;
 	@Autowired 
 	Person_RoleService person_RoleService;
-	
+	@Autowired
+	RoleService roleService;
 	public boolean isAuthOrNot(Person person,int resId){
 		boolean flag=false;
-		if (person==null||person.getCode().equals("test1")){
+		if (person==null||roleService.getRoleIdByPersonId(person.getId()).contains(0)){
 			return true;
 		}
 		 //判断人

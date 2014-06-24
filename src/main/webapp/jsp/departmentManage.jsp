@@ -162,7 +162,7 @@ request.setAttribute("basePath", basePath);
   
   <body>
   	<div class="container">
-  		<div class="leftDiv">
+  		<div class="leftDiv" style="width: 340px;">
 	  		 <div class="leftMenuDiv">
 				<a href="javascript:void(0)" id="addFolder" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
 		  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
@@ -175,7 +175,7 @@ request.setAttribute("basePath", basePath);
 		  	</div>
 	  	</div>
 	  	 
-	  	<div class="rightDiv">
+	  	<div class="rightDiv" style="width: 859px;">
   			<iframe id="depInfoFrame" name="depInfoFrame" src="" frameborder="0" scrolling="auto" width="100%" height="100%"></iframe>
 	  	</div>
   	</div>

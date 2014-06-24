@@ -81,7 +81,7 @@ request.setAttribute("basePath", basePath);
 				<td>备注</td><td><textarea name="memo"></textarea></td>
 			</tr>
 			<tr>
-				<td colspan="2" style="text-align: center;"><input id="submitBtn" type="submit" value="确定"><input type="button" id="cancelBtn" value="取消"></td>
+				<td colspan="2" style="text-align: center;"><input id="submitBtn" type="button" value="确定"><input type="button" id="cancelBtn" value="取消"></td>
 			</tr>
 		</table>
   	</form>

@@ -150,9 +150,9 @@ request.setAttribute("basePath", basePath);
     <div class="container">
     	<div class="leftDiv" style="width: 330px;">
 	    	<div class="leftMenuDiv" >
-				<a href="javascript:void(0)" id="addBtn" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加角色</a>
-		  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除角色</a>
-				<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑角色</a>
+				<a href="javascript:void(0)" id="addBtn" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
+		  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
+				<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>
 			</div>
 		  	<div class="treeDiv" style="width: 330px;">
 	  			<ul id="treeDemo" class="ztree" ></ul>
@@ -160,8 +160,8 @@ request.setAttribute("basePath", basePath);
   		</div>
 	  	<div class="rightDiv">
 		  	<div id="menuDiv" style="width:870px;height: 20px;background:#E8F1FF;padding:5px;font-size: 12px;FONT-FAMILY: "����", "Verdana", "Arial";">
-		  		<a href="javascript:void(0)" id="depBtn" class="easyui-linkbutton" plain="true" iconCls="icon-folder" >授权部门</a>
-				<a href="javascript:void(0)"  id="personBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >授权人员</a>
+		  		<a href="javascript:void(0)" id="depBtn" class="easyui-linkbutton" plain="true" iconCls="icon-129" >授权部门</a>
+				<a href="javascript:void(0)"  id="personBtn" plain="true" class="easyui-linkbutton" iconCls="icon-202" >授权人员</a>
 			</div>
 	  		<iframe id="roleInfoFrame" name="roleInfoFrame" src="" frameborder="0" scrolling="auto" width="894px" height="700px"></iframe>
   		</div>

@@ -165,6 +165,7 @@ public class ModuleController {
 	@RequestMapping(value="/addButtonLink",produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String addButtonLink(ModuleInfoDTO dto){
+		dto.setState("1");
 		resourcesService.addResource(dto, false);
 		return "添加成功!";
 	}

@@ -170,7 +170,8 @@ tr{
     
       <div id="roleEditDiv" style="background:#fafafa;padding:10px;">
   		<form id="roleInfoForm" method="post" >
-            <input type="hidden" name="id"  value="${role.id }" ></input>
+            <input type="hidden" name="id"  value="${role.id }" />
+            <input type="hidden" name="isFolder"  value="${role.isFolder }" />
             <table>
             	<tr>
             		<td><label for="name">名称</label></td><td><input  type="text" name="name"  value="${role.name }" style="width: 172px;"/></td>

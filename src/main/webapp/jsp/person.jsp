@@ -30,7 +30,7 @@ request.setAttribute("basePath", basePath);
 			$('#test').datagrid({
 				title:'人员列表',
 				iconCls:'icon-save',
-				width:750,
+				width:859,
 				height:530,
 				fitColumns: true,
 				url:"persons/${depId}",

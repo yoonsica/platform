@@ -12,20 +12,20 @@ body {
 }
 
 .leftDiv {
-	width: 445px;
+	width: 400px;
 	height:530px;
 	float: left;
 }
 
 .leftMenuDiv {
-	width: 435px;
+	width: 400px;
 	height: 20px;
 	padding: 5px;
 	background: #E8F1FF;
 }
 
 .treeDiv {
-	width: 445px;
+	width: 400px;
 	height: 500px;
 	overflow: auto;
 	margin-top: 1px;
