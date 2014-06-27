@@ -300,10 +300,10 @@ request.setAttribute("basePath", basePath);
 			    	</thead>
 			    	<tbody>
 			    		<tr align="center">
-			    			<td width="50%">名</td><td width="50%"><span name="name"></span></td>
+			    			<td width="30%">名</td><td width="70%"><span name="name"></span></td>
 			    		</tr>
 			    		<tr align="center">
-			    			<td width="50%">值</td><td width="50%"><span name="value"></span></td>
+			    			<td width="30%">值</td><td width="70%"><span name="value"></span></td>
 			    		</tr>
 			    	</tbody>
 			    </table>
@@ -315,14 +315,14 @@ request.setAttribute("basePath", basePath);
 			    	</thead>
 			    	<tbody>
 			    		<tr align="center">
-			    			<td width="50%">名</td><td width="50%"><input name="name" type="text" /></td>
+			    			<td width="30%">名</td><td width="70%"><input name="name" type="text" /></td>
 			    		</tr>
 			    		<tr align="center">
-			    			<td width="50%">值</td><td width="50%"><input name="value" type="text" /></td>
+			    			<td width="30%">值</td><td width="70%"><input name="value" type="text" /></td>
 			    		</tr>
 			    		<tr align="center">
-			    			<td width="50%">类别</td>
-			    			<td width="50%">
+			    			<td width="30%">类别</td>
+			    			<td width="70%">
 			    				<input name="type" type="radio" value="0" checked="checked" /><span>分类</span>
 			    				<input name="type" type="radio" value="1" /><span>参数</span>
 			    			</td>
@@ -345,10 +345,10 @@ request.setAttribute("basePath", basePath);
 			    	</thead>
 			    	<tbody>
 			    		<tr align="center">
-			    			<td width="50%">名</td><td width="50%"><input name="name" type="text" /></td>
+			    			<td width="30%">名</td><td width="70%"><input name="name" type="text" /></td>
 			    		</tr>
 			    		<tr align="center">
-			    			<td width="50%">值</td><td width="50%"><input name="value" type="text" /></td>
+			    			<td width="30%">值</td><td width="70%"><input name="value" type="text" /></td>
 			    		</tr>
 			    	</tbody>
 			    	<tfoot>

@@ -80,7 +80,7 @@ request.setAttribute("basePath", basePath);
 		$(document).ready(function(){
 		    $('#searchResult').datagrid({
 		    	onClickRow: function(rowIndex, rowData) {
-		    		window.location.href = "SiteSearch/" + urls[rowData.typeId] + "?id=" + rowData.id;
+		    		window.location.href = "${basePath}SiteSearch/" + urls[rowData.typeId] + "?id=" + rowData.id;
 			    }
 		    });
 		    

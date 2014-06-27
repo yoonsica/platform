@@ -23,7 +23,7 @@ public class RoleDaoImpl implements RoleDao {
 	@Override
 	public List<Role> getRolesTree() {
 		Query query = null;
-		StringBuffer sb = new StringBuffer("from Role t where t.id>-1 order by t.dispIndex");
+		StringBuffer sb = new StringBuffer("from Role t where t.id>-3 order by t.dispIndex");
 		try {
 			query = sf.getCurrentSession().createQuery(sb.toString());
 			return query.list();

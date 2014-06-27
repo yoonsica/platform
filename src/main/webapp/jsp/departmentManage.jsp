@@ -163,7 +163,7 @@ request.setAttribute("basePath", basePath);
   <body>
   	<div class="container">
   		<div class="leftDiv" style="width: 340px;">
-	  		 <div class="leftMenuDiv">
+	  		 <div class="leftMenuDiv" style="width: 340px;">
 				<a href="javascript:void(0)" id="addFolder" plain="true" class="easyui-linkbutton" iconCls="icon-addFolder" >添加</a>
 		  		<a href="javascript:void(0)" id="deleteBtn" class="easyui-linkbutton" plain="true" iconCls="icon-cancel" >删除</a>
 				<a href="javascript:void(0)"  id="editBtn" plain="true" class="easyui-linkbutton" iconCls="icon-edit" >编辑</a>

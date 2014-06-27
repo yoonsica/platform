@@ -10,7 +10,16 @@ public class ModuleInfoDTO {
 	String icon;
 	String expand;
 	String type;
+	String memo;
 	
+	public String getMemo() {
+		return memo;
+	}
+
+	public void setMemo(String memo) {
+		this.memo = memo;
+	}
+
 	public String getType() {
 		return type;
 	}

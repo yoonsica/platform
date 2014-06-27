@@ -88,7 +88,7 @@ request.setAttribute("basePath", basePath);
 	  	function initDepartmentTree(nodeId) {
 	  		$.ajax({  
                 type: "POST",  
-                url: "SiteSearch/getDepartmentTree",
+                url: "${basePath}SiteSearch/getDepartmentTree",
                 success: function(departmentList) {
                 	$.fn.zTree.init($("#tree"), setting, departmentList);
                 	var zTree = $.fn.zTree.getZTreeObj("tree");
@@ -115,7 +115,7 @@ request.setAttribute("basePath", basePath);
 				title: "人员列表",
 				width: 640, 
 				height: 335,
-				url: "SiteSearch/getPersons", 
+				url: "${basePath}SiteSearch/getPersons", 
 				queryParams: getQueryParams(${departmentId }), 
 				singleSelect: true, 
 				columns:[[
@@ -129,7 +129,7 @@ request.setAttribute("basePath", basePath);
 				]],
 				pagination:true, 
 				onClickRow: function(rowIndex, rowData) {
-		    		window.location.href = "SiteSearch/showPersonInfo?id=" + rowData.id;
+		    		window.location.href = "${basePath}SiteSearch/showPersonInfo?id=" + rowData.id;
 			    }
 			});
 			
@@ -137,7 +137,7 @@ request.setAttribute("basePath", basePath);
 				title: "资源列表",
 				width: 640,
 				height: 165,
-				url: "SiteSearch/getResources", 
+				url: "${basePath}SiteSearch/getResources", 
 				queryParams: getQueryParams(${departmentId }), 
 				singleSelect: true, 
 				columns:[[
@@ -148,7 +148,7 @@ request.setAttribute("basePath", basePath);
 				]],
 				pagination:true, 
 				onClickRow: function(rowIndex, rowData) {
-		    		window.location.href = "SiteSearch/showResourceInfo?id=" + rowData.id;
+		    		window.location.href = "${basePath}SiteSearch/showResourceInfo?id=" + rowData.id;
 			    }
 			});
 		});

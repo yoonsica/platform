@@ -164,7 +164,7 @@ body {
 					title:'按钮和链接列表',
 					iconCls:'icon-save',
 					width:755,
-					height:397,
+					height:380,
 					fitColumns: true,
 					url:"buttonLinkList/${moduleId}",
 					frozenColumns:[[
@@ -246,7 +246,7 @@ body {
     		</tr>
     	</tbody>
     </table>
-    <div id="buttonLinkDiv" style="height: 397px;"><table id="buttonLinkTable"></table></div>
+    <div id="buttonLinkDiv" style="height: 380px;"><table id="buttonLinkTable"></table></div>
       <div id="moduleEditDiv" style="display:none;background:#fafafa;padding:10px;">
   		<form id="moduleInfoForm" method="post" >
             <input type="hidden" name="id"  value="${moduleInfo.id }" ></input>

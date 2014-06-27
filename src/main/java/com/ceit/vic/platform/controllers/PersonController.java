@@ -97,6 +97,7 @@ public class PersonController {
 		person.setSex(request.getParameter("sex"));
 		person.setState(request.getParameter("state"));
 		person.setMemo(request.getParameter("memo"));
+		person.setPassword(MD5_Test.MD5(person.getCode()));
 		int personId = personService.add(person,-1,depId);
 		Log log = new Log();
 		log.setIp(logService.getRemoteAddress(request));

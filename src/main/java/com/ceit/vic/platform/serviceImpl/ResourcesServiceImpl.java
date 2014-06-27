@@ -231,6 +231,7 @@ public class ResourcesServiceImpl implements ResourcesService {
 		Resources resources = new Resources();
 		resources.setId(id);
 		resources.setDispIndex(id);
+		resources.setMemo(null==moduleInfo.getMemo()?"":moduleInfo.getMemo());
 		resources.setIcon(moduleInfo.getIcon());
 		resources.setName(moduleInfo.getName());
 		resources.setParentId(Integer.valueOf(moduleInfo.getParent()));
