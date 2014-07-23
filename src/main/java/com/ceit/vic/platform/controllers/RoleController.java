@@ -81,7 +81,7 @@ public class RoleController {
 	@RequestMapping(value="/roleRemove/{id}",produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String roleRemove(@PathVariable int id,HttpServletRequest request){
-		roleService.delete(id);
+		String result = roleService.delete(id);
 		Log log = new Log();
 		log.setIp(logService.getRemoteAddress(request));
 		Person person1 = (Person) request.getSession().getAttribute("user");
@@ -94,7 +94,7 @@ public class RoleController {
 		log.setContent(sb.toString());
 		log.setType(new LogType(3));
 		logService.addLog(log);
-		return "删除成功!";
+		return result;
 	}
 	
 	/**

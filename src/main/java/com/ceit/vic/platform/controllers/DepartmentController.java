@@ -85,7 +85,7 @@ public class DepartmentController {
 	@RequestMapping(value="/depManage/remove/{depId}",produces="text/plain;charset=UTF-8")
 	@ResponseBody
 	public String depRemove(@PathVariable int depId,HttpServletRequest request){
-		departmentService.remove(depId);
+		String result = departmentService.remove(depId);
 		Log log = new Log();
 		log.setIp(logService.getRemoteAddress(request));
 		Person person = (Person) request.getSession().getAttribute("user");
@@ -98,7 +98,7 @@ public class DepartmentController {
 		log.setContent(sb.toString());
 		log.setType(new LogType(3));
 		logService.addLog(log);
-		return "删除成功!";
+		return result;
 	}
 	
 	@RequestMapping(value="/depUpdate",produces="text/plain;charset=UTF-8")

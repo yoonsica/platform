@@ -19,7 +19,7 @@ public interface RoleService {
 	@Transactional
 	public void update(Role role);
 	@Transactional
-	public void delete(int id);
+	public String delete(int id);
 	@Transactional
 	public int add(Role role);
 	@Transactional

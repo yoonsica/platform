@@ -18,6 +18,13 @@ public class Department implements Serializable{
 	private int parentId;//上级部门id
 	private int dispindex;//显示索引
 	private String memo;//备注
+	private String removable="true";//是否可以删除
+	public String getRemovable() {
+		return removable;
+	}
+	public void setRemovable(String removable) {
+		this.removable = removable;
+	}
 	public int getId() {
 		return id;
 	}

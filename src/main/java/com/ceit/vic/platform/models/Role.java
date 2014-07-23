@@ -14,7 +14,13 @@ public class Role {
 	private String memo;
 	private int dispIndex;
 	private int isFolder;//0-角色，1--目录
-	
+	private String removable = "true";
+	public String getRemovable() {
+		return removable;
+	}
+	public void setRemovable(String removable) {
+		this.removable = removable;
+	}
 	public int getIsFolder() {
 		return isFolder;
 	}

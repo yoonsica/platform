@@ -71,8 +71,15 @@ public class DepartmentServiceImpl implements DepartmentService {
 	}
 
 	@Override
-	public void remove(int depId) {
-		departmentDao.delete(depId);
+	public String remove(int depId) {
+		Department department = departmentDao.getDepartmentById(depId);
+		if (department.getRemovable().equals("true")) {
+			departmentDao.delete(depId);
+			return "删除成功！";
+		}else {
+			return "不允许删除！";
+		}
+		
 	}
 
 	@Override

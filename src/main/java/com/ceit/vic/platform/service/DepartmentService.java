@@ -28,7 +28,7 @@ public interface DepartmentService {
 	@Transactional
 	public Department getDepartmentByPersonId(int personId);
 	@Transactional
-	public void remove(int depId);
+	public String remove(int depId);
 	@Transactional
 	public void update(Department department);
 	@Transactional

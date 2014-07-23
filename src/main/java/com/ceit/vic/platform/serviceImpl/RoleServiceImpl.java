@@ -62,8 +62,14 @@ public class RoleServiceImpl implements RoleService {
 		roleDao.update(role);
 	}
 	@Override
-	public void delete(int id) {
-		roleDao.remove(id);
+	public String delete(int id) {
+		if (roleDao.getRoleById(id).getRemovable().equals("true")) {
+			roleDao.remove(id);
+			return "删除成功！";
+		}else {
+			return "不允许删除！";
+		}
+		
 	}
 	@Override
 	public int add(Role role) {

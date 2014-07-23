@@ -59,7 +59,9 @@ request.setAttribute("basePath", basePath);
 	                   	var zTree = $.fn.zTree.getZTreeObj("treeDemo");
 	                       var node = zTree.getNodeByParam("id", nodeId, null);
 	                       zTree.selectNode(node);
-                    		zTree.expandNode(node, true, true, true);
+	                       if(node.name!='所有部门'){
+	                       	zTree.expandNode(node, true, true, true);
+	                       }
 	                       onClick(event, "treeDemo", node, 1);
 	                   }
 	               }

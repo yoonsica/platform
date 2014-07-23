@@ -145,7 +145,7 @@ request.setAttribute("basePath", basePath);
 </head>
 <body class="easyui-layout">
 	<div region="north"  style="height:91px;overflow: hidden;">
-		<div style="height:59px;width:100%;background:url('static/images/banner3.jpg') no-repeat;"><a id="logout" style="position:absolute ;left:1200px ;top:35px; color: white;font-weight:800 ;font-size:12px ; text-decoration: none;" href="javascript:void(0);">注销</a><a id="changePassword" style="position:absolute ;left:1280px ;top:35px; color: white;font-weight:800 ;font-size:12px ; text-decoration: none;" href="javascript:void(0);">修改密码</a></div>
+		<div style="height:59px;width:100%;background:url('static/images/banner3.jpg') no-repeat;"><a id="logout" style="position:absolute ;left:1245px ;top:40px; color: white;font-weight:800 ;font-size:12px ; text-decoration: none;" href="javascript:void(0);">注销</a><a id="changePassword" style="position:absolute ;left:1290px ;top:40px; color: white;font-weight:800 ;font-size:12px ; text-decoration: none;" href="javascript:void(0);">修改密码</a></div>
 		<div id="container">
 			<div id="nav_slim">
 				<ul>
@@ -156,10 +156,10 @@ request.setAttribute("basePath", basePath);
 			</div>
 		</div>
 	</div>
-	<div id="westDiv" region="west" split="true" title="功能列表" style="width:160px;padding:0;margin: 0;">
+	<div id="westDiv" region="west" split="true" title="功能列表" style="width:160px;padding:0;margin: 0;height: 530px;">
 		<%--<jsp:include page="westDiv.jsp"></jsp:include>
 		--%>
-		<iframe id="westFrame" src="" frameborder="0" width="100%" height="330" style="padding: 0;margin: 0;"></iframe>
+		<iframe id="westFrame" src="" frameborder="0" width="100%" height="530px" style="padding: 0;margin: 0;"></iframe>
 	</div>
 	
 	<div id="southDiv" region="south" border="false" style="height:20px;background: url('static/easyui/themes/default/images/panel_title.png') repeat-x;padding:1px 25px;text-align: right;font-weight:bold;color: #000000;">
